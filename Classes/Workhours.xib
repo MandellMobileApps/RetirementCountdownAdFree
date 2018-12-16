@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment version="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WorkhoursViewController">
+            <connections>
+                <outlet property="pickerView" destination="Lns-o2-Ne8" id="Jne-3f-W8Z"/>
+                <outlet property="pickerViewContainer" destination="12" id="cHD-Fq-j7O"/>
+                <outlet property="thisTableView" destination="4" id="1dX-U2-Gmp"/>
+                <outlet property="view" destination="18" id="19"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="18">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" delaysContentTouches="NO" bouncesZoom="NO" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="4">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="mhJ-W8-BSP"/>
+                        <outlet property="delegate" destination="-1" id="Xo0-0k-M67"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" id="12">
+                    <rect key="frame" x="-15" y="192" width="348" height="225"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="14">
+                            <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="16"/>
+                                <barButtonItem systemItem="done" id="15">
+                                    <connections>
+                                        <action selector="datePickerDoneButtonTapped:" destination="-1" id="bSE-BV-lFf"/>
+                                    </connections>
+                                </barButtonItem>
+                            </items>
+                            <color key="barTintColor" red="0.84208103130755063" green="0.84208103130755063" blue="0.84208103130755063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </toolbar>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" id="Lns-o2-Ne8">
+                            <rect key="frame" x="15" y="44" width="320" height="181"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <date key="date" timeIntervalSinceReferenceDate="467999023.79535103">
+                                <!--2015-10-31 15:43:43 +0000-->
+                            </date>
+                            <connections>
+                                <action selector="dateAction:" destination="-1" eventType="valueChanged" id="5Gn-LN-9mx"/>
+                            </connections>
+                        </datePicker>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="467.19999999999999" y="258.17091454272867"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,1443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* RetirementCountdownAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* RetirementCountdownAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
+		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		361120FD1E105F9B003CDD49 /* Thanksgiving.plist in Resources */ = {isa = PBXBuildFile; fileRef = 361120FC1E105F9A003CDD49 /* Thanksgiving.plist */; };
+		361121001E11A57C003CDD49 /* HomePurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 361120FF1E11A57C003CDD49 /* HomePurchaseViewController.m */; };
+		361121021E11A590003CDD49 /* HomePurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 361121011E11A590003CDD49 /* HomePurchaseViewController.xib */; };
+		3630D84C1C7E06E1004014F7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3630D84B1C7E06E1004014F7 /* StoreKit.framework */; };
+		366881B919C217BB00A27456 /* ShiftWorkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366881B719C217BB00A27456 /* ShiftWorkViewController.m */; };
+		366881BA19C217BB00A27456 /* ShiftWorkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366881B819C217BB00A27456 /* ShiftWorkViewController.xib */; };
+		366881BE19C21BA500A27456 /* ShiftWorkDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 366881BC19C21BA500A27456 /* ShiftWorkDetailViewController.m */; };
+		366881BF19C21BA500A27456 /* ShiftWorkDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 366881BD19C21BA500A27456 /* ShiftWorkDetailViewController.xib */; };
+		366DC1C51ABE36F400FEB360 /* WorkhoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B312678BEC007E0824 /* WorkhoursViewController.m */; };
+		36E183831C7239AD009F4018 /* checkbox-filled.png in Resources */ = {isa = PBXBuildFile; fileRef = 36E183811C7239AC009F4018 /* checkbox-filled.png */; };
+		36E183841C7239AD009F4018 /* checkbox-empty.V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 36E183821C7239AC009F4018 /* checkbox-empty.V2.png */; };
+		36E183891C737D9C009F4018 /* IAPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E183881C737D9C009F4018 /* IAPurchaseViewController.m */; };
+		36FD9AD51CA4320E00B67133 /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FD9AD41CA4320E00B67133 /* PurchaseViewController.m */; };
+		36FD9AD71CA5781000B67133 /* PurchaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36FD9AD61CA5781000B67133 /* PurchaseViewController.xib */; };
+		FC18D85D1275F9C700FD7326 /* SettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FC18D85C1275F9C700FD7326 /* SettingsButton.png */; };
+		FC1CA67117D62687006CBBE4 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		FC1CA67217D62687006CBBE4 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
+		FC1CA67317D62687006CBBE4 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122412678BAB007E0824 /* settings.png */; };
+		FC1CA67417D62687006CBBE4 /* Thanksgiving Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122612678BAB007E0824 /* Thanksgiving Day.png */; };
+		FC1CA67517D62687006CBBE4 /* USA Independance Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122712678BAB007E0824 /* USA Independance Day.png */; };
+		FC1CA67617D62687006CBBE4 /* Christmas Eve.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122812678BAB007E0824 /* Christmas Eve.png */; };
+		FC1CA67717D62687006CBBE4 /* New Years Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122912678BAB007E0824 /* New Years Day.png */; };
+		FC1CA67817D62687006CBBE4 /* Martin Luther King Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122A12678BAB007E0824 /* Martin Luther King Day.png */; };
+		FC1CA67917D62687006CBBE4 /* USA Presidents Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122B12678BAB007E0824 /* USA Presidents Day.png */; };
+		FC1CA67A17D62687006CBBE4 /* Memorial Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122C12678BAB007E0824 /* Memorial Day.png */; };
+		FC1CA67B17D62687006CBBE4 /* USA Independance Day1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122D12678BAB007E0824 /* USA Independance Day1.png */; };
+		FC1CA67C17D62687006CBBE4 /* Labor Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122E12678BAB007E0824 /* Labor Day.png */; };
+		FC1CA67D17D62687006CBBE4 /* Veterans Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122F12678BAB007E0824 /* Veterans Day.png */; };
+		FC1CA67E17D62687006CBBE4 /* Thanksgiving Day1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123012678BAB007E0824 /* Thanksgiving Day1.png */; };
+		FC1CA67F17D62687006CBBE4 /* Day after Thanksgiving.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123112678BAB007E0824 /* Day after Thanksgiving.png */; };
+		FC1CA68017D62687006CBBE4 /* Christmas Eve 2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123212678BAB007E0824 /* Christmas Eve 2.png */; };
+		FC1CA68117D62687006CBBE4 /* Christmas Eve Gloss.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123312678BAB007E0824 /* Christmas Eve Gloss.png */; };
+		FC1CA68217D62687006CBBE4 /* Christmas1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123412678BAB007E0824 /* Christmas1.png */; };
+		FC1CA68317D62687006CBBE4 /* Christmas.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123512678BAB007E0824 /* Christmas.png */; };
+		FC1CA68417D62687006CBBE4 /* GlossSlateBlueFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123712678BAB007E0824 /* GlossSlateBlueFrame.png */; };
+		FC1CA68517D62687006CBBE4 /* GlossSlateBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123812678BAB007E0824 /* GlossSlateBlue.png */; };
+		FC1CA68617D62687006CBBE4 /* GlossRedFramed.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123912678BAB007E0824 /* GlossRedFramed.png */; };
+		FC1CA68717D62687006CBBE4 /* GlossRed.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123A12678BAB007E0824 /* GlossRed.png */; };
+		FC1CA68817D62687006CBBE4 /* GlossMaraschino.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123B12678BAB007E0824 /* GlossMaraschino.png */; };
+		FC1CA68917D62687006CBBE4 /* GlossLemon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123C12678BAB007E0824 /* GlossLemon.png */; };
+		FC1CA68A17D62687006CBBE4 /* GlossAluminum.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123D12678BAB007E0824 /* GlossAluminum.png */; };
+		FC1CA68B17D62687006CBBE4 /* GlossAqua.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123E12678BAB007E0824 /* GlossAqua.png */; };
+		FC1CA68C17D62687006CBBE4 /* GlossWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123F12678BAB007E0824 /* GlossWhite.png */; };
+		FC1CA68D17D62687006CBBE4 /* GlossBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124012678BAB007E0824 /* GlossBlack.png */; };
+		FC1CA68E17D62687006CBBE4 /* GlossIce.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124112678BAB007E0824 /* GlossIce.png */; };
+		FC1CA68F17D62687006CBBE4 /* GlossBlueberry.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124212678BAB007E0824 /* GlossBlueberry.png */; };
+		FC1CA69017D62687006CBBE4 /* GlossDarkAqua.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124312678BAB007E0824 /* GlossDarkAqua.png */; };
+		FC1CA69117D62687006CBBE4 /* GlossBrightGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124412678BAB007E0824 /* GlossBrightGreen.png */; };
+		FC1CA69217D62687006CBBE4 /* beach.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124F12678BAB007E0824 /* beach.png */; };
+		FC1CA69317D62687006CBBE4 /* Workdays.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125112678BAB007E0824 /* Workdays.plist */; };
+		FC1CA69417D62687006CBBE4 /* HolidayList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125212678BAB007E0824 /* HolidayList.plist */; };
+		FC1CA69517D62687006CBBE4 /* ManualWorkdays.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125312678BAB007E0824 /* ManualWorkdays.plist */; };
+		FC1CA69617D62687006CBBE4 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125412678BAB007E0824 /* Settings.plist */; };
+		FC1CA69717D62687006CBBE4 /* BackgroundColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125512678BAB007E0824 /* BackgroundColors.plist */; };
+		FC1CA69817D62687006CBBE4 /* TextColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125612678BAB007E0824 /* TextColors.plist */; };
+		FC1CA69917D62687006CBBE4 /* ColorSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125712678BAB007E0824 /* ColorSettings.plist */; };
+		FC1CA69A17D62687006CBBE4 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129712678BEC007E0824 /* HelpViewController.xib */; };
+		FC1CA69B17D62687006CBBE4 /* SelectHolidayDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129812678BEC007E0824 /* SelectHolidayDateViewController.xib */; };
+		FC1CA69C17D62687006CBBE4 /* AddHolidayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129912678BEC007E0824 /* AddHolidayViewController.xib */; };
+		FC1CA69D17D62687006CBBE4 /* BackgroundTextColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129A12678BEC007E0824 /* BackgroundTextColorViewController.xib */; };
+		FC1CA69E17D62687006CBBE4 /* CalendarBackgroundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129B12678BEC007E0824 /* CalendarBackgroundViewController.xib */; };
+		FC1CA69F17D62687006CBBE4 /* Workhours.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129C12678BEC007E0824 /* Workhours.xib */; };
+		FC1CA6A017D62687006CBBE4 /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129D12678BEC007E0824 /* DisplayOptions.xib */; };
+		FC1CA6A117D62687006CBBE4 /* RetirementDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129E12678BEC007E0824 /* RetirementDate.xib */; };
+		FC1CA6A217D62687006CBBE4 /* Workdays.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129F12678BEC007E0824 /* Workdays.xib */; };
+		FC1CA6A317D62687006CBBE4 /* Holidays.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A012678BEC007E0824 /* Holidays.xib */; };
+		FC1CA6A417D62687006CBBE4 /* RCSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A112678BEC007E0824 /* RCSettings.xib */; };
+		FC1CA6A517D62687006CBBE4 /* OpeningScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A212678BEC007E0824 /* OpeningScreen.xib */; };
+		FC1CA6A617D62687006CBBE4 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A312678BEC007E0824 /* CustomCell.xib */; };
+		FC1CA6A717D62687006CBBE4 /* BackgroundColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A412678BEC007E0824 /* BackgroundColorViewController.xib */; };
+		FC1CA6A817D62687006CBBE4 /* CustomCellForColors.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A512678BEC007E0824 /* CustomCellForColors.xib */; };
+		FC1CA6A917D62687006CBBE4 /* CustomCellForDayType.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A612678BEC007E0824 /* CustomCellForDayType.xib */; };
+		FC1CA6AA17D62687006CBBE4 /* ImagePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A712678BEC007E0824 /* ImagePickerViewController.xib */; };
+		FC1CA6AB17D62687006CBBE4 /* ColorsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A812678BEC007E0824 /* ColorsView.xib */; };
+		FC1CA6AC17D62687006CBBE4 /* DaysViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A912678BEC007E0824 /* DaysViewController.xib */; };
+		FC1CA6AD17D62687006CBBE4 /* click1.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC481C1A126D0A29007E0824 /* click1.wav */; };
+		FC1CA6AE17D62687006CBBE4 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC481C58126D0E7F007E0824 /* AboutViewController.xib */; };
+		FC1CA6AF17D62687006CBBE4 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC481C83126D2DCD007E0824 /* WebViewController.xib */; };
+		FC1CA6B017D62687006CBBE4 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = FC481CE5126DFABA007E0824 /* iTunesArtwork */; };
+		FC1CA6B117D62687006CBBE4 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC481CF0126E0109007E0824 /* Entitlements.plist */; };
+		FC1CA6B217D62687006CBBE4 /* SettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FC18D85C1275F9C700FD7326 /* SettingsButton.png */; };
+		FC1CA6B317D62687006CBBE4 /* StatutoryDaysOffViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC8A1AAF12832DC7002B7139 /* StatutoryDaysOffViewController.xib */; };
+		FC1CA6B417D62687006CBBE4 /* 320x44pattern_4.png in Resources */ = {isa = PBXBuildFile; fileRef = FCE1B646131C5C600097BDCB /* 320x44pattern_4.png */; };
+		FC1CA6B517D62687006CBBE4 /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDE538B13A19AEC00FBF12A /* appicon.png */; };
+		FC1CA6B617D62687006CBBE4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62016BC1FB300349396 /* Default@2x.png */; };
+		FC1CA6B717D62687006CBBE4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FC481910126A613B007E0824 /* Default.png */; };
+		FC1CA6B817D62687006CBBE4 /* beach57.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62316BC208D00349396 /* beach57.png */; };
+		FC1CA6B917D62687006CBBE4 /* beach114.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62516BC209800349396 /* beach114.png */; };
+		FC1CA6BA17D62687006CBBE4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB63416BC536100349396 /* Default-568h@2x.png */; };
+		FC1CA6BB17D62687006CBBE4 /* WorkScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9B41C516C0A8CA00278A59 /* WorkScheduleViewController.xib */; };
+		FC1CA6BC17D62687006CBBE4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FCB6E85217CF9FD000B99566 /* README.md */; };
+		FC1CA6BD17D62687006CBBE4 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = FCB6E85317CF9FD000B99566 /* release_notes.md */; };
+		FC1CA6BF17D62687006CBBE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		FC1CA6C017D62687006CBBE4 /* RetirementCountdownAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* RetirementCountdownAppDelegate.m */; };
+		FC1CA6C117D62687006CBBE4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
+		FC1CA6C217D62687006CBBE4 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48121F12678B3D007E0824 /* BaseViewController.m */; };
+		FC1CA6C317D62687006CBBE4 /* WorkdaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AB12678BEC007E0824 /* WorkdaysViewController.m */; };
+		FC1CA6C417D62687006CBBE4 /* HolidaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AD12678BEC007E0824 /* HolidaysViewController.m */; };
+		FC1CA6C517D62687006CBBE4 /* RCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AF12678BEC007E0824 /* RCSettingsViewController.m */; };
+		FC1CA6C617D62687006CBBE4 /* RetirementDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B112678BEC007E0824 /* RetirementDateViewController.m */; };
+		FC1CA6C817D62687006CBBE4 /* DisplayOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B512678BEC007E0824 /* DisplayOptionsViewController.m */; };
+		FC1CA6C917D62687006CBBE4 /* ImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B712678BEC007E0824 /* ImagePickerViewController.m */; };
+		FC1CA6CA17D62687006CBBE4 /* ColorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B912678BEC007E0824 /* ColorsViewController.m */; };
+		FC1CA6CB17D62687006CBBE4 /* DaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BB12678BEC007E0824 /* DaysViewController.m */; };
+		FC1CA6CC17D62687006CBBE4 /* BackgroundColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BD12678BEC007E0824 /* BackgroundColorViewController.m */; };
+		FC1CA6CD17D62687006CBBE4 /* CalendarBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BF12678BEC007E0824 /* CalendarBackgroundViewController.m */; };
+		FC1CA6CE17D62687006CBBE4 /* BackgroundTextColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C112678BEC007E0824 /* BackgroundTextColorViewController.m */; };
+		FC1CA6CF17D62687006CBBE4 /* AddHolidayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C312678BEC007E0824 /* AddHolidayViewController.m */; };
+		FC1CA6D017D62687006CBBE4 /* SelectHolidayDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C512678BEC007E0824 /* SelectHolidayDateViewController.m */; };
+		FC1CA6D117D62687006CBBE4 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C712678BEC007E0824 /* HelpViewController.m */; };
+		FC1CA6D217D62687006CBBE4 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128B12678BCD007E0824 /* BaseTableViewController.m */; };
+		FC1CA6D317D62687006CBBE4 /* Calendar.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128F12678BCD007E0824 /* Calendar.m */; };
+		FC1CA6D417D62687006CBBE4 /* ColorsClass.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129112678BCD007E0824 /* ColorsClass.m */; };
+		FC1CA6D517D62687006CBBE4 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129512678BCD007E0824 /* CustomCell.m */; };
+		FC1CA6D617D62687006CBBE4 /* CustomCellForColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129312678BCD007E0824 /* CustomCellForColors.m */; };
+		FC1CA6D717D62687006CBBE4 /* GlobalMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128D12678BCD007E0824 /* GlobalMethods.m */; };
+		FC1CA6D817D62687006CBBE4 /* TimeRemaining.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128912678BCD007E0824 /* TimeRemaining.m */; };
+		FC1CA6D917D62687006CBBE4 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC481C57126D0E7F007E0824 /* AboutViewController.m */; };
+		FC1CA6DA17D62687006CBBE4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC481C82126D2DCD007E0824 /* WebViewController.m */; };
+		FC1CA6DB17D62687006CBBE4 /* StatutoryDaysOffViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8A1AAE12832DC7002B7139 /* StatutoryDaysOffViewController.m */; };
+		FC1CA6DC17D62687006CBBE4 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF1DEF91340C244008DE516 /* Appirater.m */; };
+		FC1CA6DD17D62687006CBBE4 /* WorkScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9B41C416C0A8CA00278A59 /* WorkScheduleViewController.m */; };
+		FC1CA6DF17D62687006CBBE4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB6E85A17CFA02800B99566 /* libz.dylib */; };
+		FC1CA6E017D62687006CBBE4 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC95EF7814990DF4008B47D1 /* libz.1.2.5.dylib */; };
+		FC1CA6E117D62687006CBBE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		FC1CA6E217D62687006CBBE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		FC1CA6E317D62687006CBBE4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
+		FC1CA6E417D62687006CBBE4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48130412678CE2007E0824 /* MessageUI.framework */; };
+		FC1CA6E517D62687006CBBE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48130612678CEE007E0824 /* QuartzCore.framework */; };
+		FC1CA6E617D62687006CBBE4 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48149212687295007E0824 /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FC1CA6E717D62687006CBBE4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC481C1F126D0A66007E0824 /* AudioToolbox.framework */; };
+		FC1CA6E817D62687006CBBE4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF1DF1A1340C555008DE516 /* CFNetwork.framework */; };
+		FC1CA6E917D62687006CBBE4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF1DF1C1340C55F008DE516 /* SystemConfiguration.framework */; };
+		FC1CA6EA17D62687006CBBE4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB6E85117CF9FD000B99566 /* libTestFlight.a */; };
+		FC1CA6F217D628B3006CBBE4 /* beach57Lite.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA6F117D628B3006CBBE4 /* beach57Lite.png */; };
+		FC1CA6F417D628B9006CBBE4 /* beach114Lite.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA6F317D628B9006CBBE4 /* beach114Lite.png */; };
+		FC1CA70117D79049006CBBE4 /* FeaturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1CA6FF17D79049006CBBE4 /* FeaturesViewController.m */; };
+		FC1CA70217D79049006CBBE4 /* FeaturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1CA6FF17D79049006CBBE4 /* FeaturesViewController.m */; };
+		FC1CA70317D79049006CBBE4 /* FeaturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA70017D79049006CBBE4 /* FeaturesViewController.xib */; };
+		FC1CA70417D79049006CBBE4 /* FeaturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA70017D79049006CBBE4 /* FeaturesViewController.xib */; };
+		FC1CA76D17DB7749006CBBE4 /* checkbox_unchecked_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA76B17DB7749006CBBE4 /* checkbox_unchecked_gray.png */; };
+		FC1CA76E17DB7749006CBBE4 /* checkbox_unchecked_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA76B17DB7749006CBBE4 /* checkbox_unchecked_gray.png */; };
+		FC1CA76F17DB7749006CBBE4 /* checkbox_checked_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA76C17DB7749006CBBE4 /* checkbox_checked_gray.png */; };
+		FC1CA77017DB7749006CBBE4 /* checkbox_checked_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA76C17DB7749006CBBE4 /* checkbox_checked_gray.png */; };
+		FC48122012678B3D007E0824 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48121F12678B3D007E0824 /* BaseViewController.m */; };
+		FC48125812678BAB007E0824 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122412678BAB007E0824 /* settings.png */; };
+		FC48125912678BAB007E0824 /* Thanksgiving Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122612678BAB007E0824 /* Thanksgiving Day.png */; };
+		FC48125A12678BAB007E0824 /* USA Independance Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122712678BAB007E0824 /* USA Independance Day.png */; };
+		FC48125B12678BAB007E0824 /* Christmas Eve.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122812678BAB007E0824 /* Christmas Eve.png */; };
+		FC48125C12678BAB007E0824 /* New Years Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122912678BAB007E0824 /* New Years Day.png */; };
+		FC48125D12678BAB007E0824 /* Martin Luther King Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122A12678BAB007E0824 /* Martin Luther King Day.png */; };
+		FC48125E12678BAB007E0824 /* USA Presidents Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122B12678BAB007E0824 /* USA Presidents Day.png */; };
+		FC48125F12678BAB007E0824 /* Memorial Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122C12678BAB007E0824 /* Memorial Day.png */; };
+		FC48126012678BAB007E0824 /* USA Independance Day1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122D12678BAB007E0824 /* USA Independance Day1.png */; };
+		FC48126112678BAB007E0824 /* Labor Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122E12678BAB007E0824 /* Labor Day.png */; };
+		FC48126212678BAB007E0824 /* Veterans Day.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48122F12678BAB007E0824 /* Veterans Day.png */; };
+		FC48126312678BAB007E0824 /* Thanksgiving Day1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123012678BAB007E0824 /* Thanksgiving Day1.png */; };
+		FC48126412678BAB007E0824 /* Day after Thanksgiving.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123112678BAB007E0824 /* Day after Thanksgiving.png */; };
+		FC48126512678BAB007E0824 /* Christmas Eve 2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123212678BAB007E0824 /* Christmas Eve 2.png */; };
+		FC48126612678BAB007E0824 /* Christmas Eve Gloss.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123312678BAB007E0824 /* Christmas Eve Gloss.png */; };
+		FC48126712678BAB007E0824 /* Christmas1.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123412678BAB007E0824 /* Christmas1.png */; };
+		FC48126812678BAB007E0824 /* Christmas.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123512678BAB007E0824 /* Christmas.png */; };
+		FC48126912678BAB007E0824 /* GlossSlateBlueFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123712678BAB007E0824 /* GlossSlateBlueFrame.png */; };
+		FC48126A12678BAB007E0824 /* GlossSlateBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123812678BAB007E0824 /* GlossSlateBlue.png */; };
+		FC48126B12678BAB007E0824 /* GlossRedFramed.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123912678BAB007E0824 /* GlossRedFramed.png */; };
+		FC48126C12678BAB007E0824 /* GlossRed.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123A12678BAB007E0824 /* GlossRed.png */; };
+		FC48126D12678BAB007E0824 /* GlossMaraschino.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123B12678BAB007E0824 /* GlossMaraschino.png */; };
+		FC48126E12678BAB007E0824 /* GlossLemon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123C12678BAB007E0824 /* GlossLemon.png */; };
+		FC48126F12678BAB007E0824 /* GlossAluminum.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123D12678BAB007E0824 /* GlossAluminum.png */; };
+		FC48127012678BAB007E0824 /* GlossAqua.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123E12678BAB007E0824 /* GlossAqua.png */; };
+		FC48127112678BAB007E0824 /* GlossWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48123F12678BAB007E0824 /* GlossWhite.png */; };
+		FC48127212678BAB007E0824 /* GlossBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124012678BAB007E0824 /* GlossBlack.png */; };
+		FC48127312678BAB007E0824 /* GlossIce.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124112678BAB007E0824 /* GlossIce.png */; };
+		FC48127412678BAB007E0824 /* GlossBlueberry.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124212678BAB007E0824 /* GlossBlueberry.png */; };
+		FC48127512678BAB007E0824 /* GlossDarkAqua.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124312678BAB007E0824 /* GlossDarkAqua.png */; };
+		FC48127612678BAB007E0824 /* GlossBrightGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124412678BAB007E0824 /* GlossBrightGreen.png */; };
+		FC48128012678BAB007E0824 /* beach.png in Resources */ = {isa = PBXBuildFile; fileRef = FC48124F12678BAB007E0824 /* beach.png */; };
+		FC48128112678BAB007E0824 /* Workdays.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125112678BAB007E0824 /* Workdays.plist */; };
+		FC48128212678BAB007E0824 /* HolidayList.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125212678BAB007E0824 /* HolidayList.plist */; };
+		FC48128312678BAB007E0824 /* ManualWorkdays.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125312678BAB007E0824 /* ManualWorkdays.plist */; };
+		FC48128412678BAB007E0824 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125412678BAB007E0824 /* Settings.plist */; };
+		FC48128512678BAB007E0824 /* BackgroundColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125512678BAB007E0824 /* BackgroundColors.plist */; };
+		FC48128612678BAB007E0824 /* TextColors.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125612678BAB007E0824 /* TextColors.plist */; };
+		FC48128712678BAB007E0824 /* ColorSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC48125712678BAB007E0824 /* ColorSettings.plist */; };
+		FC4812C812678BEC007E0824 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129712678BEC007E0824 /* HelpViewController.xib */; };
+		FC4812C912678BEC007E0824 /* SelectHolidayDateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129812678BEC007E0824 /* SelectHolidayDateViewController.xib */; };
+		FC4812CA12678BEC007E0824 /* AddHolidayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129912678BEC007E0824 /* AddHolidayViewController.xib */; };
+		FC4812CB12678BEC007E0824 /* BackgroundTextColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129A12678BEC007E0824 /* BackgroundTextColorViewController.xib */; };
+		FC4812CC12678BEC007E0824 /* CalendarBackgroundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129B12678BEC007E0824 /* CalendarBackgroundViewController.xib */; };
+		FC4812CD12678BEC007E0824 /* Workhours.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129C12678BEC007E0824 /* Workhours.xib */; };
+		FC4812CE12678BEC007E0824 /* DisplayOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129D12678BEC007E0824 /* DisplayOptions.xib */; };
+		FC4812CF12678BEC007E0824 /* RetirementDate.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129E12678BEC007E0824 /* RetirementDate.xib */; };
+		FC4812D012678BEC007E0824 /* Workdays.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC48129F12678BEC007E0824 /* Workdays.xib */; };
+		FC4812D112678BEC007E0824 /* Holidays.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A012678BEC007E0824 /* Holidays.xib */; };
+		FC4812D212678BEC007E0824 /* RCSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A112678BEC007E0824 /* RCSettings.xib */; };
+		FC4812D312678BEC007E0824 /* OpeningScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A212678BEC007E0824 /* OpeningScreen.xib */; };
+		FC4812D412678BEC007E0824 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A312678BEC007E0824 /* CustomCell.xib */; };
+		FC4812D512678BEC007E0824 /* BackgroundColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A412678BEC007E0824 /* BackgroundColorViewController.xib */; };
+		FC4812D612678BEC007E0824 /* CustomCellForColors.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A512678BEC007E0824 /* CustomCellForColors.xib */; };
+		FC4812D712678BEC007E0824 /* CustomCellForDayType.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A612678BEC007E0824 /* CustomCellForDayType.xib */; };
+		FC4812D812678BEC007E0824 /* ImagePickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A712678BEC007E0824 /* ImagePickerViewController.xib */; };
+		FC4812D912678BEC007E0824 /* ColorsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A812678BEC007E0824 /* ColorsView.xib */; };
+		FC4812DA12678BEC007E0824 /* DaysViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC4812A912678BEC007E0824 /* DaysViewController.xib */; };
+		FC4812DB12678BEC007E0824 /* WorkdaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AB12678BEC007E0824 /* WorkdaysViewController.m */; };
+		FC4812DC12678BEC007E0824 /* HolidaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AD12678BEC007E0824 /* HolidaysViewController.m */; };
+		FC4812DD12678BEC007E0824 /* RCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812AF12678BEC007E0824 /* RCSettingsViewController.m */; };
+		FC4812DE12678BEC007E0824 /* RetirementDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B112678BEC007E0824 /* RetirementDateViewController.m */; };
+		FC4812DF12678BEC007E0824 /* WorkhoursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B312678BEC007E0824 /* WorkhoursViewController.m */; };
+		FC4812E012678BEC007E0824 /* DisplayOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B512678BEC007E0824 /* DisplayOptionsViewController.m */; };
+		FC4812E112678BEC007E0824 /* ImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B712678BEC007E0824 /* ImagePickerViewController.m */; };
+		FC4812E212678BEC007E0824 /* ColorsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812B912678BEC007E0824 /* ColorsViewController.m */; };
+		FC4812E312678BEC007E0824 /* DaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BB12678BEC007E0824 /* DaysViewController.m */; };
+		FC4812E412678BEC007E0824 /* BackgroundColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BD12678BEC007E0824 /* BackgroundColorViewController.m */; };
+		FC4812E512678BEC007E0824 /* CalendarBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812BF12678BEC007E0824 /* CalendarBackgroundViewController.m */; };
+		FC4812E612678BEC007E0824 /* BackgroundTextColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C112678BEC007E0824 /* BackgroundTextColorViewController.m */; };
+		FC4812E712678BEC007E0824 /* AddHolidayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C312678BEC007E0824 /* AddHolidayViewController.m */; };
+		FC4812E812678BEC007E0824 /* SelectHolidayDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C512678BEC007E0824 /* SelectHolidayDateViewController.m */; };
+		FC4812E912678BEC007E0824 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4812C712678BEC007E0824 /* HelpViewController.m */; };
+		FC48130512678CE2007E0824 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48130412678CE2007E0824 /* MessageUI.framework */; };
+		FC48130712678CEE007E0824 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48130612678CEE007E0824 /* QuartzCore.framework */; };
+		FC481333126790D4007E0824 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128B12678BCD007E0824 /* BaseTableViewController.m */; };
+		FC481334126790D5007E0824 /* Calendar.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128F12678BCD007E0824 /* Calendar.m */; };
+		FC481335126790D7007E0824 /* ColorsClass.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129112678BCD007E0824 /* ColorsClass.m */; };
+		FC481336126790D9007E0824 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129512678BCD007E0824 /* CustomCell.m */; };
+		FC481337126790DA007E0824 /* CustomCellForColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48129312678BCD007E0824 /* CustomCellForColors.m */; };
+		FC481338126790DD007E0824 /* GlobalMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128D12678BCD007E0824 /* GlobalMethods.m */; };
+		FC481339126790EE007E0824 /* TimeRemaining.m in Sources */ = {isa = PBXBuildFile; fileRef = FC48128912678BCD007E0824 /* TimeRemaining.m */; };
+		FC48149312687295007E0824 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC48149212687295007E0824 /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FC481C1B126D0A29007E0824 /* click1.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC481C1A126D0A29007E0824 /* click1.wav */; };
+		FC481C20126D0A66007E0824 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC481C1F126D0A66007E0824 /* AudioToolbox.framework */; };
+		FC481C59126D0E7F007E0824 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC481C57126D0E7F007E0824 /* AboutViewController.m */; };
+		FC481C5A126D0E7F007E0824 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC481C58126D0E7F007E0824 /* AboutViewController.xib */; };
+		FC481C84126D2DCD007E0824 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC481C82126D2DCD007E0824 /* WebViewController.m */; };
+		FC481C85126D2DCD007E0824 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC481C83126D2DCD007E0824 /* WebViewController.xib */; };
+		FC481CE6126DFABA007E0824 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = FC481CE5126DFABA007E0824 /* iTunesArtwork */; };
+		FC481CF1126E0109007E0824 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC481CF0126E0109007E0824 /* Entitlements.plist */; };
+		FC54C6251803276200F1B42D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC54C6241803276200F1B42D /* CoreLocation.framework */; };
+		FC8A1AB012832DC7002B7139 /* StatutoryDaysOffViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8A1AAE12832DC7002B7139 /* StatutoryDaysOffViewController.m */; };
+		FC8A1AB112832DC7002B7139 /* StatutoryDaysOffViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC8A1AAF12832DC7002B7139 /* StatutoryDaysOffViewController.xib */; };
+		FC95EF7914990DF4008B47D1 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC95EF7814990DF4008B47D1 /* libz.1.2.5.dylib */; };
+		FC9B41C616C0A8CA00278A59 /* WorkScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9B41C416C0A8CA00278A59 /* WorkScheduleViewController.m */; };
+		FC9B41C716C0A8CA00278A59 /* WorkScheduleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC9B41C516C0A8CA00278A59 /* WorkScheduleViewController.xib */; };
+		FC9CB62116BC1FB300349396 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62016BC1FB300349396 /* Default@2x.png */; };
+		FC9CB62216BC1FBF00349396 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FC481910126A613B007E0824 /* Default.png */; };
+		FC9CB62416BC208D00349396 /* beach57.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62316BC208D00349396 /* beach57.png */; };
+		FC9CB62616BC209800349396 /* beach114.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB62516BC209800349396 /* beach114.png */; };
+		FC9CB63516BC536100349396 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB63416BC536100349396 /* Default-568h@2x.png */; };
+		FCB6E85717CF9FD000B99566 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB6E85117CF9FD000B99566 /* libTestFlight.a */; };
+		FCB6E85817CF9FD000B99566 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FCB6E85217CF9FD000B99566 /* README.md */; };
+		FCB6E85917CF9FD000B99566 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = FCB6E85317CF9FD000B99566 /* release_notes.md */; };
+		FCB6E85B17CFA02800B99566 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB6E85A17CFA02800B99566 /* libz.dylib */; };
+		FCDA8B6F184A749700CC0A00 /* red-x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDA8B6E184A749700CC0A00 /* red-x.png */; };
+		FCDA8B70184A749700CC0A00 /* red-x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDA8B6E184A749700CC0A00 /* red-x.png */; };
+		FCDA8B72184A7BD200CC0A00 /* red-x-outer.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDA8B71184A7BD200CC0A00 /* red-x-outer.png */; };
+		FCDA8B73184A7BD200CC0A00 /* red-x-outer.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDA8B71184A7BD200CC0A00 /* red-x-outer.png */; };
+		FCDE538C13A19AEC00FBF12A /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FCDE538B13A19AEC00FBF12A /* appicon.png */; };
+		FCE1B647131C5C600097BDCB /* 320x44pattern_4.png in Resources */ = {isa = PBXBuildFile; fileRef = FCE1B646131C5C600097BDCB /* 320x44pattern_4.png */; };
+		FCF1DEFB1340C244008DE516 /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF1DEF91340C244008DE516 /* Appirater.m */; };
+		FCF1DF1B1340C555008DE516 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF1DF1A1340C555008DE516 /* CFNetwork.framework */; };
+		FCF1DF1D1340C55F008DE516 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF1DF1C1340C55F008DE516 /* SystemConfiguration.framework */; };
+		FCF539D017F727DF002D6E26 /* beach120.png in Resources */ = {isa = PBXBuildFile; fileRef = FCF539CF17F727DF002D6E26 /* beach120.png */; };
+		FCF539D217F7290C002D6E26 /* beach120Lite.png in Resources */ = {isa = PBXBuildFile; fileRef = FCF539D117F7290C002D6E26 /* beach120Lite.png */; };
+		FCFFCE3717EDEA4C00D3D3D7 /* badgeDemo.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3617EDEA4C00D3D3D7 /* badgeDemo.png */; };
+		FCFFCE3817EDEA4C00D3D3D7 /* badgeDemo.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3617EDEA4C00D3D3D7 /* badgeDemo.png */; };
+		FCFFCE3D17EDEC6600D3D3D7 /* badgeDemo2.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3C17EDEC6600D3D3D7 /* badgeDemo2.png */; };
+		FCFFCE3E17EDEC6600D3D3D7 /* badgeDemo2.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3C17EDEC6600D3D3D7 /* badgeDemo2.png */; };
+		FCFFCE4017EDF12800D3D3D7 /* badgeDemo3.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3F17EDF12800D3D3D7 /* badgeDemo3.png */; };
+		FCFFCE4117EDF12800D3D3D7 /* badgeDemo3.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE3F17EDF12800D3D3D7 /* badgeDemo3.png */; };
+		FCFFCE4317EDF44300D3D3D7 /* Lite.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE4217EDF44300D3D3D7 /* Lite.png */; };
+		FCFFCE4417EDF44300D3D3D7 /* Lite.png in Resources */ = {isa = PBXBuildFile; fileRef = FCFFCE4217EDF44300D3D3D7 /* Lite.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* RetirementCountdownAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetirementCountdownAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* RetirementCountdownAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetirementCountdownAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* RetirementCountdown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetirementCountdown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28A0AAE50D9B0CCF005BE974 /* RetirementCountdownAdFree_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetirementCountdownAdFree_Prefix.pch; sourceTree = "<group>"; };
+		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = ../MainWindow.xib; sourceTree = "<group>"; };
+		28C286DF0D94DF7D0034E888 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RootViewController.xib; path = ../RootViewController.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		361120FC1E105F9A003CDD49 /* Thanksgiving.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Thanksgiving.plist; sourceTree = "<group>"; };
+		361120FE1E11A57C003CDD49 /* HomePurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePurchaseViewController.h; sourceTree = "<group>"; };
+		361120FF1E11A57C003CDD49 /* HomePurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePurchaseViewController.m; sourceTree = "<group>"; };
+		361121011E11A590003CDD49 /* HomePurchaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePurchaseViewController.xib; sourceTree = "<group>"; };
+		3630D84B1C7E06E1004014F7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		366881B619C217BB00A27456 /* ShiftWorkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkViewController.h; sourceTree = "<group>"; };
+		366881B719C217BB00A27456 /* ShiftWorkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkViewController.m; sourceTree = "<group>"; };
+		366881B819C217BB00A27456 /* ShiftWorkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkViewController.xib; sourceTree = "<group>"; };
+		366881BB19C21BA500A27456 /* ShiftWorkDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkDetailViewController.h; sourceTree = "<group>"; };
+		366881BC19C21BA500A27456 /* ShiftWorkDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkDetailViewController.m; sourceTree = "<group>"; };
+		366881BD19C21BA500A27456 /* ShiftWorkDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkDetailViewController.xib; sourceTree = "<group>"; };
+		36E183811C7239AC009F4018 /* checkbox-filled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-filled.png"; sourceTree = "<group>"; };
+		36E183821C7239AC009F4018 /* checkbox-empty.V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-empty.V2.png"; sourceTree = "<group>"; };
+		36E183871C737D9C009F4018 /* IAPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPurchaseViewController.h; sourceTree = "<group>"; };
+		36E183881C737D9C009F4018 /* IAPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPurchaseViewController.m; sourceTree = "<group>"; };
+		36FD9AD31CA4320E00B67133 /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
+		36FD9AD41CA4320E00B67133 /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
+		36FD9AD61CA5781000B67133 /* PurchaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PurchaseViewController.xib; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* RetirementCountdownAdFree-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RetirementCountdownAdFree-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		FC18D85C1275F9C700FD7326 /* SettingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsButton.png; sourceTree = "<group>"; };
+		FC1CA6EF17D62687006CBBE4 /* RetirementCountdownLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetirementCountdownLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC1CA6F017D62688006CBBE4 /* RetirementCountdownAdFree copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "RetirementCountdownAdFree copy-Info.plist"; path = "/Users/Jon/iPhone Developement 2/My Current Projects/Retirement Countdown Project/RetirementCountdown AdFree/RetirementCountdownAdFree copy-Info.plist"; sourceTree = "<absolute>"; };
+		FC1CA6F117D628B3006CBBE4 /* beach57Lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach57Lite.png; sourceTree = "<group>"; };
+		FC1CA6F317D628B9006CBBE4 /* beach114Lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach114Lite.png; sourceTree = "<group>"; };
+		FC1CA6FE17D79049006CBBE4 /* FeaturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeaturesViewController.h; sourceTree = "<group>"; };
+		FC1CA6FF17D79049006CBBE4 /* FeaturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeaturesViewController.m; sourceTree = "<group>"; };
+		FC1CA70017D79049006CBBE4 /* FeaturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturesViewController.xib; sourceTree = "<group>"; };
+		FC1CA76B17DB7749006CBBE4 /* checkbox_unchecked_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_unchecked_gray.png; sourceTree = "<group>"; };
+		FC1CA76C17DB7749006CBBE4 /* checkbox_checked_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked_gray.png; sourceTree = "<group>"; };
+		FC26372912B703A60090B10B /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		FC48121E12678B3D007E0824 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		FC48121F12678B3D007E0824 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		FC48122412678BAB007E0824 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		FC48122612678BAB007E0824 /* Thanksgiving Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thanksgiving Day.png"; sourceTree = "<group>"; };
+		FC48122712678BAB007E0824 /* USA Independance Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USA Independance Day.png"; sourceTree = "<group>"; };
+		FC48122812678BAB007E0824 /* Christmas Eve.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Christmas Eve.png"; sourceTree = "<group>"; };
+		FC48122912678BAB007E0824 /* New Years Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "New Years Day.png"; sourceTree = "<group>"; };
+		FC48122A12678BAB007E0824 /* Martin Luther King Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Martin Luther King Day.png"; sourceTree = "<group>"; };
+		FC48122B12678BAB007E0824 /* USA Presidents Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USA Presidents Day.png"; sourceTree = "<group>"; };
+		FC48122C12678BAB007E0824 /* Memorial Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Memorial Day.png"; sourceTree = "<group>"; };
+		FC48122D12678BAB007E0824 /* USA Independance Day1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USA Independance Day1.png"; sourceTree = "<group>"; };
+		FC48122E12678BAB007E0824 /* Labor Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Labor Day.png"; sourceTree = "<group>"; };
+		FC48122F12678BAB007E0824 /* Veterans Day.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Veterans Day.png"; sourceTree = "<group>"; };
+		FC48123012678BAB007E0824 /* Thanksgiving Day1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Thanksgiving Day1.png"; sourceTree = "<group>"; };
+		FC48123112678BAB007E0824 /* Day after Thanksgiving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Day after Thanksgiving.png"; sourceTree = "<group>"; };
+		FC48123212678BAB007E0824 /* Christmas Eve 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Christmas Eve 2.png"; sourceTree = "<group>"; };
+		FC48123312678BAB007E0824 /* Christmas Eve Gloss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Christmas Eve Gloss.png"; sourceTree = "<group>"; };
+		FC48123412678BAB007E0824 /* Christmas1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Christmas1.png; sourceTree = "<group>"; };
+		FC48123512678BAB007E0824 /* Christmas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Christmas.png; sourceTree = "<group>"; };
+		FC48123712678BAB007E0824 /* GlossSlateBlueFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossSlateBlueFrame.png; sourceTree = "<group>"; };
+		FC48123812678BAB007E0824 /* GlossSlateBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossSlateBlue.png; sourceTree = "<group>"; };
+		FC48123912678BAB007E0824 /* GlossRedFramed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossRedFramed.png; sourceTree = "<group>"; };
+		FC48123A12678BAB007E0824 /* GlossRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossRed.png; sourceTree = "<group>"; };
+		FC48123B12678BAB007E0824 /* GlossMaraschino.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossMaraschino.png; sourceTree = "<group>"; };
+		FC48123C12678BAB007E0824 /* GlossLemon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossLemon.png; sourceTree = "<group>"; };
+		FC48123D12678BAB007E0824 /* GlossAluminum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossAluminum.png; sourceTree = "<group>"; };
+		FC48123E12678BAB007E0824 /* GlossAqua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossAqua.png; sourceTree = "<group>"; };
+		FC48123F12678BAB007E0824 /* GlossWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossWhite.png; sourceTree = "<group>"; };
+		FC48124012678BAB007E0824 /* GlossBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossBlack.png; sourceTree = "<group>"; };
+		FC48124112678BAB007E0824 /* GlossIce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossIce.png; sourceTree = "<group>"; };
+		FC48124212678BAB007E0824 /* GlossBlueberry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossBlueberry.png; sourceTree = "<group>"; };
+		FC48124312678BAB007E0824 /* GlossDarkAqua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossDarkAqua.png; sourceTree = "<group>"; };
+		FC48124412678BAB007E0824 /* GlossBrightGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GlossBrightGreen.png; sourceTree = "<group>"; };
+		FC48124F12678BAB007E0824 /* beach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach.png; sourceTree = "<group>"; };
+		FC48125112678BAB007E0824 /* Workdays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Workdays.plist; sourceTree = "<group>"; };
+		FC48125212678BAB007E0824 /* HolidayList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = HolidayList.plist; sourceTree = "<group>"; };
+		FC48125312678BAB007E0824 /* ManualWorkdays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ManualWorkdays.plist; sourceTree = "<group>"; };
+		FC48125412678BAB007E0824 /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
+		FC48125512678BAB007E0824 /* BackgroundColors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BackgroundColors.plist; sourceTree = "<group>"; };
+		FC48125612678BAB007E0824 /* TextColors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TextColors.plist; sourceTree = "<group>"; };
+		FC48125712678BAB007E0824 /* ColorSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ColorSettings.plist; sourceTree = "<group>"; };
+		FC48128812678BCD007E0824 /* TimeRemaining.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeRemaining.h; sourceTree = "<group>"; };
+		FC48128912678BCD007E0824 /* TimeRemaining.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeRemaining.m; sourceTree = "<group>"; };
+		FC48128A12678BCD007E0824 /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		FC48128B12678BCD007E0824 /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		FC48128C12678BCD007E0824 /* GlobalMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalMethods.h; sourceTree = "<group>"; };
+		FC48128D12678BCD007E0824 /* GlobalMethods.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlobalMethods.m; sourceTree = "<group>"; };
+		FC48128E12678BCD007E0824 /* Calendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Calendar.h; sourceTree = "<group>"; };
+		FC48128F12678BCD007E0824 /* Calendar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Calendar.m; sourceTree = "<group>"; };
+		FC48129012678BCD007E0824 /* ColorsClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsClass.h; sourceTree = "<group>"; };
+		FC48129112678BCD007E0824 /* ColorsClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsClass.m; sourceTree = "<group>"; };
+		FC48129212678BCD007E0824 /* CustomCellForColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCellForColors.h; sourceTree = "<group>"; };
+		FC48129312678BCD007E0824 /* CustomCellForColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCellForColors.m; sourceTree = "<group>"; };
+		FC48129412678BCD007E0824 /* CustomCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		FC48129512678BCD007E0824 /* CustomCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		FC48129712678BEC007E0824 /* HelpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
+		FC48129812678BEC007E0824 /* SelectHolidayDateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectHolidayDateViewController.xib; sourceTree = "<group>"; };
+		FC48129912678BEC007E0824 /* AddHolidayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddHolidayViewController.xib; sourceTree = "<group>"; };
+		FC48129A12678BEC007E0824 /* BackgroundTextColorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BackgroundTextColorViewController.xib; sourceTree = "<group>"; };
+		FC48129B12678BEC007E0824 /* CalendarBackgroundViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarBackgroundViewController.xib; sourceTree = "<group>"; };
+		FC48129C12678BEC007E0824 /* Workhours.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Workhours.xib; sourceTree = "<group>"; };
+		FC48129D12678BEC007E0824 /* DisplayOptions.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DisplayOptions.xib; sourceTree = "<group>"; };
+		FC48129E12678BEC007E0824 /* RetirementDate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RetirementDate.xib; sourceTree = "<group>"; };
+		FC48129F12678BEC007E0824 /* Workdays.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Workdays.xib; sourceTree = "<group>"; };
+		FC4812A012678BEC007E0824 /* Holidays.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Holidays.xib; sourceTree = "<group>"; };
+		FC4812A112678BEC007E0824 /* RCSettings.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RCSettings.xib; sourceTree = "<group>"; };
+		FC4812A212678BEC007E0824 /* OpeningScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpeningScreen.xib; sourceTree = "<group>"; };
+		FC4812A312678BEC007E0824 /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		FC4812A412678BEC007E0824 /* BackgroundColorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BackgroundColorViewController.xib; sourceTree = "<group>"; };
+		FC4812A512678BEC007E0824 /* CustomCellForColors.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCellForColors.xib; sourceTree = "<group>"; };
+		FC4812A612678BEC007E0824 /* CustomCellForDayType.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCellForDayType.xib; sourceTree = "<group>"; };
+		FC4812A712678BEC007E0824 /* ImagePickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagePickerViewController.xib; sourceTree = "<group>"; };
+		FC4812A812678BEC007E0824 /* ColorsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorsView.xib; sourceTree = "<group>"; };
+		FC4812A912678BEC007E0824 /* DaysViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DaysViewController.xib; sourceTree = "<group>"; };
+		FC4812AA12678BEC007E0824 /* WorkdaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkdaysViewController.h; sourceTree = "<group>"; };
+		FC4812AB12678BEC007E0824 /* WorkdaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkdaysViewController.m; sourceTree = "<group>"; };
+		FC4812AC12678BEC007E0824 /* HolidaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HolidaysViewController.h; sourceTree = "<group>"; };
+		FC4812AD12678BEC007E0824 /* HolidaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HolidaysViewController.m; sourceTree = "<group>"; };
+		FC4812AE12678BEC007E0824 /* RCSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSettingsViewController.h; sourceTree = "<group>"; };
+		FC4812AF12678BEC007E0824 /* RCSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCSettingsViewController.m; sourceTree = "<group>"; };
+		FC4812B012678BEC007E0824 /* RetirementDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetirementDateViewController.h; sourceTree = "<group>"; };
+		FC4812B112678BEC007E0824 /* RetirementDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetirementDateViewController.m; sourceTree = "<group>"; };
+		FC4812B212678BEC007E0824 /* WorkhoursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkhoursViewController.h; sourceTree = "<group>"; };
+		FC4812B312678BEC007E0824 /* WorkhoursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkhoursViewController.m; sourceTree = "<group>"; };
+		FC4812B412678BEC007E0824 /* DisplayOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayOptionsViewController.h; sourceTree = "<group>"; };
+		FC4812B512678BEC007E0824 /* DisplayOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayOptionsViewController.m; sourceTree = "<group>"; };
+		FC4812B612678BEC007E0824 /* ImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerViewController.h; sourceTree = "<group>"; };
+		FC4812B712678BEC007E0824 /* ImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerViewController.m; sourceTree = "<group>"; };
+		FC4812B812678BEC007E0824 /* ColorsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorsViewController.h; sourceTree = "<group>"; };
+		FC4812B912678BEC007E0824 /* ColorsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorsViewController.m; sourceTree = "<group>"; };
+		FC4812BA12678BEC007E0824 /* DaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaysViewController.h; sourceTree = "<group>"; };
+		FC4812BB12678BEC007E0824 /* DaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DaysViewController.m; sourceTree = "<group>"; };
+		FC4812BC12678BEC007E0824 /* BackgroundColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundColorViewController.h; sourceTree = "<group>"; };
+		FC4812BD12678BEC007E0824 /* BackgroundColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundColorViewController.m; sourceTree = "<group>"; };
+		FC4812BE12678BEC007E0824 /* CalendarBackgroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarBackgroundViewController.h; sourceTree = "<group>"; };
+		FC4812BF12678BEC007E0824 /* CalendarBackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarBackgroundViewController.m; sourceTree = "<group>"; };
+		FC4812C012678BEC007E0824 /* BackgroundTextColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTextColorViewController.h; sourceTree = "<group>"; };
+		FC4812C112678BEC007E0824 /* BackgroundTextColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTextColorViewController.m; sourceTree = "<group>"; };
+		FC4812C212678BEC007E0824 /* AddHolidayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddHolidayViewController.h; sourceTree = "<group>"; };
+		FC4812C312678BEC007E0824 /* AddHolidayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddHolidayViewController.m; sourceTree = "<group>"; };
+		FC4812C412678BEC007E0824 /* SelectHolidayDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectHolidayDateViewController.h; sourceTree = "<group>"; };
+		FC4812C512678BEC007E0824 /* SelectHolidayDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectHolidayDateViewController.m; sourceTree = "<group>"; };
+		FC4812C612678BEC007E0824 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		FC4812C712678BEC007E0824 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		FC48130412678CE2007E0824 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		FC48130612678CEE007E0824 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		FC48149212687295007E0824 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		FC481910126A613B007E0824 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		FC481C1A126D0A29007E0824 /* click1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click1.wav; sourceTree = "<group>"; };
+		FC481C1F126D0A66007E0824 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		FC481C56126D0E7F007E0824 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		FC481C57126D0E7F007E0824 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		FC481C58126D0E7F007E0824 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		FC481C81126D2DCD007E0824 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		FC481C82126D2DCD007E0824 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		FC481C83126D2DCD007E0824 /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		FC481CE5126DFABA007E0824 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		FC481CF0126E0109007E0824 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		FC54C6241803276200F1B42D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FC8A1AAD12832DC7002B7139 /* StatutoryDaysOffViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatutoryDaysOffViewController.h; sourceTree = "<group>"; };
+		FC8A1AAE12832DC7002B7139 /* StatutoryDaysOffViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatutoryDaysOffViewController.m; sourceTree = "<group>"; };
+		FC8A1AAF12832DC7002B7139 /* StatutoryDaysOffViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatutoryDaysOffViewController.xib; sourceTree = "<group>"; };
+		FC95EF7814990DF4008B47D1 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		FC9B41C316C0A8CA00278A59 /* WorkScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkScheduleViewController.h; sourceTree = "<group>"; };
+		FC9B41C416C0A8CA00278A59 /* WorkScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkScheduleViewController.m; sourceTree = "<group>"; };
+		FC9B41C516C0A8CA00278A59 /* WorkScheduleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WorkScheduleViewController.xib; sourceTree = "<group>"; };
+		FC9CB62016BC1FB300349396 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		FC9CB62316BC208D00349396 /* beach57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach57.png; sourceTree = "<group>"; };
+		FC9CB62516BC209800349396 /* beach114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach114.png; sourceTree = "<group>"; };
+		FC9CB63416BC536100349396 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FCB6E85117CF9FD000B99566 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		FCB6E85217CF9FD000B99566 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		FCB6E85317CF9FD000B99566 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		FCB6E85417CF9FD000B99566 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		FCB6E85517CF9FD000B99566 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		FCB6E85617CF9FD000B99566 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		FCB6E85A17CFA02800B99566 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FCDA8B6E184A749700CC0A00 /* red-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-x.png"; sourceTree = "<group>"; };
+		FCDA8B71184A7BD200CC0A00 /* red-x-outer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-x-outer.png"; sourceTree = "<group>"; };
+		FCDE538B13A19AEC00FBF12A /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon.png; sourceTree = "<group>"; };
+		FCE1B646131C5C600097BDCB /* 320x44pattern_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 320x44pattern_4.png; sourceTree = "<group>"; };
+		FCF1DEF91340C244008DE516 /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
+		FCF1DEFA1340C244008DE516 /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
+		FCF1DF1A1340C555008DE516 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FCF1DF1C1340C55F008DE516 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FCF539CF17F727DF002D6E26 /* beach120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach120.png; sourceTree = "<group>"; };
+		FCF539D117F7290C002D6E26 /* beach120Lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach120Lite.png; sourceTree = "<group>"; };
+		FCFFCE3617EDEA4C00D3D3D7 /* badgeDemo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeDemo.png; sourceTree = "<group>"; };
+		FCFFCE3C17EDEC6600D3D3D7 /* badgeDemo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeDemo2.png; sourceTree = "<group>"; };
+		FCFFCE3F17EDF12800D3D3D7 /* badgeDemo3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgeDemo3.png; sourceTree = "<group>"; };
+		FCFFCE4217EDF44300D3D3D7 /* Lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lite.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC54C6251803276200F1B42D /* CoreLocation.framework in Frameworks */,
+				3630D84C1C7E06E1004014F7 /* StoreKit.framework in Frameworks */,
+				FCB6E85B17CFA02800B99566 /* libz.dylib in Frameworks */,
+				FC95EF7914990DF4008B47D1 /* libz.1.2.5.dylib in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				FC48130512678CE2007E0824 /* MessageUI.framework in Frameworks */,
+				FC48130712678CEE007E0824 /* QuartzCore.framework in Frameworks */,
+				FC48149312687295007E0824 /* iAd.framework in Frameworks */,
+				FC481C20126D0A66007E0824 /* AudioToolbox.framework in Frameworks */,
+				FCF1DF1B1340C555008DE516 /* CFNetwork.framework in Frameworks */,
+				FCF1DF1D1340C55F008DE516 /* SystemConfiguration.framework in Frameworks */,
+				FCB6E85717CF9FD000B99566 /* libTestFlight.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC1CA6DE17D62687006CBBE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC1CA6DF17D62687006CBBE4 /* libz.dylib in Frameworks */,
+				FC1CA6E017D62687006CBBE4 /* libz.1.2.5.dylib in Frameworks */,
+				FC1CA6E117D62687006CBBE4 /* Foundation.framework in Frameworks */,
+				FC1CA6E217D62687006CBBE4 /* UIKit.framework in Frameworks */,
+				FC1CA6E317D62687006CBBE4 /* CoreGraphics.framework in Frameworks */,
+				FC1CA6E417D62687006CBBE4 /* MessageUI.framework in Frameworks */,
+				FC1CA6E517D62687006CBBE4 /* QuartzCore.framework in Frameworks */,
+				FC1CA6E617D62687006CBBE4 /* iAd.framework in Frameworks */,
+				FC1CA6E717D62687006CBBE4 /* AudioToolbox.framework in Frameworks */,
+				FC1CA6E817D62687006CBBE4 /* CFNetwork.framework in Frameworks */,
+				FC1CA6E917D62687006CBBE4 /* SystemConfiguration.framework in Frameworks */,
+				FC1CA6EA17D62687006CBBE4 /* libTestFlight.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FCF1DEF81340C244008DE516 /* appirater */,
+				FC18D82F1275F54E00FD7326 /* Root Classes */,
+				FC48129612678BEC007E0824 /* Settings Classes */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* RetirementCountdown.app */,
+				FC1CA6EF17D62687006CBBE4 /* RetirementCountdownLite.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				361120FC1E105F9A003CDD49 /* Thanksgiving.plist */,
+				36E183871C737D9C009F4018 /* IAPurchaseViewController.h */,
+				36E183881C737D9C009F4018 /* IAPurchaseViewController.m */,
+				361120FE1E11A57C003CDD49 /* HomePurchaseViewController.h */,
+				361120FF1E11A57C003CDD49 /* HomePurchaseViewController.m */,
+				36E183811C7239AC009F4018 /* checkbox-filled.png */,
+				36E183821C7239AC009F4018 /* checkbox-empty.V2.png */,
+				FC1CA6F317D628B9006CBBE4 /* beach114Lite.png */,
+				FC1CA6F117D628B3006CBBE4 /* beach57Lite.png */,
+				FCB6E85A17CFA02800B99566 /* libz.dylib */,
+				FCB6E85017CF9FD000B99566 /* TestFlightSDK2.0.0 */,
+				FC9CB63416BC536100349396 /* Default-568h@2x.png */,
+				FC9CB62516BC209800349396 /* beach114.png */,
+				FCF539CF17F727DF002D6E26 /* beach120.png */,
+				FCF539D117F7290C002D6E26 /* beach120Lite.png */,
+				FC9CB62316BC208D00349396 /* beach57.png */,
+				FC9CB62016BC1FB300349396 /* Default@2x.png */,
+				FC95EF7814990DF4008B47D1 /* libz.1.2.5.dylib */,
+				FCDE538B13A19AEC00FBF12A /* appicon.png */,
+				FC481CF0126E0109007E0824 /* Entitlements.plist */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				FC1CA6F017D62688006CBBE4 /* RetirementCountdownAdFree copy-Info.plist */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				28A0AAE50D9B0CCF005BE974 /* RetirementCountdownAdFree_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FCFFCE4217EDF44300D3D3D7 /* Lite.png */,
+				FCFFCE3F17EDF12800D3D3D7 /* badgeDemo3.png */,
+				FCFFCE3C17EDEC6600D3D3D7 /* badgeDemo2.png */,
+				FCFFCE3617EDEA4C00D3D3D7 /* badgeDemo.png */,
+				FC1CA76B17DB7749006CBBE4 /* checkbox_unchecked_gray.png */,
+				FC1CA76C17DB7749006CBBE4 /* checkbox_checked_gray.png */,
+				FC481CE5126DFABA007E0824 /* iTunesArtwork */,
+				FC481C1A126D0A29007E0824 /* click1.wav */,
+				FC48125012678BAB007E0824 /* Databases */,
+				FC48124512678BAB007E0824 /* Images */,
+				FC48123612678BAB007E0824 /* Day Pictures */,
+				FC48122512678BAB007E0824 /* Holiday Pictures */,
+				8D1107310486CEB800E47090 /* RetirementCountdownAdFree-Info.plist */,
+				FC481910126A613B007E0824 /* Default.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3630D84B1C7E06E1004014F7 /* StoreKit.framework */,
+				FC54C6241803276200F1B42D /* CoreLocation.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				FC48130412678CE2007E0824 /* MessageUI.framework */,
+				FC48130612678CEE007E0824 /* QuartzCore.framework */,
+				FC48149212687295007E0824 /* iAd.framework */,
+				FC481C1F126D0A66007E0824 /* AudioToolbox.framework */,
+				FC26372912B703A60090B10B /* libz.1.2.3.dylib */,
+				FCF1DF1A1340C555008DE516 /* CFNetwork.framework */,
+				FCF1DF1C1340C55F008DE516 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC18D82F1275F54E00FD7326 /* Root Classes */ = {
+			isa = PBXGroup;
+			children = (
+				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
+				1D3623240D0F684500981E51 /* RetirementCountdownAppDelegate.h */,
+				1D3623250D0F684500981E51 /* RetirementCountdownAppDelegate.m */,
+				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
+				28C286E00D94DF7D0034E888 /* RootViewController.m */,
+				28F335F01007B36200424DE2 /* RootViewController.xib */,
+				FC48128812678BCD007E0824 /* TimeRemaining.h */,
+				FC48128912678BCD007E0824 /* TimeRemaining.m */,
+				FC48128A12678BCD007E0824 /* BaseTableViewController.h */,
+				FC48128B12678BCD007E0824 /* BaseTableViewController.m */,
+				FC48128C12678BCD007E0824 /* GlobalMethods.h */,
+				FC48128D12678BCD007E0824 /* GlobalMethods.m */,
+				FC48128E12678BCD007E0824 /* Calendar.h */,
+				FC48128F12678BCD007E0824 /* Calendar.m */,
+				FC48129012678BCD007E0824 /* ColorsClass.h */,
+				FC48129112678BCD007E0824 /* ColorsClass.m */,
+				FC48129212678BCD007E0824 /* CustomCellForColors.h */,
+				FC48129312678BCD007E0824 /* CustomCellForColors.m */,
+				FC48129412678BCD007E0824 /* CustomCell.h */,
+				FC48129512678BCD007E0824 /* CustomCell.m */,
+				FC48121E12678B3D007E0824 /* BaseViewController.h */,
+				FC48121F12678B3D007E0824 /* BaseViewController.m */,
+				FC481C56126D0E7F007E0824 /* AboutViewController.h */,
+				FC481C57126D0E7F007E0824 /* AboutViewController.m */,
+				FC481C58126D0E7F007E0824 /* AboutViewController.xib */,
+			);
+			name = "Root Classes";
+			sourceTree = "<group>";
+		};
+		FC48122512678BAB007E0824 /* Holiday Pictures */ = {
+			isa = PBXGroup;
+			children = (
+				FC48122612678BAB007E0824 /* Thanksgiving Day.png */,
+				FC48122712678BAB007E0824 /* USA Independance Day.png */,
+				FC48122812678BAB007E0824 /* Christmas Eve.png */,
+				FC48122912678BAB007E0824 /* New Years Day.png */,
+				FC48122A12678BAB007E0824 /* Martin Luther King Day.png */,
+				FC48122B12678BAB007E0824 /* USA Presidents Day.png */,
+				FC48122C12678BAB007E0824 /* Memorial Day.png */,
+				FC48122D12678BAB007E0824 /* USA Independance Day1.png */,
+				FC48122E12678BAB007E0824 /* Labor Day.png */,
+				FC48122F12678BAB007E0824 /* Veterans Day.png */,
+				FC48123012678BAB007E0824 /* Thanksgiving Day1.png */,
+				FC48123112678BAB007E0824 /* Day after Thanksgiving.png */,
+				FC48123212678BAB007E0824 /* Christmas Eve 2.png */,
+				FC48123312678BAB007E0824 /* Christmas Eve Gloss.png */,
+				FC48123412678BAB007E0824 /* Christmas1.png */,
+				FC48123512678BAB007E0824 /* Christmas.png */,
+			);
+			name = "Holiday Pictures";
+			sourceTree = "<group>";
+		};
+		FC48123612678BAB007E0824 /* Day Pictures */ = {
+			isa = PBXGroup;
+			children = (
+				FC48123712678BAB007E0824 /* GlossSlateBlueFrame.png */,
+				FC48123812678BAB007E0824 /* GlossSlateBlue.png */,
+				FC48123912678BAB007E0824 /* GlossRedFramed.png */,
+				FC48123A12678BAB007E0824 /* GlossRed.png */,
+				FC48123B12678BAB007E0824 /* GlossMaraschino.png */,
+				FC48123C12678BAB007E0824 /* GlossLemon.png */,
+				FC48123D12678BAB007E0824 /* GlossAluminum.png */,
+				FC48123E12678BAB007E0824 /* GlossAqua.png */,
+				FC48123F12678BAB007E0824 /* GlossWhite.png */,
+				FC48124012678BAB007E0824 /* GlossBlack.png */,
+				FC48124112678BAB007E0824 /* GlossIce.png */,
+				FC48124212678BAB007E0824 /* GlossBlueberry.png */,
+				FC48124312678BAB007E0824 /* GlossDarkAqua.png */,
+				FC48124412678BAB007E0824 /* GlossBrightGreen.png */,
+			);
+			name = "Day Pictures";
+			sourceTree = "<group>";
+		};
+		FC48124512678BAB007E0824 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FCDA8B71184A7BD200CC0A00 /* red-x-outer.png */,
+				FCDA8B6E184A749700CC0A00 /* red-x.png */,
+				FC18D85C1275F9C700FD7326 /* SettingsButton.png */,
+				FC48124F12678BAB007E0824 /* beach.png */,
+				FC48122412678BAB007E0824 /* settings.png */,
+				FCE1B646131C5C600097BDCB /* 320x44pattern_4.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		FC48125012678BAB007E0824 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				FC48125112678BAB007E0824 /* Workdays.plist */,
+				FC48125212678BAB007E0824 /* HolidayList.plist */,
+				FC48125312678BAB007E0824 /* ManualWorkdays.plist */,
+				FC48125412678BAB007E0824 /* Settings.plist */,
+				FC48125512678BAB007E0824 /* BackgroundColors.plist */,
+				FC48125612678BAB007E0824 /* TextColors.plist */,
+				FC48125712678BAB007E0824 /* ColorSettings.plist */,
+			);
+			name = Databases;
+			sourceTree = "<group>";
+		};
+		FC48129612678BEC007E0824 /* Settings Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FC48129712678BEC007E0824 /* HelpViewController.xib */,
+				FC48129812678BEC007E0824 /* SelectHolidayDateViewController.xib */,
+				FC48129912678BEC007E0824 /* AddHolidayViewController.xib */,
+				FC48129A12678BEC007E0824 /* BackgroundTextColorViewController.xib */,
+				FC48129B12678BEC007E0824 /* CalendarBackgroundViewController.xib */,
+				FC48129C12678BEC007E0824 /* Workhours.xib */,
+				FC48129D12678BEC007E0824 /* DisplayOptions.xib */,
+				FC48129E12678BEC007E0824 /* RetirementDate.xib */,
+				FC48129F12678BEC007E0824 /* Workdays.xib */,
+				FC4812A012678BEC007E0824 /* Holidays.xib */,
+				FC4812A112678BEC007E0824 /* RCSettings.xib */,
+				FC4812A212678BEC007E0824 /* OpeningScreen.xib */,
+				FC4812A312678BEC007E0824 /* CustomCell.xib */,
+				FC4812A412678BEC007E0824 /* BackgroundColorViewController.xib */,
+				FC4812A512678BEC007E0824 /* CustomCellForColors.xib */,
+				FC4812A612678BEC007E0824 /* CustomCellForDayType.xib */,
+				FC4812A712678BEC007E0824 /* ImagePickerViewController.xib */,
+				FC4812A812678BEC007E0824 /* ColorsView.xib */,
+				FC4812A912678BEC007E0824 /* DaysViewController.xib */,
+				FC4812AA12678BEC007E0824 /* WorkdaysViewController.h */,
+				FC4812AB12678BEC007E0824 /* WorkdaysViewController.m */,
+				FC4812AC12678BEC007E0824 /* HolidaysViewController.h */,
+				FC4812AD12678BEC007E0824 /* HolidaysViewController.m */,
+				FC4812AE12678BEC007E0824 /* RCSettingsViewController.h */,
+				FC4812AF12678BEC007E0824 /* RCSettingsViewController.m */,
+				36FD9AD31CA4320E00B67133 /* PurchaseViewController.h */,
+				36FD9AD41CA4320E00B67133 /* PurchaseViewController.m */,
+				36FD9AD61CA5781000B67133 /* PurchaseViewController.xib */,
+				361121011E11A590003CDD49 /* HomePurchaseViewController.xib */,
+				366881B619C217BB00A27456 /* ShiftWorkViewController.h */,
+				366881B719C217BB00A27456 /* ShiftWorkViewController.m */,
+				366881B819C217BB00A27456 /* ShiftWorkViewController.xib */,
+				366881BB19C21BA500A27456 /* ShiftWorkDetailViewController.h */,
+				366881BC19C21BA500A27456 /* ShiftWorkDetailViewController.m */,
+				366881BD19C21BA500A27456 /* ShiftWorkDetailViewController.xib */,
+				FC4812B012678BEC007E0824 /* RetirementDateViewController.h */,
+				FC4812B112678BEC007E0824 /* RetirementDateViewController.m */,
+				FC4812B212678BEC007E0824 /* WorkhoursViewController.h */,
+				FC4812B312678BEC007E0824 /* WorkhoursViewController.m */,
+				FC4812B412678BEC007E0824 /* DisplayOptionsViewController.h */,
+				FC4812B512678BEC007E0824 /* DisplayOptionsViewController.m */,
+				FC4812B612678BEC007E0824 /* ImagePickerViewController.h */,
+				FC4812B712678BEC007E0824 /* ImagePickerViewController.m */,
+				FC4812B812678BEC007E0824 /* ColorsViewController.h */,
+				FC4812B912678BEC007E0824 /* ColorsViewController.m */,
+				FC4812BA12678BEC007E0824 /* DaysViewController.h */,
+				FC4812BB12678BEC007E0824 /* DaysViewController.m */,
+				FC4812BE12678BEC007E0824 /* CalendarBackgroundViewController.h */,
+				FC4812BF12678BEC007E0824 /* CalendarBackgroundViewController.m */,
+				FC4812BC12678BEC007E0824 /* BackgroundColorViewController.h */,
+				FC4812BD12678BEC007E0824 /* BackgroundColorViewController.m */,
+				FC4812C012678BEC007E0824 /* BackgroundTextColorViewController.h */,
+				FC4812C112678BEC007E0824 /* BackgroundTextColorViewController.m */,
+				FC4812C212678BEC007E0824 /* AddHolidayViewController.h */,
+				FC4812C312678BEC007E0824 /* AddHolidayViewController.m */,
+				FC4812C412678BEC007E0824 /* SelectHolidayDateViewController.h */,
+				FC4812C512678BEC007E0824 /* SelectHolidayDateViewController.m */,
+				FC4812C612678BEC007E0824 /* HelpViewController.h */,
+				FC4812C712678BEC007E0824 /* HelpViewController.m */,
+				FC481C81126D2DCD007E0824 /* WebViewController.h */,
+				FC481C82126D2DCD007E0824 /* WebViewController.m */,
+				FC481C83126D2DCD007E0824 /* WebViewController.xib */,
+				FC8A1AAD12832DC7002B7139 /* StatutoryDaysOffViewController.h */,
+				FC8A1AAE12832DC7002B7139 /* StatutoryDaysOffViewController.m */,
+				FC8A1AAF12832DC7002B7139 /* StatutoryDaysOffViewController.xib */,
+				FC9B41C316C0A8CA00278A59 /* WorkScheduleViewController.h */,
+				FC9B41C416C0A8CA00278A59 /* WorkScheduleViewController.m */,
+				FC9B41C516C0A8CA00278A59 /* WorkScheduleViewController.xib */,
+				FC1CA6FE17D79049006CBBE4 /* FeaturesViewController.h */,
+				FC1CA6FF17D79049006CBBE4 /* FeaturesViewController.m */,
+				FC1CA70017D79049006CBBE4 /* FeaturesViewController.xib */,
+			);
+			name = "Settings Classes";
+			sourceTree = "<group>";
+		};
+		FCB6E85017CF9FD000B99566 /* TestFlightSDK2.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				FCB6E85117CF9FD000B99566 /* libTestFlight.a */,
+				FCB6E85217CF9FD000B99566 /* README.md */,
+				FCB6E85317CF9FD000B99566 /* release_notes.md */,
+				FCB6E85417CF9FD000B99566 /* TestFlight+AsyncLogging.h */,
+				FCB6E85517CF9FD000B99566 /* TestFlight+ManualSessions.h */,
+				FCB6E85617CF9FD000B99566 /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.0.0;
+			sourceTree = "<group>";
+		};
+		FCF1DEF81340C244008DE516 /* appirater */ = {
+			isa = PBXGroup;
+			children = (
+				FCF1DEF91340C244008DE516 /* Appirater.m */,
+				FCF1DEFA1340C244008DE516 /* Appirater.h */,
+			);
+			name = appirater;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* RetirementCountdownAdFree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "RetirementCountdownAdFree" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RetirementCountdownAdFree;
+			productName = RetirementCountdown;
+			productReference = 1D6058910D05DD3D006BFB54 /* RetirementCountdown.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FC1CA66F17D62687006CBBE4 /* RetirementCountdownLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC1CA6EB17D62687006CBBE4 /* Build configuration list for PBXNativeTarget "RetirementCountdownLite" */;
+			buildPhases = (
+				FC1CA67017D62687006CBBE4 /* Resources */,
+				FC1CA6BE17D62687006CBBE4 /* Sources */,
+				FC1CA6DE17D62687006CBBE4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RetirementCountdownLite;
+			productName = RetirementCountdown;
+			productReference = FC1CA6EF17D62687006CBBE4 /* RetirementCountdownLite.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = MandellMobileApps;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = AZUM65B6BY;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
+					};
+					FC1CA66F17D62687006CBBE4 = {
+						DevelopmentTeam = 4VYP77BTU8;
+					};
+				};
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RetirementCountdownAdFree" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* RetirementCountdownAdFree */,
+				FC1CA66F17D62687006CBBE4 /* RetirementCountdownLite */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
+				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				FC48125812678BAB007E0824 /* settings.png in Resources */,
+				FC48125912678BAB007E0824 /* Thanksgiving Day.png in Resources */,
+				FC48125A12678BAB007E0824 /* USA Independance Day.png in Resources */,
+				FC48125B12678BAB007E0824 /* Christmas Eve.png in Resources */,
+				FC48125C12678BAB007E0824 /* New Years Day.png in Resources */,
+				FC48125D12678BAB007E0824 /* Martin Luther King Day.png in Resources */,
+				FC48125E12678BAB007E0824 /* USA Presidents Day.png in Resources */,
+				FC48125F12678BAB007E0824 /* Memorial Day.png in Resources */,
+				FC48126012678BAB007E0824 /* USA Independance Day1.png in Resources */,
+				FC48126112678BAB007E0824 /* Labor Day.png in Resources */,
+				361120FD1E105F9B003CDD49 /* Thanksgiving.plist in Resources */,
+				FC48126212678BAB007E0824 /* Veterans Day.png in Resources */,
+				FC48126312678BAB007E0824 /* Thanksgiving Day1.png in Resources */,
+				FC48126412678BAB007E0824 /* Day after Thanksgiving.png in Resources */,
+				FC48126512678BAB007E0824 /* Christmas Eve 2.png in Resources */,
+				FC48126612678BAB007E0824 /* Christmas Eve Gloss.png in Resources */,
+				FC48126712678BAB007E0824 /* Christmas1.png in Resources */,
+				FCDA8B72184A7BD200CC0A00 /* red-x-outer.png in Resources */,
+				FC48126812678BAB007E0824 /* Christmas.png in Resources */,
+				FC48126912678BAB007E0824 /* GlossSlateBlueFrame.png in Resources */,
+				FC48126A12678BAB007E0824 /* GlossSlateBlue.png in Resources */,
+				FC48126B12678BAB007E0824 /* GlossRedFramed.png in Resources */,
+				FC48126C12678BAB007E0824 /* GlossRed.png in Resources */,
+				FC48126D12678BAB007E0824 /* GlossMaraschino.png in Resources */,
+				FC48126E12678BAB007E0824 /* GlossLemon.png in Resources */,
+				FC48126F12678BAB007E0824 /* GlossAluminum.png in Resources */,
+				FC48127012678BAB007E0824 /* GlossAqua.png in Resources */,
+				FC48127112678BAB007E0824 /* GlossWhite.png in Resources */,
+				FC48127212678BAB007E0824 /* GlossBlack.png in Resources */,
+				FC48127312678BAB007E0824 /* GlossIce.png in Resources */,
+				361121021E11A590003CDD49 /* HomePurchaseViewController.xib in Resources */,
+				FC48127412678BAB007E0824 /* GlossBlueberry.png in Resources */,
+				FC48127512678BAB007E0824 /* GlossDarkAqua.png in Resources */,
+				FC48127612678BAB007E0824 /* GlossBrightGreen.png in Resources */,
+				FC48128012678BAB007E0824 /* beach.png in Resources */,
+				FC48128112678BAB007E0824 /* Workdays.plist in Resources */,
+				FC48128212678BAB007E0824 /* HolidayList.plist in Resources */,
+				FC48128312678BAB007E0824 /* ManualWorkdays.plist in Resources */,
+				36E183831C7239AD009F4018 /* checkbox-filled.png in Resources */,
+				FC48128412678BAB007E0824 /* Settings.plist in Resources */,
+				FC48128512678BAB007E0824 /* BackgroundColors.plist in Resources */,
+				FCF539D017F727DF002D6E26 /* beach120.png in Resources */,
+				FC48128612678BAB007E0824 /* TextColors.plist in Resources */,
+				FC48128712678BAB007E0824 /* ColorSettings.plist in Resources */,
+				FC4812C812678BEC007E0824 /* HelpViewController.xib in Resources */,
+				FC4812C912678BEC007E0824 /* SelectHolidayDateViewController.xib in Resources */,
+				FC4812CA12678BEC007E0824 /* AddHolidayViewController.xib in Resources */,
+				FC4812CB12678BEC007E0824 /* BackgroundTextColorViewController.xib in Resources */,
+				FC4812CC12678BEC007E0824 /* CalendarBackgroundViewController.xib in Resources */,
+				FC4812CD12678BEC007E0824 /* Workhours.xib in Resources */,
+				FCDA8B6F184A749700CC0A00 /* red-x.png in Resources */,
+				FC4812CE12678BEC007E0824 /* DisplayOptions.xib in Resources */,
+				FC4812CF12678BEC007E0824 /* RetirementDate.xib in Resources */,
+				366881BA19C217BB00A27456 /* ShiftWorkViewController.xib in Resources */,
+				36E183841C7239AD009F4018 /* checkbox-empty.V2.png in Resources */,
+				FC4812D012678BEC007E0824 /* Workdays.xib in Resources */,
+				FC4812D112678BEC007E0824 /* Holidays.xib in Resources */,
+				FC4812D212678BEC007E0824 /* RCSettings.xib in Resources */,
+				366881BF19C21BA500A27456 /* ShiftWorkDetailViewController.xib in Resources */,
+				FC4812D312678BEC007E0824 /* OpeningScreen.xib in Resources */,
+				FC4812D412678BEC007E0824 /* CustomCell.xib in Resources */,
+				FC4812D512678BEC007E0824 /* BackgroundColorViewController.xib in Resources */,
+				FC4812D612678BEC007E0824 /* CustomCellForColors.xib in Resources */,
+				FC4812D712678BEC007E0824 /* CustomCellForDayType.xib in Resources */,
+				FC4812D812678BEC007E0824 /* ImagePickerViewController.xib in Resources */,
+				FC4812D912678BEC007E0824 /* ColorsView.xib in Resources */,
+				FC4812DA12678BEC007E0824 /* DaysViewController.xib in Resources */,
+				FC481C1B126D0A29007E0824 /* click1.wav in Resources */,
+				FC481C5A126D0E7F007E0824 /* AboutViewController.xib in Resources */,
+				FC481C85126D2DCD007E0824 /* WebViewController.xib in Resources */,
+				FC481CE6126DFABA007E0824 /* iTunesArtwork in Resources */,
+				FC481CF1126E0109007E0824 /* Entitlements.plist in Resources */,
+				FC18D85D1275F9C700FD7326 /* SettingsButton.png in Resources */,
+				36FD9AD71CA5781000B67133 /* PurchaseViewController.xib in Resources */,
+				FC8A1AB112832DC7002B7139 /* StatutoryDaysOffViewController.xib in Resources */,
+				FCE1B647131C5C600097BDCB /* 320x44pattern_4.png in Resources */,
+				FCDE538C13A19AEC00FBF12A /* appicon.png in Resources */,
+				FC9CB62116BC1FB300349396 /* Default@2x.png in Resources */,
+				FC9CB62216BC1FBF00349396 /* Default.png in Resources */,
+				FC9CB62416BC208D00349396 /* beach57.png in Resources */,
+				FC9CB62616BC209800349396 /* beach114.png in Resources */,
+				FC9CB63516BC536100349396 /* Default-568h@2x.png in Resources */,
+				FC9B41C716C0A8CA00278A59 /* WorkScheduleViewController.xib in Resources */,
+				FCB6E85817CF9FD000B99566 /* README.md in Resources */,
+				FCB6E85917CF9FD000B99566 /* release_notes.md in Resources */,
+				FC1CA70317D79049006CBBE4 /* FeaturesViewController.xib in Resources */,
+				FC1CA76D17DB7749006CBBE4 /* checkbox_unchecked_gray.png in Resources */,
+				FC1CA76F17DB7749006CBBE4 /* checkbox_checked_gray.png in Resources */,
+				FCFFCE3717EDEA4C00D3D3D7 /* badgeDemo.png in Resources */,
+				FCFFCE3D17EDEC6600D3D3D7 /* badgeDemo2.png in Resources */,
+				FCFFCE4017EDF12800D3D3D7 /* badgeDemo3.png in Resources */,
+				FCFFCE4317EDF44300D3D3D7 /* Lite.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC1CA67017D62687006CBBE4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC1CA67117D62687006CBBE4 /* MainWindow.xib in Resources */,
+				FC1CA67217D62687006CBBE4 /* RootViewController.xib in Resources */,
+				FC1CA67317D62687006CBBE4 /* settings.png in Resources */,
+				FC1CA67417D62687006CBBE4 /* Thanksgiving Day.png in Resources */,
+				FC1CA67517D62687006CBBE4 /* USA Independance Day.png in Resources */,
+				FC1CA67617D62687006CBBE4 /* Christmas Eve.png in Resources */,
+				FC1CA67717D62687006CBBE4 /* New Years Day.png in Resources */,
+				FC1CA67817D62687006CBBE4 /* Martin Luther King Day.png in Resources */,
+				FC1CA67917D62687006CBBE4 /* USA Presidents Day.png in Resources */,
+				FC1CA67A17D62687006CBBE4 /* Memorial Day.png in Resources */,
+				FC1CA67B17D62687006CBBE4 /* USA Independance Day1.png in Resources */,
+				FC1CA67C17D62687006CBBE4 /* Labor Day.png in Resources */,
+				FC1CA67D17D62687006CBBE4 /* Veterans Day.png in Resources */,
+				FC1CA67E17D62687006CBBE4 /* Thanksgiving Day1.png in Resources */,
+				FC1CA67F17D62687006CBBE4 /* Day after Thanksgiving.png in Resources */,
+				FC1CA68017D62687006CBBE4 /* Christmas Eve 2.png in Resources */,
+				FC1CA68117D62687006CBBE4 /* Christmas Eve Gloss.png in Resources */,
+				FC1CA68217D62687006CBBE4 /* Christmas1.png in Resources */,
+				FC1CA68317D62687006CBBE4 /* Christmas.png in Resources */,
+				FC1CA68417D62687006CBBE4 /* GlossSlateBlueFrame.png in Resources */,
+				FC1CA68517D62687006CBBE4 /* GlossSlateBlue.png in Resources */,
+				FC1CA68617D62687006CBBE4 /* GlossRedFramed.png in Resources */,
+				FC1CA68717D62687006CBBE4 /* GlossRed.png in Resources */,
+				FC1CA68817D62687006CBBE4 /* GlossMaraschino.png in Resources */,
+				FC1CA68917D62687006CBBE4 /* GlossLemon.png in Resources */,
+				FC1CA68A17D62687006CBBE4 /* GlossAluminum.png in Resources */,
+				FC1CA68B17D62687006CBBE4 /* GlossAqua.png in Resources */,
+				FC1CA68C17D62687006CBBE4 /* GlossWhite.png in Resources */,
+				FC1CA68D17D62687006CBBE4 /* GlossBlack.png in Resources */,
+				FC1CA68E17D62687006CBBE4 /* GlossIce.png in Resources */,
+				FC1CA68F17D62687006CBBE4 /* GlossBlueberry.png in Resources */,
+				FC1CA69017D62687006CBBE4 /* GlossDarkAqua.png in Resources */,
+				FCDA8B73184A7BD200CC0A00 /* red-x-outer.png in Resources */,
+				FC1CA69117D62687006CBBE4 /* GlossBrightGreen.png in Resources */,
+				FC1CA69217D62687006CBBE4 /* beach.png in Resources */,
+				FC1CA69317D62687006CBBE4 /* Workdays.plist in Resources */,
+				FC1CA69417D62687006CBBE4 /* HolidayList.plist in Resources */,
+				FC1CA69517D62687006CBBE4 /* ManualWorkdays.plist in Resources */,
+				FC1CA69617D62687006CBBE4 /* Settings.plist in Resources */,
+				FC1CA69717D62687006CBBE4 /* BackgroundColors.plist in Resources */,
+				FC1CA69817D62687006CBBE4 /* TextColors.plist in Resources */,
+				FC1CA69917D62687006CBBE4 /* ColorSettings.plist in Resources */,
+				FC1CA69A17D62687006CBBE4 /* HelpViewController.xib in Resources */,
+				FC1CA69B17D62687006CBBE4 /* SelectHolidayDateViewController.xib in Resources */,
+				FCF539D217F7290C002D6E26 /* beach120Lite.png in Resources */,
+				FC1CA69C17D62687006CBBE4 /* AddHolidayViewController.xib in Resources */,
+				FC1CA69D17D62687006CBBE4 /* BackgroundTextColorViewController.xib in Resources */,
+				FC1CA69E17D62687006CBBE4 /* CalendarBackgroundViewController.xib in Resources */,
+				FC1CA69F17D62687006CBBE4 /* Workhours.xib in Resources */,
+				FC1CA6A017D62687006CBBE4 /* DisplayOptions.xib in Resources */,
+				FC1CA6A117D62687006CBBE4 /* RetirementDate.xib in Resources */,
+				FC1CA6A217D62687006CBBE4 /* Workdays.xib in Resources */,
+				FC1CA6A317D62687006CBBE4 /* Holidays.xib in Resources */,
+				FC1CA6A417D62687006CBBE4 /* RCSettings.xib in Resources */,
+				FC1CA6A517D62687006CBBE4 /* OpeningScreen.xib in Resources */,
+				FC1CA6A617D62687006CBBE4 /* CustomCell.xib in Resources */,
+				FC1CA6A717D62687006CBBE4 /* BackgroundColorViewController.xib in Resources */,
+				FC1CA6A817D62687006CBBE4 /* CustomCellForColors.xib in Resources */,
+				FC1CA6A917D62687006CBBE4 /* CustomCellForDayType.xib in Resources */,
+				FC1CA6AA17D62687006CBBE4 /* ImagePickerViewController.xib in Resources */,
+				FC1CA6AB17D62687006CBBE4 /* ColorsView.xib in Resources */,
+				FC1CA6AC17D62687006CBBE4 /* DaysViewController.xib in Resources */,
+				FC1CA6AD17D62687006CBBE4 /* click1.wav in Resources */,
+				FC1CA6AE17D62687006CBBE4 /* AboutViewController.xib in Resources */,
+				FC1CA6AF17D62687006CBBE4 /* WebViewController.xib in Resources */,
+				FC1CA6B017D62687006CBBE4 /* iTunesArtwork in Resources */,
+				FC1CA6B117D62687006CBBE4 /* Entitlements.plist in Resources */,
+				FC1CA6B217D62687006CBBE4 /* SettingsButton.png in Resources */,
+				FC1CA6B317D62687006CBBE4 /* StatutoryDaysOffViewController.xib in Resources */,
+				FC1CA6B417D62687006CBBE4 /* 320x44pattern_4.png in Resources */,
+				FC1CA6B517D62687006CBBE4 /* appicon.png in Resources */,
+				FC1CA6B617D62687006CBBE4 /* Default@2x.png in Resources */,
+				FC1CA6B717D62687006CBBE4 /* Default.png in Resources */,
+				FC1CA6B817D62687006CBBE4 /* beach57.png in Resources */,
+				FC1CA6B917D62687006CBBE4 /* beach114.png in Resources */,
+				FC1CA6BA17D62687006CBBE4 /* Default-568h@2x.png in Resources */,
+				FC1CA6BB17D62687006CBBE4 /* WorkScheduleViewController.xib in Resources */,
+				FCDA8B70184A749700CC0A00 /* red-x.png in Resources */,
+				FC1CA6BC17D62687006CBBE4 /* README.md in Resources */,
+				FC1CA6BD17D62687006CBBE4 /* release_notes.md in Resources */,
+				FC1CA6F217D628B3006CBBE4 /* beach57Lite.png in Resources */,
+				FC1CA6F417D628B9006CBBE4 /* beach114Lite.png in Resources */,
+				FC1CA70417D79049006CBBE4 /* FeaturesViewController.xib in Resources */,
+				FC1CA76E17DB7749006CBBE4 /* checkbox_unchecked_gray.png in Resources */,
+				FC1CA77017DB7749006CBBE4 /* checkbox_checked_gray.png in Resources */,
+				FCFFCE3817EDEA4C00D3D3D7 /* badgeDemo.png in Resources */,
+				FCFFCE3E17EDEC6600D3D3D7 /* badgeDemo2.png in Resources */,
+				FCFFCE4117EDF12800D3D3D7 /* badgeDemo3.png in Resources */,
+				FCFFCE4417EDF44300D3D3D7 /* Lite.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* RetirementCountdownAppDelegate.m in Sources */,
+				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
+				366881BE19C21BA500A27456 /* ShiftWorkDetailViewController.m in Sources */,
+				36E183891C737D9C009F4018 /* IAPurchaseViewController.m in Sources */,
+				366881B919C217BB00A27456 /* ShiftWorkViewController.m in Sources */,
+				FC48122012678B3D007E0824 /* BaseViewController.m in Sources */,
+				FC4812DB12678BEC007E0824 /* WorkdaysViewController.m in Sources */,
+				FC4812DC12678BEC007E0824 /* HolidaysViewController.m in Sources */,
+				FC4812DD12678BEC007E0824 /* RCSettingsViewController.m in Sources */,
+				FC4812DE12678BEC007E0824 /* RetirementDateViewController.m in Sources */,
+				FC4812DF12678BEC007E0824 /* WorkhoursViewController.m in Sources */,
+				FC4812E012678BEC007E0824 /* DisplayOptionsViewController.m in Sources */,
+				FC4812E112678BEC007E0824 /* ImagePickerViewController.m in Sources */,
+				FC4812E212678BEC007E0824 /* ColorsViewController.m in Sources */,
+				FC4812E312678BEC007E0824 /* DaysViewController.m in Sources */,
+				FC4812E412678BEC007E0824 /* BackgroundColorViewController.m in Sources */,
+				FC4812E512678BEC007E0824 /* CalendarBackgroundViewController.m in Sources */,
+				FC4812E612678BEC007E0824 /* BackgroundTextColorViewController.m in Sources */,
+				FC4812E712678BEC007E0824 /* AddHolidayViewController.m in Sources */,
+				FC4812E812678BEC007E0824 /* SelectHolidayDateViewController.m in Sources */,
+				36FD9AD51CA4320E00B67133 /* PurchaseViewController.m in Sources */,
+				FC4812E912678BEC007E0824 /* HelpViewController.m in Sources */,
+				361121001E11A57C003CDD49 /* HomePurchaseViewController.m in Sources */,
+				FC481333126790D4007E0824 /* BaseTableViewController.m in Sources */,
+				FC481334126790D5007E0824 /* Calendar.m in Sources */,
+				FC481335126790D7007E0824 /* ColorsClass.m in Sources */,
+				FC481336126790D9007E0824 /* CustomCell.m in Sources */,
+				FC481337126790DA007E0824 /* CustomCellForColors.m in Sources */,
+				FC481338126790DD007E0824 /* GlobalMethods.m in Sources */,
+				FC481339126790EE007E0824 /* TimeRemaining.m in Sources */,
+				FC481C59126D0E7F007E0824 /* AboutViewController.m in Sources */,
+				FC481C84126D2DCD007E0824 /* WebViewController.m in Sources */,
+				FC8A1AB012832DC7002B7139 /* StatutoryDaysOffViewController.m in Sources */,
+				FCF1DEFB1340C244008DE516 /* Appirater.m in Sources */,
+				FC9B41C616C0A8CA00278A59 /* WorkScheduleViewController.m in Sources */,
+				FC1CA70117D79049006CBBE4 /* FeaturesViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC1CA6BE17D62687006CBBE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC1CA6BF17D62687006CBBE4 /* main.m in Sources */,
+				FC1CA6C017D62687006CBBE4 /* RetirementCountdownAppDelegate.m in Sources */,
+				FC1CA6C117D62687006CBBE4 /* RootViewController.m in Sources */,
+				FC1CA6C217D62687006CBBE4 /* BaseViewController.m in Sources */,
+				FC1CA6C317D62687006CBBE4 /* WorkdaysViewController.m in Sources */,
+				FC1CA6C417D62687006CBBE4 /* HolidaysViewController.m in Sources */,
+				FC1CA6C517D62687006CBBE4 /* RCSettingsViewController.m in Sources */,
+				366DC1C51ABE36F400FEB360 /* WorkhoursViewController.m in Sources */,
+				FC1CA6C617D62687006CBBE4 /* RetirementDateViewController.m in Sources */,
+				FC1CA6C817D62687006CBBE4 /* DisplayOptionsViewController.m in Sources */,
+				FC1CA6C917D62687006CBBE4 /* ImagePickerViewController.m in Sources */,
+				FC1CA6CA17D62687006CBBE4 /* ColorsViewController.m in Sources */,
+				FC1CA6CB17D62687006CBBE4 /* DaysViewController.m in Sources */,
+				FC1CA6CC17D62687006CBBE4 /* BackgroundColorViewController.m in Sources */,
+				FC1CA6CD17D62687006CBBE4 /* CalendarBackgroundViewController.m in Sources */,
+				FC1CA6CE17D62687006CBBE4 /* BackgroundTextColorViewController.m in Sources */,
+				FC1CA6CF17D62687006CBBE4 /* AddHolidayViewController.m in Sources */,
+				FC1CA6D017D62687006CBBE4 /* SelectHolidayDateViewController.m in Sources */,
+				FC1CA6D117D62687006CBBE4 /* HelpViewController.m in Sources */,
+				FC1CA6D217D62687006CBBE4 /* BaseTableViewController.m in Sources */,
+				FC1CA6D317D62687006CBBE4 /* Calendar.m in Sources */,
+				FC1CA6D417D62687006CBBE4 /* ColorsClass.m in Sources */,
+				FC1CA6D517D62687006CBBE4 /* CustomCell.m in Sources */,
+				FC1CA6D617D62687006CBBE4 /* CustomCellForColors.m in Sources */,
+				FC1CA6D717D62687006CBBE4 /* GlobalMethods.m in Sources */,
+				FC1CA6D817D62687006CBBE4 /* TimeRemaining.m in Sources */,
+				FC1CA6D917D62687006CBBE4 /* AboutViewController.m in Sources */,
+				FC1CA6DA17D62687006CBBE4 /* WebViewController.m in Sources */,
+				FC1CA6DB17D62687006CBBE4 /* StatutoryDaysOffViewController.m in Sources */,
+				FC1CA6DC17D62687006CBBE4 /* Appirater.m in Sources */,
+				FC1CA6DD17D62687006CBBE4 /* WorkScheduleViewController.m in Sources */,
+				FC1CA70217D79049006CBBE4 /* FeaturesViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				INFOPLIST_FILE = "RetirementCountdownAdFree-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdown;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3aa61671-9d5e-4fc2-b3e7-b4a4b751b4e1";
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 armv7";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				INFOPLIST_FILE = "RetirementCountdownAdFree-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdown;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9b20f812-4ef1-44f7-a2cc-ba91eae4216e";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Mandell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Mandell";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Mandell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Mandell";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		FC1CA6EC17D62687006CBBE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = LITE_VERSION;
+				INFOPLIST_FILE = "RetirementCountdownAdFree copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdownLite;
+				PROVISIONING_PROFILE = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FC1CA6ED17D62687006CBBE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Mandell (W6CAMN2NDY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = LITE_VERSION;
+				INFOPLIST_FILE = "RetirementCountdownAdFree copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdownLite;
+				PROVISIONING_PROFILE = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FC1CA6EE17D62687006CBBE4 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Mandell (W6CAMN2NDY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = LITE_VERSION;
+				INFOPLIST_FILE = "RetirementCountdownAdFree copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdownLite;
+				PROVISIONING_PROFILE = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "c0cb2196-12ca-47ad-b7bb-ad1b34c6c7e8";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		FC481CFC126E0309007E0824 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Mandell";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Mandell";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32D5DAD1-86DD-4C57-A22D-5075AD138FAC";
+				SDKROOT = iphoneos;
+			};
+			name = Distribution;
+		};
+		FC481CFD126E0309007E0824 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = RetirementCountdownAdFree_Prefix.pch;
+				INFOPLIST_FILE = "RetirementCountdownAdFree-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
+				);
+				PRODUCT_NAME = RetirementCountdown;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9b20f812-4ef1-44f7-a2cc-ba91eae4216e";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7";
+			};
+			name = Distribution;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "RetirementCountdownAdFree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+				FC481CFD126E0309007E0824 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "RetirementCountdownAdFree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+				FC481CFC126E0309007E0824 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC1CA6EB17D62687006CBBE4 /* Build configuration list for PBXNativeTarget "RetirementCountdownLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC1CA6EC17D62687006CBBE4 /* Debug */,
+				FC1CA6ED17D62687006CBBE4 /* Release */,
+				FC1CA6EE17D62687006CBBE4 /* Distribution */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

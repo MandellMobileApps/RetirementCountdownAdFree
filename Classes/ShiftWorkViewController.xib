@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment version="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShiftWorkViewController">
+            <connections>
+                <outlet property="beginhoursbutton" destination="cIB-aV-qyl" id="PTy-rg-3vq"/>
+                <outlet property="donebutton" destination="yBe-GQ-c0G" id="dP9-LH-HTJ"/>
+                <outlet property="endhoursbutton" destination="hLO-vf-ZgI" id="x13-S7-mkj"/>
+                <outlet property="pickerView" destination="y4g-mw-Csx" id="SKR-re-UJq"/>
+                <outlet property="pickerViewContainer" destination="BDU-Vg-izN" id="ezW-IU-IyI"/>
+                <outlet property="shiftWorkType" destination="0g8-et-Zg8" id="N2J-Z9-H2l"/>
+                <outlet property="thisTableView" destination="rMe-cg-fkg" id="alH-GI-r4C"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="tug-9m-223"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="rMe-cg-fkg">
+                    <rect key="frame" x="0.0" y="45" width="375" height="614"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="00K-NZ-agO"/>
+                        <outlet property="delegate" destination="-1" id="sUc-p0-0kA"/>
+                    </connections>
+                </tableView>
+                <view contentMode="scaleToFill" id="BDU-Vg-izN">
+                    <rect key="frame" x="-15" y="308" width="350" height="260"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="NWX-ct-4iL">
+                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <items>
+                                <barButtonItem systemItem="done" id="yBe-GQ-c0G">
+                                    <connections>
+                                        <action selector="datePickerDoneButtonTapped:" destination="-1" id="JFQ-ot-j00"/>
+                                    </connections>
+                                </barButtonItem>
+                                <barButtonItem title="Begin Hours" width="164" id="cIB-aV-qyl" userLabel="Begin">
+                                    <connections>
+                                        <action selector="beginworkhours:" destination="-1" id="rdp-kh-Fea"/>
+                                    </connections>
+                                </barButtonItem>
+                                <barButtonItem title="End Hours" id="hLO-vf-ZgI" userLabel="End">
+                                    <connections>
+                                        <action selector="endworkhours:" destination="-1" id="LIh-df-Qec"/>
+                                    </connections>
+                                </barButtonItem>
+                            </items>
+                        </toolbar>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="15" id="y4g-mw-Csx">
+                            <rect key="frame" x="15" y="44" width="320" height="219"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <date key="date" timeIntervalSinceReferenceDate="448228523.00771201">
+                                <!--2015-03-16 19:55:23 +0000-->
+                            </date>
+                            <connections>
+                                <action selector="dateAction:" destination="-1" eventType="valueChanged" id="T6c-YM-BJO"/>
+                            </connections>
+                        </datePicker>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="0g8-et-Zg8">
+                    <rect key="frame" x="8" y="8" width="304" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <segments>
+                        <segment title="OFF"/>
+                        <segment title="Shift"/>
+                        <segment title="Off/On"/>
+                    </segments>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <action selector="shiftWorkType:" destination="-1" eventType="valueChanged" id="8SR-ZI-6P4"/>
+                    </connections>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="400" y="163.71814092953525"/>
+        </view>
+    </objects>
+</document>
