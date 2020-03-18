@@ -9,31 +9,28 @@
 #import "RetirementDateViewController.h"
 
 
+
 @implementation RetirementDateViewController
 
-@synthesize pickerView, dataArray, dateFormatter, retirementDate; //, didchange;
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 
 	self.dataArray = [NSArray arrayWithObjects:@"Retirement Date",nil];
+    self.year = self.appDelegate.settingsNew.retirementYear;
+    self.month = self.appDelegate.settingsNew.retirementMonth;
+    self.day = self.appDelegate.settingsNew.retirementDay;
+    
+    self.retirementDate = [GlobalMethods nsDateFromYear:self.year month:self.month day:self.day];
     
     self.title = @"Retirement Date";
-	
-	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[self.dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	self.retirementDate = [self.appDelegate.settings objectForKey:@"RetirementDate"];
-	self.pickerView.date = self.retirementDate; 
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+    
+    self.pickerView.backgroundColor = [ColorsClass white];
+    NSDate* maxDate = [GlobalMethods nsDateFromYear:2042 month:6 day:24];
+    self.pickerView.maximumDate = maxDate;
 
 }
 
-- (void)viewDidUnload  {
-	[super viewDidUnload];
-	self.dataArray = nil;
-	self.dateFormatter = nil;
-}
 
 
 
@@ -46,8 +43,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	return [self.dataArray count];
+
+    return [self.dataArray count];
 }
 
 
@@ -55,8 +52,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-	
-	
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	self.appDelegate.settingsChanged = YES;
 	// check if our date picker is already on screen
 	if (self.pickerView.superview == nil)
 	{
@@ -66,7 +63,7 @@
 		// size up the picker view to our screen and compute the start/end frame origin for our slide up animation
 		//
 		// compute the start frame
-		CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+		CGRect screenRect = self.view.bounds;
 		CGSize pickerSize = [self.pickerView sizeThatFits:CGSizeZero];
 		CGRect startRect = CGRectMake(0.0,
 									  screenRect.origin.y + screenRect.size.height,
@@ -87,7 +84,7 @@
 		
 		self.pickerView.frame = pickerRect;
 		[UIView commitAnimations];
-
+        
 	}
 }
 
@@ -98,17 +95,18 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCustomCellID];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kCustomCellID] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kCustomCellID];
 	}
 	
 	cell.textLabel.text = [self.dataArray objectAtIndex:indexPath.row];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.retirementDate];
+    
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %li, %li",[GlobalMethods nameOfMonthForInt:self.month],self.day,self.year];
 	
 	return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+
 }
 
 - (void)slideDownDidStop
@@ -117,27 +115,32 @@
 	[self.pickerView removeFromSuperview];
 }
 
-- (IBAction)dateAction:(id)sender
+- (IBAction)dateAction:(UIDatePicker*)sender
 {
-	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
-	self.appDelegate.colorsChanged = YES;
+//	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    NSDateComponents* comps = [GlobalMethods YMDFromNSDate:sender.date];
+    
+    self.retirementDate = sender.date;
+    [self.tableView reloadData];
+    
+    self.year = comps.year;
+    self.month = comps.month;
+    self.day = comps.day;
+    
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %li, %li",[GlobalMethods nameOfMonthForInt:self.month],self.day,self.year];
+   
+    [self.appDelegate updateSettingsInteger:self.year forProperty:@"retirementYear"];
+    [self.appDelegate updateSettingsInteger:self.month forProperty:@"retirementMonth"];
+    [self.appDelegate updateSettingsInteger:self.day forProperty:@"retirementDay"];
+
 
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *comps = [gregorian components:(NSMonthCalendarUnit | NSDayCalendarUnit | NSYearCalendarUnit) fromDate:self.pickerView.date];
-	NSDate *retirementDateatMidnight= [gregorian dateFromComponents:comps];
-	[gregorian release];	
-
-	self.retirementDate = retirementDateatMidnight;
-	[self.appDelegate.settings setObject:self.retirementDate forKey:@"RetirementDate"];		
-
+	 
 	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
 	CGRect endFrame = self.pickerView.frame;
 	endFrame.origin.y = screenRect.origin.y + screenRect.size.height;
@@ -167,14 +170,6 @@
 }
 
 
-- (void)dealloc
-{	
-	[pickerView release];
-	[retirementDate release];
-	[dataArray release];
-	[dateFormatter release];
-	[super dealloc];
-}
 
 @end
 

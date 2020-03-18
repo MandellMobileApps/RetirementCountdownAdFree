@@ -12,9 +12,7 @@
 
 
 @interface DisplayOptionsViewController : BaseTableViewController {
-NSArray *badgedisplayoptions;
-NSArray *displayoptions;
-NSString *option;
+
 }
 @property (nonatomic, retain) NSArray *badgedisplayoptions;
 @property (nonatomic, retain) NSArray *displayoptions;

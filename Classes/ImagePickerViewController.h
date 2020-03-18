@@ -12,9 +12,6 @@
 
 @interface ImagePickerViewController : BaseViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate> {
 
-UIImagePickerController *picker;
-IBOutlet UIImageView *currentImageView;
-UIImage *selectedImage;
 
 }
 

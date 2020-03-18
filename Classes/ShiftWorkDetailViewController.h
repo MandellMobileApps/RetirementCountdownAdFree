@@ -15,6 +15,6 @@
 @property (nonatomic, retain) NSArray *allworkdays;
 @property (nonatomic, retain) NSArray *settings;
 
-@property (nonatomic) int shiftType;
+@property (nonatomic) NSInteger shiftType;
 
 @end

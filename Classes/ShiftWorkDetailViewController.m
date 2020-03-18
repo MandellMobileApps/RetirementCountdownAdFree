@@ -29,15 +29,11 @@
     }
 
 
-#ifdef LITE_VERSION
 
-self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @"Work Hours", @"Tuesday", @"Work Hours", @"Wednesday", @"Work Hours", @"Thursday", @"Work Hours", @"Friday", @"Work Hours", @"Saturday", @"Work Hours", nil];
+//
+//self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @"Work Hours", @"Tuesday", @"Work Hours", @"Wednesday", @"Work Hours", @"Thursday", @"Work Hours", @"Friday", @"Work Hours", @"Saturday", @"Work Hours", nil];
 
-#ifedef
 
-self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @"Work Hours", @"Tuesday", @"Work Hours", @"Wednesday", @"Work Hours", @"Thursday", @"Work Hours", @"Friday", @"Work Hours", @"Saturday", @"Work Hours", nil];
-
-#endif
 
 //
 //self.allworkdays = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
@@ -49,8 +45,8 @@ self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @
 //	self.dateFormatter = [[NSDateFormatter alloc] init];
 //	[self.dateFormatter setDateStyle:NSDateFormatterNoStyle];
 //	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-//	self.beginWorkhours = [self.appDelegate.settings objectForKey:@"BeginWorkhours"];
-//	self.endWorkhours = [self.appDelegate.settings objectForKey:@"EndWorkhours"];
+//	self.beginWorkhours = [self.appDelegate.settingsNew.BeginWorkhours"];
+//	self.endWorkhours = [self.appDelegate.settingsNew.EndWorkhours"];
 //	self.detaildataArray = [NSArray arrayWithObjects:self.beginWorkhours,self.endWorkhours,nil];
 //	
 //	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
@@ -85,7 +81,7 @@ self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
 	cell.textLabel.text = [self.allworkdays objectAtIndex:indexPath.row];
@@ -109,24 +105,14 @@ self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @
 		[self.selectedworkdays replaceObjectAtIndex:indexPath.row withObject:@"YES"];
 	}
 }
-//	[tableView reloadData];
-//	self.appDelegate.workdays = self.selectedworkdays;
-//	self.appDelegate.colorsChanged = YES;
-//}
-//
-//
-//- (void)dealloc {
-//	[selectedworkdays release];
-//	[allworkdays release];
-//    [super dealloc];
-//}
+
 
 //cell.textLabel.text = [self.settings objectAtIndex:indexPath.row];
 //cell.imageView.image = nil;
 //if (indexPath.row == 0)	{
 //    NSArray *workdays = self.appDelegate.workdays;
 //    NSString *workdaystring = @"     ";
-//    int i = 0;
+//    NSInteger i = 0;
 //    for (id workday in workdays) {
 //        if ([workday isEqualToString:@"YES"]) {
 //            if (i == 0) {workdaystring = [workdaystring stringByAppendingString:@"Su, "];}
@@ -139,7 +125,7 @@ self.settings = [NSArray arrayWithObjects:@"Sunday", @"Work Hours", @"Monday", @
 //        }
 //        i++;
 //    }
-//    int workdaystringlength = [workdaystring length];
+//    NSInteger workdaystringlength = [workdaystring length];
 //    if (workdaystringlength > 0){
 //        workdaystring = [workdaystring substringToIndex:workdaystringlength-2];
 //        cell.detailTextLabel.text = workdaystring;

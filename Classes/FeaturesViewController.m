@@ -17,19 +17,17 @@
 
 @implementation FeaturesViewController
 
-@synthesize myScrollView, scrollLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
-	self.navigationItem.backBarButtonItem = backBarItem;
-	[backBarItem release];
+
+	
     
 	//set label at top to settings colors
-	self.scrollLabel.textColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-	self.myScrollView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+    self.scrollLabel.textColor = self.textColor;
+	self.myScrollView.backgroundColor = self.backgroundColor;
+
     
 	// set size of scrollview content
 	[self.myScrollView setContentSize:CGSizeMake(320, 510)];
@@ -37,8 +35,8 @@
 	// Features Text
 	UILabel *features = [[UILabel alloc] init];
 	features.font = [UIFont systemFontOfSize:14];
-	features.textColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-	features.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	features.textColor = self.textColor;
+	features.backgroundColor = self.backgroundColor;
 	features.numberOfLines = 0;
 	features.text = @"* Select Your Own Picture!\n"
 					@"If your retirement plans don't include a hammock on the beach, you can add a picture of your own.\n\n"
@@ -54,7 +52,7 @@
 	[features setFrame:CGRectMake(10, 10 , 310, 500)];
     self.scrollLabel = features;
 	[self.myScrollView addSubview:self.scrollLabel];
-	[features release];	
+
 
 
 }
@@ -65,16 +63,11 @@
 	webViewController.title = @"FAQs";
 	webViewController.urlString = @"http://www.mandellmobileapps.com/FAQs.html";
 	[[self navigationController] pushViewController:webViewController animated:YES];
-	[webViewController release];
+
 
 
 }
 
-- (void)dealloc {
-	[myScrollView release];
-	[scrollLabel release];
-    [super dealloc];
-}
 
 
 

@@ -16,16 +16,9 @@
 
 @interface DaysViewController : BaseTableViewController {
 
-	NSArray *backgrounds;
-	IBOutlet UITableView *tableViewForReload;
-	NSArray *backgroundImageNames;
-	NSArray *textColorNames;
-	
-	
 }
-
-@property (nonatomic, retain) NSArray *backgrounds;
+@property (nonatomic, retain) NSArray *backgroundSettings;
 @property (nonatomic, retain) IBOutlet UITableView *tableViewForReload;
-@property (nonatomic, retain) NSArray *backgroundImageNames;
-@property (nonatomic, retain) NSArray *textColorNames;
+@property (nonatomic, retain) NSArray *textColors;
+
 @end

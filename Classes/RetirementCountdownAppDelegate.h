@@ -15,103 +15,103 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
+#import "GlobalMethods.h"
+#import "ColorsClass.h"
+#import "Date.h"
+#import "SettingsNew.h"
+#import "SQLiteAccess.h"
 
-#define WorkScheduleSelected @"WorkScheduleSelected"
-#define DaySelectedForTwoWeekSchedule @"DaySelectedForTwoWeekSchedule"
-#define DaysForTwoWeekSchedule @"DaysForTwoWeekSchedule"
-	
-@interface RetirementCountdownAppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
-    
-    UIWindow *window;
-    UINavigationController *navigationController;
-	NSMutableDictionary *settings;
-	NSMutableArray *workdays;
-    NSMutableArray *shiftworkdays;
-    NSMutableArray *shiftweek;
-	NSMutableArray *holidaylist;
-	NSMutableArray *manualworkdays;
-	NSMutableArray *backgroundColors;
-	// 0; Today
-	// 1; RetirementDay
-	// 2; Workdays
-	// 3; Non Workdays
-	// 4; Holidays
-	// 5; Manual Workdays
-	// 6; Manual Non Workdays
-	// 7; Current Calendar Background Color
-	// 8: Current Predefined Background Color - used?
-	NSMutableArray *textColors;
-	// 0; Today
-	// 1; RetirementDay
-	// 2; Workdays
-	// 3; Non Workdays
-	// 4; Manual Workdays
-	// 5; Manual Non Workdays
-	// 6; Holidays
-	// 7; Current Calendar textColor
-	// 8: Current Predefined textColor  -  not used
-	NSMutableDictionary *colorSettings;
-	NSMutableDictionary *imageCache;
-	BOOL colorsChanged;
-	BOOL pictureChanged;
-	NSUInteger newdata;
-	NSUInteger holidayMonth;
-	NSUInteger holidayDay;
-	NSUInteger holidayWeekday;
-	NSUInteger holidayOrdinalWeekday;
-	NSInteger thisYearDaysOff;
-	NSInteger allYearsDaysOff;
-	NSInteger retirementYearDaysOff;
-//    CLLocationManager *locationManager;
+@class TimeRemaining;
+@class RootViewController;
+
+static NSInteger imageStart = 1;
+static NSInteger imageEnd  = 14;
+static NSInteger imageCount  = 14;
+
+static NSInteger holidayImageStart = 101;
+static NSInteger holidayImageEnd = 115;
+static NSInteger holidayImageCount = 15;
+
+//#define WorkScheduleSelected @"WorkScheduleSelected"
+//#define DaySelectedForTwoWeekSchedule @"DaySelectedForTwoWeekSchedule"
+//#define DaysForTwoWeekSchedule @"DaysForTwoWeekSchedule"
+
+#define DefaultPicture @"beach"
+#define CustomPicture @"customPicture"
+
+@interface RetirementCountdownAppDelegate : NSObject <UIApplicationDelegate,NSKeyedArchiverDelegate> {
+
 	
 }
 
+@property (nonatomic, retain) RootViewController *rootViewController;
+
+@property (nonatomic, retain) SettingsNew *settingsNew;
+//@property (nonatomic, retain) NSDictionary *settingsDictionary;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) NSMutableDictionary *settings;
-@property (nonatomic, retain) NSMutableArray *workdays;
-@property (nonatomic, strong )NSMutableArray *shiftworkdays;
-@property (nonatomic, retain) NSMutableArray *shiftweeks;
-@property (nonatomic, strong) NSMutableArray *allShifts;
-@property (nonatomic, retain) NSMutableArray *holidaylist;
-@property (nonatomic, retain) NSMutableArray *manualworkdays;
-@property (nonatomic, retain) NSMutableArray *backgroundColors;
-@property (nonatomic, retain) NSMutableArray *textColors;
-@property (nonatomic, retain) NSMutableDictionary *colorSettings;
-@property (nonatomic, retain) NSMutableDictionary *imageCache;
+
 @property (nonatomic, assign) BOOL colorsChanged;
 @property (nonatomic, assign) BOOL pictureChanged;
-@property (nonatomic, assign) NSUInteger newdata;
-@property (nonatomic, assign) NSUInteger holidayMonth;
-@property (nonatomic, assign) NSUInteger holidayDay;
-@property (nonatomic, assign) NSUInteger holidayWeekday;
-@property (nonatomic, assign) NSUInteger holidayOrdinalWeekday;
-@property (nonatomic, assign) NSInteger thisYearDaysOff;
-@property (nonatomic, assign) NSInteger allYearsDaysOff;
-@property (nonatomic, assign) NSInteger retirementYearDaysOff;
-//@property (retain, nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, assign) BOOL settingsChanged;
+
+@property (nonatomic, assign) NSUInteger firstLaunch;
+@property (nonatomic, assign) BOOL notificationPermissiongranted;
+
+@property (nonatomic, assign) NSUInteger badgeDaysOff;
+
+@property (nonatomic, assign) NSUInteger secondsLeftToday;
+@property (nonatomic, assign) NSUInteger totalWorkdays;
+@property (nonatomic, assign) NSInteger totalAnnualDaysOff;
+
+@property (nonatomic, assign) NSUInteger calendarDaysLeft;
+@property (nonatomic, assign) NSUInteger calendarMonthsLeft;
+@property (nonatomic, assign) NSUInteger calendarYearsLeft;
+
+@property (nonatomic, assign) NSInteger needsUpgradeConverstion;
 
 
--(void) CreateDatabases;
--(void)loadworkdays;
--(void) saveworkdays;
--(void)loadmanualworkdays;
--(void) savemanualworkdays;
--(void) loadsettings;
--(void) savesettings;
--(void)loadBackgroundColors;
--(void)saveBackgroundColors;
--(void)loadTextColors;
--(void)saveTextColors;
--(void)loadColorSettings;
--(void)saveColorSettings;
--(void)saveHolidayList;
--(void)loadHolidayList;
--(void) saveAllData;
--(void)tableView;
+-(void)updateIconBadge;
+-(void)addToDebugLog:(NSString*)message;
 
-- (UIImage*)imageFromCache:(NSString*)fileName;
+
+-(void)updateSettingsString:(NSString*)value  forProperty:(NSString*)propertyName;
+-(void)updateSettingsInteger:(NSInteger)value  forProperty:(NSString*)propertyName;;
+-(void)insertIntoTable:(NSString*)table forDictionary:(NSDictionary*)dictionary;
+-(void)updateTable:(NSString*)table forDictionary:(NSDictionary*)dictionary;
+
+-(void)refreshSettings;
+-(void)updateDaysInDayTable;
+
+-(void)upgradeToSQLVersion;
+-(void)upgradeManualDays;
+
+
+@property (nonatomic, assign) BOOL inTestingMode;
+
+
+
+//-(void) CreateDatabases;
+//-(void)loadworkdays;
+//-(void) saveworkdays;
+//-(void) loadsettings;
+//-(void) savesettings;
+//-(void)loadBackgroundColors;
+//-(void)saveBackgroundColors;
+//-(void)loadTextColors;
+//-(void)saveTextColors;
+//-(void)loadColorSettings;
+//-(void)saveColorSettings;
+//-(void)saveHolidayList;
+//-(void)loadHolidayList;
+//-(void) saveAllData;
+
+
+
+//-(void)logSettings;
+
+
+
 
 
 

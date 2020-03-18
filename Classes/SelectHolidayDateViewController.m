@@ -7,39 +7,24 @@
 //
 
 #import "SelectHolidayDateViewController.h"
-
+#import "ColorsClass.h"
+#import "AddHolidayViewController.h"
 
 @implementation SelectHolidayDateViewController
 
-@synthesize title;
-@synthesize tableToLookup;
-@synthesize valueSelected;
-@synthesize locationInList;
-
-@synthesize holidayName;
-@synthesize holidayMonth;
-@synthesize holidayDay;
-@synthesize holidayWeekday;
-@synthesize holidayOrdinalWeekday;
-
-@synthesize cancelledSave;
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	self.cancelledSave = NO;
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	
-		self.appDelegate.newdata = 1;
-		self.appDelegate.holidayMonth = self.holidayMonth;
-		self.appDelegate.holidayDay = self.holidayDay;
-		self.appDelegate.holidayWeekday = self.holidayWeekday;
-		self.appDelegate.holidayOrdinalWeekday = self.holidayOrdinalWeekday;
+
 }
 
 
@@ -50,10 +35,6 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
 
 
 #pragma mark Table view methods
@@ -65,16 +46,16 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-    NSInteger dim = 0;
-	if ([tableToLookup isEqualToString:@"Month"]) {
-		dim = 12;
-	} else if ([tableToLookup isEqualToString:@"Day of the Month"]) {
-		dim = [GlobalMethods daysinmonth:holidayMonth];
 
-	} else if ([tableToLookup isEqualToString:@"Day of the Week"]) {
+    NSInteger dim = 0;
+	if ([self.tableToLookup isEqualToString:@"Month"]) {
+		dim = 12;
+	} else if ([self.tableToLookup isEqualToString:@"Day of the Month"]) {
+		dim = [GlobalMethods daysinmonth:[[self.holiday objectForKey:@"month"]integerValue] year:0];
+
+	} else if ([self.tableToLookup isEqualToString:@"Day of the Week"]) {
 		dim = 7;
-	} else if ([tableToLookup isEqualToString:@"Week of the Month"]) {
+	} else if ([self.tableToLookup isEqualToString:@"Week of the Month"]) {
 		dim = 5;
 	}
 	return dim;
@@ -88,57 +69,55 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 	cell.accessoryType = UITableViewCellAccessoryNone;
-	if ([tableToLookup isEqualToString:@"Month"]) {
-		cell.textLabel.text = [GlobalMethods nameOfMonthForInt:indexPath.row +1];
-		if (self.holidayMonth == indexPath.row+1) {cell.accessoryType = UITableViewCellAccessoryCheckmark;}
-	} else if ([tableToLookup isEqualToString:@"Day of the Month"]) {
-		cell.textLabel.text = [NSString stringWithFormat:@"%i",indexPath.row+1];
-		if (self.holidayDay == indexPath.row+1) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
-	} else if ([tableToLookup isEqualToString:@"Day of the Week"]) {
-		cell.textLabel.text = [GlobalMethods nameOfDayForInt:indexPath.row+1];
-		if (self.holidayWeekday == indexPath.row+1) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
-	} else if ([tableToLookup isEqualToString:@"Week of the Month"]) {
-		cell.textLabel.text = [GlobalMethods nameOfOrdinalWeekdayForInt:indexPath.row+1];
-		if (self.holidayOrdinalWeekday == indexPath.row+1){ cell.accessoryType = UITableViewCellAccessoryCheckmark;}
-	}
+    if ([self.tableToLookup isEqualToString:@"Month"]) {
+        cell.textLabel.text = [GlobalMethods nameOfMonthForInt:indexPath.row +1];
+        if ([[self.holiday objectForKey:@"month"]integerValue]== indexPath.row+1) {cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+    } else if ([self.tableToLookup isEqualToString:@"Day of the Month"]) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%li",indexPath.row+1];
+        if ([[self.holiday objectForKey:@"day"]integerValue] == indexPath.row+1) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+    } else if ([self.tableToLookup isEqualToString:@"Day of the Week"]) {
+        cell.textLabel.text = [GlobalMethods dayTextForDayofWeek:indexPath.row+1];
+        if ([[self.holiday objectForKey:@"weekday"]integerValue] == indexPath.row+1) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+    } else if ([self.tableToLookup isEqualToString:@"Week of the Month"]) {
+        cell.textLabel.text = [GlobalMethods nameOfOrdinalWeekdayForInt:indexPath.row+1];
+        if ([[self.holiday objectForKey:@"ordinalweekday"]integerValue] == indexPath.row+1){ cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+    }
 	 
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-	if ([tableToLookup isEqualToString:@"Month"]) {
-		self.holidayMonth = indexPath.row+1;
+    NSString* object = [NSString stringWithFormat:@"%li",indexPath.row+1];
+	if ([self.tableToLookup isEqualToString:@"Month"]) {
+        [self.holiday setObject:object forKey:@"month"];
 
-	} else if ([tableToLookup isEqualToString:@"Day of the Month"]) {
-		self.holidayDay = indexPath.row+1;
+	} else if ([self.tableToLookup isEqualToString:@"Day of the Month"]) {
+        [self.holiday setObject:object forKey:@"day"];
 
-	} else if ([tableToLookup isEqualToString:@"Day of the Week"]) {
-		self.holidayWeekday = indexPath.row+1;
+	} else if ([self.tableToLookup isEqualToString:@"Day of the Week"]) {
+        [self.holiday setObject:object forKey:@"weekday"];
 
-	} else if ([tableToLookup isEqualToString:@"Week of the Month"]) {
-		self.holidayOrdinalWeekday = indexPath.row+1;
+	} else if ([self.tableToLookup isEqualToString:@"Week of the Month"]) {
+        [self.holiday setObject:object forKey:@"ordinalweekday"];
 
 	}
 	[tableView reloadData];
+    self.addHolidayViewController.holiday = self.holiday;
+    [self performSelector:@selector(doneWithEntry) withObject:nil afterDelay:.2];
 }
 
-
-- (void)dealloc {
-	[title release];
-	[tableToLookup release];
-	[holidayName release];
-
-    [super dealloc];
+-(void) doneWithEntry
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 @end
 

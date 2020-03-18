@@ -2,25 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>RetirementDate</key>
-	<date>2049-12-30T08:00:00Z</date>
-	<key>BeginWorkhours</key>
-	<date>2010-10-08T14:00:00Z</date>
-	<key>EndWorkhours</key>
-	<date>2010-10-09T00:00:00Z</date>
-	<key>CurrentDisplay</key>
-	<string>Calendar</string>
-	<key>DisplayOption</key>
-	<string>Work</string>
-	<key>PictureName</key>
-	<string>beach</string>
-	<key>FirstTimeLoad</key>
-	<string>YES</string>
-	<key>ThisYearDaysOff</key>
-	<string>0</string>
 	<key>AllYearsDaysOff</key>
 	<string>0</string>
+	<key>BeginWorkhours</key>
+	<date>2010-10-08T15:00:00Z</date>
+	<key>CurrentDisplay</key>
+	<string>Calendar</string>
+	<key>DaysLeft</key>
+	<string>25</string>
+	<key>DisplayOption</key>
+	<string>Work</string>
+	<key>EndWorkhours</key>
+	<date>2010-10-09T00:00:00Z</date>
+	<key>FirstTimeLoad</key>
+	<string>YES</string>
+	<key>PictureName</key>
+	<string>customPicture</string>
+	<key>RetirementDate</key>
+	<date>2020-02-28T08:00:00Z</date>
 	<key>RetirementYearDaysOff</key>
+	<string>0</string>
+	<key>ThisYearDaysOff</key>
 	<string>0</string>
 </dict>
 </plist>

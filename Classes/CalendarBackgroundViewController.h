@@ -14,19 +14,7 @@
 
 @interface CalendarBackgroundViewController : BaseViewController <UITableViewDelegate> {
 
-	NSString *predefinedBackgroundColorName;
-	NSString *predefinedTextColorName;
-	NSUInteger predefinedBackgroundColorIndex;
-	NSUInteger predefinedTextColorIndex;
-	NSString *currentObject;
-	IBOutlet UILabel *upperLine;
-	IBOutlet UILabel *lowerLine;
-	IBOutlet UITableView *backgroundColorTable;
 }
-@property (nonatomic, retain) NSString *predefinedBackgroundColorName;
-@property (nonatomic, retain) NSString *predefinedTextColorName;
-@property (nonatomic, assign) NSUInteger predefinedBackgroundColorIndex;
-@property (nonatomic, assign) NSUInteger predefinedTextColorIndex;
 @property (nonatomic, retain) NSString *currentObject;
 @property (nonatomic, retain) IBOutlet UILabel *upperLine;
 @property (nonatomic, retain) IBOutlet UILabel *lowerLine;

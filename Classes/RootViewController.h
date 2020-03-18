@@ -6,11 +6,11 @@
 //  Copyright 2010 MandellMobileApps. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "Calendar.h"
 #import "BaseViewController.h"
-#import "iAd/iAd.h"
 
 
 #define kCalendarwidth 315
@@ -23,59 +23,18 @@
 
 
 
-@interface RootViewController : BaseViewController <MFMailComposeViewControllerDelegate,  UIActionSheetDelegate, ADBannerViewDelegate> {
 
 
-	Calendar				*calendarcurrent;
-    IBOutlet UILabel		*monthNameLabel;
-	IBOutlet UILabel		*yearLabel;
-	IBOutlet UILabel		*monthLabel; 
-	IBOutlet UILabel		*dayLabel;
-	IBOutlet UILabel		*workDaysLabel;
-	IBOutlet UILabel		*hoursLabel;
-	IBOutlet UILabel		*minutesLabel;
-	IBOutlet UILabel		*secondsLabel;
-    IBOutlet UILabel		*notWorkingLabel;
-	IBOutlet UILabel		*otherLabels;
-    IBOutlet UILabel		*calendarLabel;
-    IBOutlet UILabel		*calendarDaysLabels;
-    IBOutlet UILabel		*workLabel;
-    IBOutlet UILabel		*workLeftLabels;
-	int						daysleft;
-	int						hoursleft; 
-	int						minutesleft;	
-	int						secondsleft;  
-	int						totalsecondsleft;
-	IBOutlet UIView			*overallView;
-	IBOutlet UIView			*containerview;	
-	IBOutlet UIView			*calendarview;
-	IBOutlet UIView			*calendarnavview;	
-	IBOutlet UIView			*calendardaysview;
-	IBOutlet UIView			*swipeview;
-	IBOutlet UIImageView	*pictureview;	
-	BOOL					transitioning;
-	NSDate					*retirementDate;
-	NSMutableArray			*settings;
-	CGPoint					startTouchPosition;
-	NSString				*displayoption;
-	NSTimer					*timer;
-	IBOutlet UIButton		*prevYearButton;
-	IBOutlet UIButton		*prevMonthButton;
-	IBOutlet UIButton		*nextMonthButton;
-	IBOutlet UIButton		*nextYearButton;
-	NSUInteger				tapCount;
-	UIView	*navbarView;
-	ADBannerView *bannerView;
-	BOOL bannerIsVisible;
-	
+
+@interface RootViewController : BaseViewController <MFMailComposeViewControllerDelegate, CAAnimationDelegate> {
 
 
-	
-	NSTimer *updateTimer;
 	
 	
 }
 
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityView;
+@property (nonatomic, retain) IBOutlet UIView *busyView; 
 
 @property (nonatomic, retain) Calendar	*calendarcurrent;
 @property (nonatomic, retain) IBOutlet UILabel *otherLabels; 
@@ -95,11 +54,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *workLabel;
 @property (nonatomic, retain) IBOutlet UILabel *workLeftLabels;
 
-@property (nonatomic, assign) int totalsecondsleft;
-@property (nonatomic, assign) int daysleft; 
-@property (nonatomic, assign) int hoursleft; 
-@property (nonatomic, assign) int minutesleft;
-@property (nonatomic, assign) int secondsleft;
+@property (nonatomic, assign) NSInteger totalsecondsleft;
+@property (nonatomic, assign) NSInteger daysleft;
+@property (nonatomic, assign) NSInteger hoursleft;
+@property (nonatomic, assign) NSInteger minutesleft;
+@property (nonatomic, assign) NSInteger secondsleft;
 
 
 @property (nonatomic, retain) IBOutlet UIButton		*prevYearButton;
@@ -125,16 +84,14 @@
 
 @property (nonatomic, retain) UIView	*navbarView;
 
-@property (nonatomic,assign) BOOL bannerIsVisible;
-@property(nonatomic, retain) ADBannerView *bannerView;
-
-
-
-
 @property (nonatomic, retain) NSTimer *updateTimer;
 
+@property (nonatomic, retain) IBOutlet UILabel *annualLabel;
+@property (nonatomic, retain) IBOutlet UILabel *annual2Label;
 
+//@property (nonatomic, assign) BOOL firstLoad;
 
+-(void)refreshRootViewController;
 -(void)updateNavigationBarTitle;
 -(NSData*)capturescreen;
 -(void)flipView;
@@ -142,9 +99,8 @@
 -(void) fliptoPictureWithAnimation:(BOOL)animated;
 -(IBAction)showSettingsView:(id)sender;
 -(void)updatelabelsWithReset:(bool)reset;
--(void)starttimer;
 -(void)timerMode;
--(NSInteger)getviewheight;
+-(CGRect)getCalendarDaysFrame;
 -(void)GotoToday;
 -(void)GotoRetirementDay;
 - (IBAction)prevMonth:(id)sender;
@@ -152,13 +108,9 @@
 - (IBAction)prevYear:(id)sender;
 - (IBAction)nextYear:(id)sender;
 -(void)performTransition:(NSInteger)direction;
-- (void)daySelectedDoubleTap:(id)sender;
-- (void)daySelectedSingleTap:(id)sender;
--(void)resetTapCount:(id)sender;
-- (void)dayButtonTapped:(id)sender;
+
+
 -(void) showGotoView;
-//-(void) loadAd;
--(void)sendEmail;
--(void) updateCalendarAndLabels:(NSTimer*)theTimer;
-- (void)createBannerView;
+
+
 @end

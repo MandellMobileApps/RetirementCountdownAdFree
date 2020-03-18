@@ -21,29 +21,11 @@
 
 @interface RCSettingsViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource> {
 
-	NSArray *settings;
-	NSArray *settings0;
-	NSMutableArray *settingsDetails;
-	NSDate *retirementDate;
-	NSDate *beginworkhours;
-	NSDate *endworkhours;
-	NSDateFormatter *dateFormatter;
-	NSDateFormatter *dateFormatter2;
-	IBOutlet UITableView *tableview;
-	int returntosettings;
-
-		
 }
 
 @property (nonatomic, retain) NSArray *settings;
 @property (nonatomic, retain) NSArray *settings0;
 @property (nonatomic, retain) NSMutableArray *settingsDetails;
-@property (nonatomic, retain) NSDate *retirementDate;
-@property (nonatomic, retain) NSDate *beginworkhours;
-@property (nonatomic, retain) NSDate *endworkhours;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter2;
-@property (nonatomic, assign) int returntosettings;
 @property (nonatomic, retain) IBOutlet UITableView *tableview;
 
 

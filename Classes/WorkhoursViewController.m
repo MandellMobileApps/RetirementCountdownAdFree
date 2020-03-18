@@ -9,48 +9,80 @@
 #import "WorkhoursViewController.h"
 
 
+
 @implementation WorkhoursViewController
 
-@synthesize pickerView, dataArray, detaildataArray, dateFormatter, beginWorkhours, endWorkhours, pickerViewContainer,thisTableView, currentSelection;
+
 
 - (void)viewDidLoad{
 	[super viewDidLoad];
-	self.dataArray = [NSArray arrayWithObjects:@"Begin", @"End",nil];
-	self.currentSelection = -1;
-	self.dateFormatter = [[NSDateFormatter alloc] init];
-	[self.dateFormatter setDateStyle:NSDateFormatterNoStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-	self.beginWorkhours = [self.appDelegate.settings objectForKey:@"BeginWorkhours"];
-	self.endWorkhours = [self.appDelegate.settings objectForKey:@"EndWorkhours"];
-	self.detaildataArray = [NSArray arrayWithObjects:self.beginWorkhours,self.endWorkhours,nil];
-	
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+
+    
+    self.hourArray = [self loadhourarray];
+    self.minuteArray = [self loadMinuteArray];
+    self.ampmArray = [self loadAmPmArray];
+ 
+    self.dataArray = [NSArray arrayWithObjects:@"Begin", @"End",nil];
+	self.detaildataArray = [NSArray arrayWithObjects:[self formattedTimeStringforBeginWorkhours],[self formattedTimeStringforEndWorkhours],nil];
+    self.currentSelection = -1;
+    
 	self.pickerViewContainer.frame = CGRectMake(0,self.view.bounds.size.height, 320, 0);
     self.pickerViewContainer.hidden = YES;
-
+    
+    self.pickerViewContainer.accessibilityIgnoresInvertColors=YES;
+    self.pickerView.accessibilityIgnoresInvertColors=YES;
     
 }
 
-- (void)viewDidUnload{
-	[super viewDidUnload];
-	self.dataArray = nil;
-	self.dateFormatter = nil;
+-(void)refreshData
+{
+        self.detaildataArray = [NSArray arrayWithObjects:[self formattedTimeStringforBeginWorkhours],[self formattedTimeStringforEndWorkhours],nil];
+    [self.thisTableView reloadData];
+    
+    
 }
 
-//-(IBAction)datePickerValueChanged:(UIDatePicker*)sender {
-//	[self.thisTableView reloadData];
-//}
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    [self capturescreen];
 
+//
+//    // start the slide down animation
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.3];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
+//
+//    //self.pickerView.frame = endFrame;
+//    [UIView commitAnimations];
+//
+//    // deselect the current table row
+//    NSIndexPath *indexPath = [self.thisTableView indexPathForSelectedRow];
+//    [self.thisTableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(NSData*)capturescreen {
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screencapture = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageinpng = UIImagePNGRepresentation(screencapture);
+    NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"WorkhoursScreenCapture"];
+    [imageinpng writeToFile:pathName atomically:YES];
+    NSData *returnData = [[NSData alloc] initWithData:imageinpng];
+    return returnData;
+}
 
 -(IBAction)datePickerDoneButtonTapped:(id)sender {
     
-    self.pickerViewContainer.hidden = YES;
     [self showDatePickerForIndex:-1];
+    [self refreshData];
     [self.thisTableView reloadData];
     
 }
 
--(void) showDatePickerForIndex:(int)selection {
+-(void) showDatePickerForIndex:(NSInteger)selection {
 
 	if (selection == -1)
     {
@@ -58,10 +90,11 @@
     }
     else if (selection == 0)
     {
-    	if (self.currentSelection == 1)
+    	self.headerText = @"Begin Hours";
+        if (self.currentSelection == 1)
         {
         	[self hideDatePicker];
-            [self performSelector:@selector(showDatePicker) withObject:nil afterDelay:0.25];
+            [self performSelector:@selector(showDatePicker) withObject:nil afterDelay:0.6];
         
         }
         else if (self.currentSelection < 0)
@@ -72,10 +105,11 @@
     }
     else if (selection == 1)
     {
-    	if (self.currentSelection == 0)
+        self.headerText = @"End Hours";
+        if (self.currentSelection == 0)
         {
         	[self hideDatePicker];
-            [self performSelector:@selector(showDatePicker) withObject:nil afterDelay:0.25];
+            [self performSelector:@selector(showDatePicker) withObject:nil afterDelay:0.6];
         
         }
         else if (self.currentSelection < 0)
@@ -88,29 +122,44 @@
 
 -(void) showDatePicker
 {
+    CGRect    hideRect = CGRectMake(0,self.view.bounds.size.height, 320, 0);
+    self.pickerViewContainer.frame = hideRect;
     self.pickerViewContainer.hidden = NO;
+    self.header.text = self.headerText;
     
     CGRect  showRect = CGRectMake(0,self.view.bounds.size.height-250, 320, 250);
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.5
         animations:^{
-           // [self.view addSubview:self.pickerViewContainer];
             self.pickerViewContainer.frame = showRect;
         }
         completion:^(BOOL finished){
-
+             if (self.currentSelection == 0)
+             {
+                 [self.pickerView selectRow:self.appDelegate.settingsNew.beginWorkhours-1 inComponent:0 animated:YES];
+                 [self.pickerView selectRow:self.appDelegate.settingsNew.beginWorkMinutes-1 inComponent:1 animated:YES];
+                 [self.pickerView selectRow:self.appDelegate.settingsNew.beginWorkAmPm inComponent:2 animated:YES];
+                 
+             }
+            else
+            {
+                [self.pickerView selectRow:self.appDelegate.settingsNew.endWorkhours-1 inComponent:0 animated:YES];
+                [self.pickerView selectRow:self.appDelegate.settingsNew.endWorkMinutes-1 inComponent:1 animated:YES];
+                [self.pickerView selectRow:self.appDelegate.settingsNew.endWorkAmPm inComponent:2 animated:YES];
+            }
         }];
 }
 
 -(void) hideDatePicker
 {
 	
-    self.pickerViewContainer.hidden = YES;
+    
     CGRect	hideRect = CGRectMake(0,self.view.bounds.size.height, 320, 0);
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.5
         animations:^{
             self.pickerViewContainer.frame = hideRect;
         }
         completion:^(BOOL finished){
+        self.pickerViewContainer.hidden = YES;
 //            [self.pickerViewContainer removeFromSuperview];
         }];
 
@@ -134,7 +183,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	tableView.backgroundColor = self.backgroundColor;
 	return [self.dataArray count];
 }
 
@@ -147,78 +196,208 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
 	}
 	
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.textLabel.opaque = NO;
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:18];
+    
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.opaque = NO;
+    cell.detailTextLabel.textColor = [UIColor blueColor];
+    cell.detailTextLabel.textAlignment = NSTextAlignmentRight;
+    cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    
 	cell.textLabel.text = [self.dataArray objectAtIndex:indexPath.row];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[self.detaildataArray objectAtIndex:indexPath.row]];
+	cell.detailTextLabel.text = [self.detaildataArray objectAtIndex:indexPath.row];
 	return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+	cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
      [tableView deselectRowAtIndexPath:indexPath animated:NO];
-	self.pickerView.date = [self.detaildataArray objectAtIndex:indexPath.row]; 	
 	[self showDatePickerForIndex:indexPath.row];
     
 }
 
-//- (void)slideDownDidStop{
-////	// the date picker has finished sliding downwards, so remove it
-////	[self.pickerView removeFromSuperview];
-//}
-
-- (IBAction)dateAction:(id)sender{
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.currentSelection inSection:0];
-	UITableViewCell *cell = [self.thisTableView cellForRowAtIndexPath:indexPath];
-	cell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.pickerView.date];
-    NSLog(@"textLabel %@",cell.textLabel.text);
-    NSLog(@"cell.detailTextLabel.text %@",cell.detailTextLabel.text);
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 3;
     
-	if (self.currentSelection == 0) {self.beginWorkhours = self.pickerView.date;}
-	if (self.currentSelection == 1) {self.endWorkhours = self.pickerView.date;}
-    NSLog(@"beginWorkhours %@",self.beginWorkhours);
-    NSLog(@"endWorkhours %@",self.endWorkhours);
-	self.appDelegate.colorsChanged = YES;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    NSInteger thisRow = 0;
+    if (component == 0)
+    {
+        thisRow = 12;
+    }
+    else  if (component == 1)
+    {
+        thisRow = 60;
+    }
+    else  if (component == 2)
+    {
+        thisRow = 2;
+    }
+    return thisRow;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString* title;
+    if (component == 0)
+    {
+        title = [self.hourArray objectAtIndex:row];
+    }
+    else  if (component == 1)
+    {
+         title = [self.minuteArray objectAtIndex:row];
+    }
+        else  if (component == 2)
+    {
+         title = [self.ampmArray objectAtIndex:row];
+    }
+    return title;
     
-    self.detaildataArray = [NSArray arrayWithObjects:self.beginWorkhours,self.endWorkhours,nil];
-//    [self.thisTableView reloadData];
+}
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    
+    if (component == 0)
+    {
+        if (self.currentSelection == 0)
+        {
+             [self.appDelegate updateSettingsInteger:[[self.hourArray objectAtIndex:row] integerValue] forProperty:@"beginWorkhours"];
+            
+        }
+        else if (self.currentSelection == 1)
+        {
+            [self.appDelegate updateSettingsInteger:[[self.hourArray objectAtIndex:row] integerValue] forProperty:@"endWorkhours"];
+        }
+        
+    }
+    else  if (component == 1)
+    {
+        if (self.currentSelection == 0)
+        {
+             [self.appDelegate updateSettingsInteger:[[self.minuteArray objectAtIndex:row] integerValue] forProperty:@"beginWorkMinutes"];
+
+        }
+        else if (self.currentSelection == 1)
+        {
+            [self.appDelegate updateSettingsInteger:[[self.minuteArray objectAtIndex:row] integerValue] forProperty:@"endWorkMinutes"];
+            
+        }
+
+    }
+        else  if (component == 2)
+    {
+        if (self.currentSelection == 0)
+        {
+            [self.appDelegate updateSettingsInteger:row forProperty:@"beginWorkAmPm"];
+        }
+        else if (self.currentSelection == 1)
+        {
+            [self.appDelegate updateSettingsInteger:row forProperty:@"endWorkAmPm"];
+
+        }
+ 
+    }
+    [self refreshData];
+    
+    
+    
+}
+
+-(NSString*)formattedTimeStringforBeginWorkhours
+{
+    NSString* tod = [NSString string];
+    if (self.appDelegate.settingsNew.beginWorkAmPm == 0)
+    {
+        tod = @"AM";
+        
+    }
+    else if (self.appDelegate.settingsNew.beginWorkAmPm == 1)
+    {
+        tod = @"PM";
+        
+    }
+    NSString* dateString = [NSString stringWithFormat:@"%li:%02ld %@",self.appDelegate.settingsNew.beginWorkhours,self.appDelegate.settingsNew.beginWorkMinutes,tod];
+    
+    return dateString;
+}
+
+-(NSString*)formattedTimeStringforEndWorkhours
+{
+     NSString* tod = [NSString string];
+     if (self.appDelegate.settingsNew.endWorkAmPm == 0)
+     {
+         tod = @"AM";
+         
+     }
+     else if (self.appDelegate.settingsNew.endWorkAmPm == 1)
+     {
+         tod = @"PM";
+         
+     }
+     NSString* dateString = [NSString stringWithFormat:@"%li:%02ld %@",self.appDelegate.settingsNew.endWorkhours,self.appDelegate.settingsNew.endWorkMinutes,tod];
+    
+    return dateString;
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-
-	[self.appDelegate.settings setObject:self.beginWorkhours forKey:@"BeginWorkhours"];	
-	[self.appDelegate.settings setObject:self.endWorkhours forKey:@"EndWorkhours"];		
-//
-//	// start the slide down animation
-//	[UIView beginAnimations:nil context:NULL];
-//	[UIView setAnimationDuration:0.3];
-//	[UIView setAnimationDelegate:self];
-//	[UIView setAnimationDidStopSelector:@selector(slideDownDidStop)];
-//
-//	//self.pickerView.frame = endFrame;
-//	[UIView commitAnimations];
-//
-//	// deselect the current table row
-//	NSIndexPath *indexPath = [self.thisTableView indexPathForSelectedRow];
-//	[self.thisTableView deselectRowAtIndexPath:indexPath animated:YES];
+-(NSArray*)loadhourarray
+{
+    NSArray* array = [NSArray arrayWithObjects:
+                      @"1",
+                      @"2",
+                      @"3",
+                      @"4",
+                      @"5",
+                      @"6",
+                      @"7",
+                      @"8",
+                      @"9",
+                      @"10",
+                      @"11",
+                      @"12",
+                      nil];
+    return array;
 }
 
-- (void)dealloc{	
-	[pickerView release];
-	[beginWorkhours release];
-	[endWorkhours release];
-	[dataArray release];
-	[detaildataArray release];
-	[dateFormatter release];
-	[super dealloc];
+-(NSArray*)loadMinuteArray
+{
+    NSMutableArray* temp = [NSMutableArray array];
+    for (NSInteger i = 0;i<60;i++)
+    {
+        [temp addObject:[NSString stringWithFormat:@"%02ld",i]];
+    }
+
+    NSArray* array = [NSArray arrayWithArray:temp];
+    return array;
+
 }
 
+-(NSArray*)loadAmPmArray
+{
+    NSArray* array = [NSArray arrayWithObjects:
+                      @"AM",
+                      @"PM",
+                      nil];
+    return array;
+
+}
 @end
 

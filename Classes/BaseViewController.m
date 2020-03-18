@@ -10,53 +10,84 @@
 
 
 @implementation BaseViewController
-@synthesize appDelegate;
 
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.appDelegate = (RetirementCountdownAppDelegate*)[[UIApplication sharedApplication]delegate];
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
     
-    	// iOS7 items
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.backgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
+    self.textColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndex];
+    self.view.backgroundColor = self.backgroundColor;
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
     {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
-	if ([self respondsToSelector:@selector(extendedLayoutIncludesOpaqueBars)])
+    if ([self respondsToSelector:@selector(extendedLayoutIncludesOpaqueBars)])
     {
         self.extendedLayoutIncludesOpaqueBars = NO;
     }
-	if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
     {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
+    self.view.accessibilityIgnoresInvertColors=YES;
+  //  self.view.accessibilityViewIsModal = YES;
+
+    
+
 }
 
+-(void)popThisViewController
+{
+   // [self.navigationController popViewControllerAnimated:YES];
+    
+    
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.backgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
+    self.textColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndex];
+    self.view.backgroundColor = self.backgroundColor;
+}
 
+- (UIImage *)touchImage
+{
+    if ( ! _touchImage)
+    {
+        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 50.0, 50.0)];
+        
+        UIGraphicsBeginImageContextWithOptions(clipPath.bounds.size, NO, 0);
+
+        UIBezierPath *drawPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(25.0, 25.0)
+                                                                radius:22.0
+                                                            startAngle:0
+                                                              endAngle:2 * M_PI
+                                                             clockwise:YES];
+
+        drawPath.lineWidth = 2.0;
+        
+        [self.strokeColor setStroke];
+        [self.fillColor setFill];
+
+        [drawPath stroke];
+        [drawPath fill];
+        
+        [clipPath addClip];
+        
+        _touchImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+        
+    return _touchImage;
+}
 
 // Override to allow orientations other than the default portrait orientation.
 //- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -73,17 +104,7 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
-
-- (void)dealloc {
-	[appDelegate release];
-    [super dealloc];
-}
 
 
 @end

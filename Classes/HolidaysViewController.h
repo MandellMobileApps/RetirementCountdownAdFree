@@ -13,29 +13,23 @@
 
 @interface HolidaysViewController : BaseViewController {
 
-	NSMutableArray *holidaynames;
-	NSMutableArray *holidaymonth;
-	NSMutableArray *holidayday;
-	NSMutableArray *holidayweekday;
-	NSMutableArray *holidayordinal;
-	NSMutableArray *holidayused;
-	NSMutableArray *holidayList;
-	IBOutlet UITableView *holidayTableView;
-	int changed;
+
 	
 }
 
-@property (nonatomic, retain) NSMutableArray *holidaynames;
-@property (nonatomic, retain) NSMutableArray *holidaymonth;
-@property (nonatomic, retain) NSMutableArray *holidayday;
-@property (nonatomic, retain) NSMutableArray *holidayweekday;
-@property (nonatomic, retain) NSMutableArray *holidayordinal;
-@property (nonatomic, retain) NSMutableArray *holidayused;
-@property (nonatomic, retain) NSMutableArray *holidayList;
+//@property (nonatomic, retain) NSMutableArray *holidaynames;
+//@property (nonatomic, retain) NSMutableArray *holidaymonth;
+//@property (nonatomic, retain) NSMutableArray *holidayday;
+//@property (nonatomic, retain) NSMutableArray *holidayweekday;
+//@property (nonatomic, retain) NSMutableArray *holidayordinal;
+//@property (nonatomic, retain) NSMutableArray *holidayused;
+@property (nonatomic, retain) NSArray *holidayListStandard;
+@property (nonatomic, retain) NSMutableArray *holidayListCustom;
 @property (nonatomic, retain) IBOutlet UITableView *holidayTableView;
 
 
-@property (nonatomic, assign) int changed;
+@property (nonatomic, assign) NSInteger changed;
 
+-(void)refreshHolidayList;
 
 @end

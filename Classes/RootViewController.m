@@ -14,138 +14,161 @@
 #import "TimeRemaining.h"
 #import "LoadingViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
-
-
-
+#import <StoreKit/StoreKit.h>
+#import "TimeRemainingNew.h"
+#import "UpgradeNoticeViewController.h"
 
 
 @implementation RootViewController
 
-@synthesize calendarcurrent;
-@synthesize otherLabels, totalsecondsleft, secondsleft, minutesleft, hoursleft, daysleft, retirementDate, settings, transitioning;
-@synthesize startTouchPosition, overallView, containerview, calendarview, calendarnavview, calendardaysview, pictureview, swipeview;
-@synthesize displayoption, timer, tapCount;
-@synthesize prevYearButton, prevMonthButton, nextMonthButton, nextYearButton;
-@synthesize navbarView;
-@synthesize bannerIsVisible;
-@synthesize bannerView;
-@synthesize yearLabel;
-@synthesize monthLabel; 
-@synthesize dayLabel;
-@synthesize workDaysLabel;
-@synthesize hoursLabel;
-@synthesize minutesLabel;
-@synthesize secondsLabel;
-@synthesize notWorkingLabel;
-@synthesize monthNameLabel;
-@synthesize calendarLabel;
-@synthesize calendarDaysLabels;
-@synthesize workLabel;
-@synthesize workLeftLabels;
 
-@synthesize updateTimer;
-
-- (void)dealloc {
-	
-	[calendarcurrent release];
-	[otherLabels release];
-    [monthNameLabel release];
-	[yearLabel release];
-	[monthLabel release]; 
-	[dayLabel release];
-	[workDaysLabel release];
-	[hoursLabel release];
-	[minutesLabel release];
-	[secondsLabel release];
-	[notWorkingLabel release];
-	[prevYearButton release];
-	[prevMonthButton release];
-	[nextMonthButton release];
-	[nextYearButton release];
-	[overallView release];
-	[containerview release];
-	[calendarview release];
-	[calendarnavview release];
-	[calendardaysview release];
-	[swipeview release];
-	[pictureview release];
-	[retirementDate release];
-	[settings release];
-	[displayoption release];
-	[timer release];
-	[navbarView release];
-	if (bannerView) {
-        bannerView.delegate = nil;
-        [bannerView release];
-    }
-	[calendarLabel release];
-	[calendarDaysLabels release];
-	[workLabel release];
-	[workLeftLabels release];
-	[updateTimer release];
-	[super dealloc];
-}
 
 
 #pragma mark -
 #pragma mark View lifecycle
 
+
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
-//	if ([[self.appDelegate.settings objectForKey:@"FirstTimeLoad"] isEqualToString:@"YES"]) {
-//			NSString *actionSheetTitle = [[NSString alloc ] initWithString: @"        Welcome to Retirement Countdown!\n\n   	             Tap the Settings button to set your Retirement Date."];
-//			UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:actionSheetTitle delegate:self cancelButtonTitle:@"OK" destructiveButtonTitle:nil otherButtonTitles:@"Don't Remind Me", nil];
-//			actionSheet.tag = 2;
-//            [actionSheet showInView:self.view];
-//			[actionSheetTitle release];
-//			[actionSheet release];
-//	}
-		
-	self.bannerIsVisible = NO;
     
-#ifdef LITE_VERSION
-	[self createBannerView];
-#endif
-
-	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[self.appDelegate imageFromCache:[self.appDelegate.settings objectForKey:@"PictureName"]]];
-	tempImageView.frame = CGRectMake(0, 0, 320, 300);
-	tempImageView.contentMode = UIViewContentModeScaleAspectFit;
-	self.pictureview = tempImageView;
-	[tempImageView release]; 
-	
-	UIBarButtonItem *settingsBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(showSettingsView:)];
+    self.appDelegate.colorsChanged = YES;
+    
+	UIBarButtonItem *settingsBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView:)];
 	self.navigationItem.rightBarButtonItem = settingsBarItem;
-	[settingsBarItem release];
+
 	
 	UIBarButtonItem *gotoBarItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showGotoView)];
 	self.navigationItem.leftBarButtonItem = gotoBarItem;
-	[gotoBarItem release];
-	
-	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
-	self.navigationItem.backBarButtonItem = backBarItem;
-	[backBarItem release];
-	
-	self.appDelegate.colorsChanged = YES;
-	if ([[self.appDelegate.settings objectForKey:@"CurrentDisplay"] isEqualToString:@"Picture"]) {
-	[self fliptoPictureWithAnimation:NO];
-	}
+
+    [self refreshRootViewController];
 
 	Calendar *calendarcurrentTemp = [[Calendar alloc] initWithHandler:self];
 	self.calendarcurrent = calendarcurrentTemp;
-	[calendarcurrentTemp release];
-	[self.calendardaysview addSubview:self.calendarcurrent];
+    [self.calendardaysview addSubview:self.calendarcurrent];
+    
+    BOOL showUpgradeNotice = [[NSUserDefaults standardUserDefaults] boolForKey:@"showUpgradeNotice"];
+    if (showUpgradeNotice)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNoticeThisTime"];
+    }
+
+//    [SKStoreReviewController requestReview];
+
+}
+
+//- (void)DisplayReviewController {
+//    if (@available(iOS 10.3, *)) {
+//        [SKStoreReviewController requestReview];
+//    }
+//}
+
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    
+    if(self.appDelegate.colorsChanged == YES) {
+        [self updateColors];
+        self.appDelegate.colorsChanged = NO;
+    }
+
+    if (self.appDelegate.settingsChanged)
+    {
+        [self refreshRootViewController];
+        self.appDelegate.settingsChanged = NO;
+    }
+    
+    [self.calendarcurrent drawCalendarToCurrentMonth];
+    self.calendardaysview.frame = [self getCalendarDaysFrame];
+
+
+    if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Picture"]) {
+        [self fliptoPictureWithAnimation:self.appDelegate.pictureChanged];
+        self.appDelegate.pictureChanged = NO;
+    }
+    
+
+
+    NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li", [self.calendarcurrent currentMonthName],(long)[self.calendarcurrent currentYear]];
+    
+    self.monthNameLabel.text = monthyearlabeltemp;
+
+    [self updatelabelsWithReset:YES];
+
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self updateNavigationBarTitle];
+
+    BOOL showUpgradeNoticeThisTime = [[NSUserDefaults standardUserDefaults] boolForKey:@"showUpgradeNoticeThisTime"];
+
+    if (showUpgradeNoticeThisTime)
+    {
+        [self performSelector:@selector(displayUpgradeNotice) withObject:nil afterDelay:0.5];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showUpgradeNoticeThisTime"];
+    }
+    else
+    {
+        [self performSelector:@selector(capturescreen) withObject:nil afterDelay:1.0];
+    }
     
 
 }
 
+-(void) viewWillDisappear:(BOOL)animated {
+
+    [self.navbarView removeFromSuperview];
+    [super viewWillDisappear:animated];
+
+}
+
+#pragma mark -
+#pragma mark Update Data
+
+-(void)showBusyView:(BOOL)load
+{
+    
+
+    if (load)
+    {
+        CGRect thisFrame = CGRectMake(50, 100, self.view.bounds.size.width-100, 100);
+        self.busyView = [[UIView alloc]initWithFrame:thisFrame];
+        self.busyView.backgroundColor = [GlobalMethods colorForIndex:3];
+        self.activityView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+        CGRect activtyFrame = CGRectMake((self.busyView.bounds.size.width-self.activityView.bounds.size.width)/2, (self.busyView.bounds.size.height - self.activityView.bounds.size.height)/2, self.activityView.bounds.size.width, self.activityView.bounds.size.height);
+        self.activityView.frame = activtyFrame;
+        [self.busyView addSubview:self.activityView];
+        [self.activityView startAnimating];
+        [self.view addSubview:self.busyView];
+        
+    }
+    else
+    {
+        [self.activityView removeFromSuperview];
+        [self.busyView removeFromSuperview];
+
+    }
+
+    
+}
+
+
+
+
 -(void)updateNavigationBarTitle {
-	
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	
-	NSString *retirementDateString = [dateFormatter stringFromDate:[self.appDelegate.settings objectForKey:@"RetirementDate"]];
+  
+
+
+    NSInteger year = self.appDelegate.settingsNew.retirementYear;
+    NSInteger month = self.appDelegate.settingsNew.retirementMonth;
+    NSInteger day = self.appDelegate.settingsNew.retirementDay;
+    NSString* monthName = [GlobalMethods nameOfMonthForInt:month];
+    
+    NSString* retirementDateString = [NSString stringWithFormat:@"%@ %li, %li",monthName,day,year];
+    
 	UIView *navTitleView	= [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	navTitleView.backgroundColor = [UIColor clearColor]; 
 	self.navbarView = navTitleView;
@@ -155,147 +178,108 @@
 	navTitleLabel1.backgroundColor = [UIColor clearColor]; 
 	navTitleLabel1.textColor = [UIColor whiteColor]; 
 	navTitleLabel1.font = [UIFont boldSystemFontOfSize:16];
-	navTitleLabel1.textAlignment = UITextAlignmentCenter;
-
-#ifdef LITE_VERSION    
-	UIImageView *liteImageView = [[UIImageView alloc] initWithFrame:CGRectMake(227,0, 44, 44)];
-	liteImageView.backgroundColor = [UIColor clearColor];
-    liteImageView.image = [UIImage imageNamed:@"Lite.png"];
-    [navTitleView addSubview:liteImageView];
-    [liteImageView release];
-#else
-
-#endif
-
+	navTitleLabel1.textAlignment = NSTextAlignmentCenter;
 
 	UILabel *navTitleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0,25, 320, 16)];
 	navTitleLabel2.text = [NSString stringWithFormat:@"to  %@",retirementDateString];  
 	navTitleLabel2.backgroundColor = [UIColor clearColor]; 
 	navTitleLabel2.textColor = [UIColor whiteColor]; 
 	navTitleLabel2.font = [UIFont systemFontOfSize:14];
-	navTitleLabel2.textAlignment = UITextAlignmentCenter;	
+	navTitleLabel2.textAlignment = NSTextAlignmentCenter;
 	
 	[navTitleView addSubview:navTitleLabel1];
 	[navTitleView addSubview:navTitleLabel2];
-	[navTitleLabel1 release];
-	[navTitleLabel2 release];
+
 	[self.navigationController.navigationBar addSubview:self.navbarView];
-	[navTitleView release];
-	[dateFormatter release];
+
 	
 }
 
+-(void)refreshRootViewController
+{
+    [self.appDelegate addToDebugLog:@"refreshRootViewController"];
+    //[self showBusyView:YES];
+    
+    if (self.appDelegate.needsUpgradeConverstion ==1)
+    {
+        [self.appDelegate upgradeToSQLVersion];
+        [self.appDelegate updateDaysInDayTable];
+        [self.appDelegate upgradeManualDays];
+        self.appDelegate.needsUpgradeConverstion = 0;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNotice"];
+         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNoticeThisTime"];
 
+    }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    [self updateColors];
+    [self.appDelegate refreshSettings];
+    [self.appDelegate updateDaysInDayTable];
+    [self updatelabelsWithReset:YES];
+   // [self showBusyView:NO];
+    
+ 
+}
+-(void)updateColors
+{
 
-	if(self.appDelegate.colorsChanged == YES) {	
-		UIColor *defaultBackgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-		self.view.backgroundColor = defaultBackgroundColor;
-		self.overallView.backgroundColor = defaultBackgroundColor;
-		self.calendardaysview.backgroundColor =  defaultBackgroundColor; 
-		self.calendarnavview.backgroundColor =  defaultBackgroundColor;   
-		self.calendarview.backgroundColor =	defaultBackgroundColor; 
-		self.containerview.backgroundColor =	defaultBackgroundColor;
-		self.prevYearButton.backgroundColor = defaultBackgroundColor;
-		self.prevMonthButton.backgroundColor = defaultBackgroundColor;
-		self.nextMonthButton.backgroundColor = defaultBackgroundColor;
-		self.nextYearButton.backgroundColor = defaultBackgroundColor;
-		self.monthNameLabel.backgroundColor = defaultBackgroundColor;
-		self.pictureview.backgroundColor = defaultBackgroundColor;
-		
-		[self.calendarcurrent reloadWeekdayNameLabels];
-		
-		UIColor *defaultTextColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-		self.monthNameLabel.textColor = defaultTextColor;
-		self.otherLabels.textColor = defaultTextColor;
-        self.calendarLabel.textColor = defaultTextColor;
-        self.calendarDaysLabels.textColor = defaultTextColor;
-        self.workLabel.textColor = defaultTextColor;
-        self.workLeftLabels.textColor = defaultTextColor;
+    UIColor *defaultBackgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
 
-		NSInteger viewheight = [self getviewheight];
-		CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-		[self.calendardaysview setFrame:calendardaysframe];
-		self.appDelegate.colorsChanged = NO;
-	}
-	
-	if (self.appDelegate.pictureChanged == YES) {
+    self.view.backgroundColor = defaultBackgroundColor;
+    self.overallView.backgroundColor = defaultBackgroundColor;
+    self.calendardaysview.backgroundColor =  defaultBackgroundColor;
+    self.calendarnavview.backgroundColor =  defaultBackgroundColor;
+    self.calendarview.backgroundColor =    defaultBackgroundColor;
+    self.containerview.backgroundColor =    defaultBackgroundColor;
+    self.prevYearButton.backgroundColor = defaultBackgroundColor;
+    self.prevMonthButton.backgroundColor = defaultBackgroundColor;
+    self.nextMonthButton.backgroundColor = defaultBackgroundColor;
+    self.nextYearButton.backgroundColor = defaultBackgroundColor;
+    self.monthNameLabel.backgroundColor = defaultBackgroundColor;
+    self.pictureview.backgroundColor = defaultBackgroundColor;
+    self.notWorkingLabel.backgroundColor = defaultBackgroundColor;
+    
+    [self.calendarcurrent reloadWeekdayNameLabels];
+    
+    UIColor *defaultTextColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndex];
 
-		UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[self.appDelegate imageFromCache:[self.appDelegate.settings objectForKey:@"PictureName"]]];
-		tempImageView.frame = CGRectMake(0, 0, 320, 300);
-		tempImageView.contentMode = UIViewContentModeScaleAspectFit;
-		self.pictureview = tempImageView;
-		[tempImageView release]; 
-		self.appDelegate.pictureChanged = NO;
-		[self fliptoPictureWithAnimation:YES];
-	}
-
-	
-	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li", [self.calendarcurrent currentMonthName],(long)[self.calendarcurrent currentYear]];
-	self.monthNameLabel.text = monthyearlabeltemp;
-	[monthyearlabeltemp release];
-	[self updatelabelsWithReset:YES];
-	
-	[self.calendarcurrent drawCalendarToCurrentMonth];
-	[self performSelector:@selector(capturescreen) withObject:nil afterDelay:1.0];
-	
-	self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(updateCalendarAndLabels:) userInfo:nil repeats:YES];
-
-	
-
+    self.monthNameLabel.textColor = defaultTextColor;
+    self.otherLabels.textColor = defaultTextColor;
+    self.calendarLabel.textColor = defaultTextColor;
+    self.calendarDaysLabels.textColor = defaultTextColor;
+    self.workLabel.textColor = defaultTextColor;
+    self.workLeftLabels.textColor = defaultTextColor;
+    self.notWorkingLabel.textColor = defaultTextColor;
+ 
 }
 
--(void) viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:NO];
-	[self updateNavigationBarTitle];
-
-}
-
--(void) viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:NO];
-	[self.navbarView removeFromSuperview];
-	[self.updateTimer invalidate];
-}
-
-
--(void) updateCalendarAndLabels:(NSTimer*)theTimer {
-	[self.calendarcurrent drawCalendarToCurrentMonth];
-	[self updatelabelsWithReset:NO];
-}
 
 -(NSData*)capturescreen {
+    
+
 	UIGraphicsBeginImageContext(self.view.bounds.size);
-	[self.view.layer renderInContext:UIGraphicsGetCurrentContext()]; 
+	[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
 	UIImage *screencapture = UIGraphicsGetImageFromCurrentImageContext(); 
 	UIGraphicsEndImageContext(); 
 	NSData *imageinpng = UIImagePNGRepresentation(screencapture);
 	NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
 	[imageinpng writeToFile:pathName atomically:YES];
-	NSData *returnData = [[[NSData alloc] initWithData:imageinpng] autorelease];
+	NSData *returnData = [[NSData alloc] initWithData:imageinpng];
+   
+    
+    
 	return returnData;
 }
 
-
+#pragma mark -
+#pragma mark Email Methods
 
 -(void)sendEmail {
-	
-	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
-	
-	if ((mailClass != nil) && ([mailClass canSendMail])){
+
 		MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
 		mailcontroller.mailComposeDelegate = self;
 		[mailcontroller addAttachmentData:[self capturescreen] mimeType:@"image/png" fileName:@"Retirement Countdown"];
-		[self presentModalViewController:mailcontroller animated:YES];
-		[mailcontroller release];
-		
-	}else{
-		//Alert that cannot send mail on this device OS version;
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Cannot send mail on this Device or iOS version" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-	}
+        [self presentViewController:mailcontroller animated:YES completion:nil];
+
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
@@ -318,79 +302,108 @@
 			//message.text = @"Result: not sent";
 			break;
 	}
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark -
+#pragma mark Calendar/Picture Methods
 
 -(void)flipView {
-	if ([self.pictureview superview]) {	
-//	NSLog(@"flipping to Calendar");
-		[self fliptoCalendarWithAnimation:YES];
-		
-	} else {
-//	NSLog(@"flipping to Picture");
-		[self fliptoPictureWithAnimation:YES];
-		
-	}
+    if ([self.pictureview superview]) {
+        [self fliptoCalendarWithAnimation:YES];
+        
+    } else {
+        [self fliptoPictureWithAnimation:YES];
+        
+    }
 }
 
+//+ (void)transitionWithView:(UIView *)view
+//  duration:(NSTimeInterval)duration
+//   options:(UIViewAnimationOptions)options
+//animations:(void (^)(void))animations
+//completion:(void (^)(BOOL finished))completion;
+
+
 -(void) fliptoCalendarWithAnimation:(BOOL)animated {
-	if (animated == YES){
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:1];
-		[UIView setAnimationTransition:(UIViewAnimationTransitionFlipFromLeft) forView:self.containerview cache:YES];
-		[self.pictureview removeFromSuperview];
-		[self.containerview addSubview:self.calendarview];
-		[UIView commitAnimations];
-	} else {
-		[self.pictureview removeFromSuperview];
-		[self.containerview addSubview:self.calendarview];
-	}
-	[self.appDelegate.settings setObject:@"Calendar" forKey:@"CurrentDisplay"];
-//	NSLog(@"Current Display Settings: %@",[self.appDelegate.settings objectForKey:@"CurrentDisplay"]);
+    if (animated == YES){
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1];
+        [UIView setAnimationTransition:(UIViewAnimationTransitionFlipFromLeft) forView:self.containerview cache:YES];
+        [self.pictureview removeFromSuperview];
+        [self.containerview addSubview:self.calendarview];
+        [UIView commitAnimations];
+    } else {
+        [self.pictureview removeFromSuperview];
+        [self.containerview addSubview:self.calendarview];
+    }
+    [self.appDelegate updateSettingsString:@"Calendar" forProperty:@"currentDisplay"];
+
 
 }
 
 -(void) fliptoPictureWithAnimation:(BOOL)animated {
-	if (animated == YES) {
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:1];
-		[UIView setAnimationTransition:(UIViewAnimationTransitionFlipFromLeft) forView:self.containerview cache:YES];
-		[self.calendarview removeFromSuperview];
-		for (id item in self.containerview.subviews) {
-			if ([item isKindOfClass:[UIImageView class]]) {
-				[item removeFromSuperview];
-			}
-		}
-		[self.containerview addSubview:self.pictureview];
-		[self.containerview bringSubviewToFront:self.pictureview];
-		[UIView commitAnimations];
-	} else  {
-		[self.calendarview removeFromSuperview];
-		for (id item in self.containerview.subviews) {
-			if ([item isKindOfClass:[UIImageView class]]) {
-				[item removeFromSuperview];
-			}
-		}
-		[self.containerview addSubview:self.pictureview];
-		[self.containerview bringSubviewToFront:self.pictureview];
-	}
-	[self.appDelegate.settings setObject:@"Picture" forKey:@"CurrentDisplay"];
+    
+    NSString* fullImageName;
+    if (self.appDelegate.settingsNew.customPicture == 0)
+    {
+        fullImageName = [GlobalMethods fullImageNameFor:DefaultPicture];
+    }
+    else
+    {
+        fullImageName = [GlobalMethods fullImageNameFor:CustomPicture];
+        
+    }
+    UIImage* tempImage =[UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:fullImageName]];
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:tempImage];
+    tempImageView.frame = CGRectMake(0, 0, 320, 300);
+    tempImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.pictureview = tempImageView;
+    if (animated == YES) {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:1];
+        [UIView setAnimationTransition:(UIViewAnimationTransitionFlipFromLeft) forView:self.containerview cache:YES];
+        [self.calendarview removeFromSuperview];
+        for (id item in self.containerview.subviews) {
+            if ([item isKindOfClass:[UIImageView class]]) {
+                [item removeFromSuperview];
+            }
+        }
+        [self.containerview addSubview:self.pictureview];
+        [self.containerview bringSubviewToFront:self.pictureview];
+        [UIView commitAnimations];
+    } else  {
+        [self.calendarview removeFromSuperview];
+        for (id item in self.containerview.subviews) {
+            if ([item isKindOfClass:[UIImageView class]]) {
+                [item removeFromSuperview];
+            }
+        }
+        [self.containerview addSubview:self.pictureview];
+        [self.containerview bringSubviewToFront:self.pictureview];
+    
+    }
+ 
+     [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];
+ 
+
 }
 
 
-
+#pragma mark -
+#pragma mark Load ViewController Methods
 
 -(IBAction)showSettingsView:(id)sender {
-	RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
-	rcsettingsViewController.title = @"Settings";
-	[[self navigationController] pushViewController:rcsettingsViewController animated:YES];
-	[rcsettingsViewController release];
+    RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
+    rcsettingsViewController.title = @"Settings";
+    [[self navigationController] pushViewController:rcsettingsViewController animated:YES];
 
-}
+
+  }
 
 
 -(void)updatelabelsWithReset:(bool)reset {
+   
 
 	if (reset) {
 		self.yearLabel.text = @"";
@@ -401,75 +414,109 @@
 		self.minutesLabel.text = @"";
 		self.secondsLabel.text = @"";
 	}
-	TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
-	self.displayoption = [self.appDelegate.settings objectForKey:@"DisplayOption"];
-	
-	if ([self.timer isValid] == YES){
-		[self.timer invalidate];
-	}	
-	
-
-
-    NSArray *dayAndSecondsLeft = [myTimeRemaining getTimeRemainingFor:[self.appDelegate.settings objectForKey:@"RetirementDate"]];
-    self.daysleft = [[dayAndSecondsLeft objectAtIndex:0]intValue];
-    self.totalsecondsleft = [[dayAndSecondsLeft objectAtIndex:1]intValue];
-
-    NSNumber* daysLeftNumber = [NSNumber numberWithInt:self.daysleft];
-    NSString* daysLeftString = [NSNumberFormatter localizedStringFromNumber:daysLeftNumber numberStyle:kCFNumberFormatterDecimalStyle];
+    self.displayoption = self.appDelegate.settingsNew.displayOption;
+     if ([self.timer isValid] == YES){
+        [self.timer invalidate];
+    }
+    TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
+    [myTimeRemaining updateTimeRemaining];
+    
+    if (self.appDelegate.calendarYearsLeft < 0)
+    {
+         [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels Before Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+         [self updateColors];
+         [self.appDelegate refreshSettings];
+         [self.appDelegate updateDaysInDayTable];
+        [myTimeRemaining updateTimeRemaining];
+        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels After Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+    }
+    
+ 
+    self.daysleft = self.appDelegate.totalWorkdays;
+    self.totalsecondsleft = self.appDelegate.secondsLeftToday;
+    NSNumber* daysLeftNumber = [NSNumber numberWithInteger:self.appDelegate.totalWorkdays];
+    NSString* daysLeftString = [NSNumberFormatter localizedStringFromNumber:daysLeftNumber numberStyle:NSNumberFormatterDecimalStyle];
 	self.workDaysLabel.text = daysLeftString;
-    self.hoursLabel.text = @"0";
-    self.minutesLabel.text = @"0";
-    self.secondsLabel.text = @"0";
+
     
     if (self.totalsecondsleft > 0) {
-        [self starttimer];
+        [self setTimerForRemaining];
 		self.notWorkingLabel.hidden = YES;
     }
     else
     {
     	self.notWorkingLabel.hidden = NO;
+        self.hoursLabel.text = @"0";
+        self.minutesLabel.text = @"0";
+        self.secondsLabel.text = @"0";
     }
+    
+    self.secondsleft = self.totalsecondsleft % 60;
+    self.minutesleft = self.totalsecondsleft / 60;
+    self.hoursleft = self.minutesleft / 60;
+    self.minutesleft = self.minutesleft % 60;
 
-    NSDateComponents *abscomps= [myTimeRemaining getAbsoluteTimeRemaining:[self.appDelegate.settings objectForKey:@"RetirementDate"]];
-    int years = [abscomps year];
-    int months = [abscomps month];
-    int days = [abscomps day];
-    self.yearLabel.text = [NSString stringWithFormat:@"%i",years];
-    self.monthLabel.text = [NSString stringWithFormat:@"%i",months];
-    self.dayLabel.text = [NSString stringWithFormat:@"%i",days];
-	[myTimeRemaining release];
-	
+    self.hoursLabel.text = [NSString stringWithFormat:@"%li",(long)self.hoursleft];
+    self.minutesLabel.text = [NSString stringWithFormat:@"%li",(long)self.minutesleft];
+    self.secondsLabel.text = [NSString stringWithFormat:@"%li",(long)self.secondsleft];
+ 
+    self.yearLabel.text =[NSString stringWithFormat:@"%li",(long)self.appDelegate.calendarYearsLeft];
+    self.monthLabel.text = [NSString stringWithFormat:@"%li",(long)self.appDelegate.calendarMonthsLeft];
+    self.dayLabel.text = [NSString stringWithFormat:@"%li",(long)self.appDelegate.calendarDaysLeft];
+    
+    if (self.appDelegate.totalAnnualDaysOff>0)
+    {
+        self.annualLabel.text =[NSString stringWithFormat:@"Includes %li",(long)self.appDelegate.totalAnnualDaysOff];
+        self.annualLabel.hidden = NO;
+        self.annual2Label.hidden = NO;
+    }
+    else
+    {
+        self.annualLabel.hidden = YES;
+        self.annual2Label.hidden = YES;
+    }
+    
+  
 }
 
--(void)starttimer {
-	
-	self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMode) userInfo:nil repeats:YES];
-	
+
+-(void)setTimerForRemaining
+{
+
+    [self timerMode];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMode) userInfo:nil repeats:YES];
+    
 }
+
 
 -(void)timerMode {
-	
-	self.secondsleft = self.totalsecondsleft % 60;
-	self.minutesleft = self.totalsecondsleft / 60;
-	self.hoursleft = self.minutesleft / 60;
-	self.minutesleft = self.minutesleft % 60;
-	
-	if (self.totalsecondsleft == 1) {
+
+	if (self.totalsecondsleft <= 1) {
 		[self.timer invalidate];
 		self.timer = nil; 
 	}
 	self.totalsecondsleft--;
-    NSNumber* daysLeftNumber = [NSNumber numberWithInt:self.daysleft];
-    NSString* daysLeftString = [NSNumberFormatter localizedStringFromNumber:daysLeftNumber numberStyle:kCFNumberFormatterDecimalStyle];
-	self.workDaysLabel.text = daysLeftString;
-    self.hoursLabel.text = [NSString stringWithFormat:@"%i",self.hoursleft];
-    self.minutesLabel.text = [NSString stringWithFormat:@"%i",self.minutesleft];
-    self.secondsLabel.text = [NSString stringWithFormat:@"%i",self.secondsleft];
+ 
+    self.secondsleft = self.totalsecondsleft % 60;
+    self.minutesleft = self.totalsecondsleft / 60;
+    self.hoursleft = self.minutesleft / 60;
+    self.minutesleft = self.minutesleft % 60;
+ 
+ 
+//    NSNumber* daysLeftNumber = [NSNumber numberWithInteger:self.daysleft];
+//    NSString* daysLeftString = [NSNumberFormatter localizedStringFromNumber:daysLeftNumber numberStyle:kCFNumberFormatterDecimalStyle];
+//	self.workDaysLabel.text = daysLeftString;
+    self.workDaysLabel.text = [NSString stringWithFormat:@"%li",(long)self.daysleft];
+    self.hoursLabel.text = [NSString stringWithFormat:@"%li",(long)self.hoursleft];
+    self.minutesLabel.text = [NSString stringWithFormat:@"%li",(long)self.minutesleft];
+    self.secondsLabel.text = [NSString stringWithFormat:@"%li",(long)self.secondsleft];
 }
 
--(NSInteger)getviewheight {
+-(CGRect)getCalendarDaysFrame {
+
 	NSInteger totalweeks = self.calendarcurrent.totalweeks;
-	int height = 0;
+
+	NSInteger height = 0;
 	if(totalweeks == 4) {
 		height = kCalendarDaysHeight4;
 	}	
@@ -479,41 +526,46 @@
 	if(totalweeks == 6) {
 		height = kCalendarDaysHeight6;
 	}
-	return height;
+   
+    CGRect frame = CGRectMake(kCalendarDaysleft, kCalendarDaystop, kCalendarwidth, height);
+
+	return frame;
 }
 
 
 -(void)GotoToday {
-	NSString *currentdisplay = [self.appDelegate.settings objectForKey:@"CurrentDisplay"];
-	if ([currentdisplay isEqualToString:@"Picture"]) { 
-		[self fliptoCalendarWithAnimation:YES];
-	}
-	[self performTransition:3];
-	[self.calendarcurrent gotoToday];
-	NSInteger viewheight = [self getviewheight];
-	CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-	[self.calendardaysview setFrame:calendardaysframe];
-	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
-	self.monthNameLabel.text = monthyearlabeltemp;
-	[monthyearlabeltemp release];
-	[self updatelabelsWithReset:YES];
+   
+
+    if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Picture"]) {
+        [self fliptoCalendarWithAnimation:YES];
+         
+    }
+    [self performTransition:3];
+    [self.calendarcurrent gotoToday];
+    [self.calendardaysview setFrame:[self getCalendarDaysFrame]];
+
+    NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
+    self.monthNameLabel.text = monthyearlabeltemp;
+  
+
+
 }
 
 
+
+
 -(void)GotoRetirementDay {
-	NSString *currentdisplay = [self.appDelegate.settings objectForKey:@"CurrentDisplay"];
-	if ([currentdisplay isEqualToString:@"Picture"]) { 
+
+	if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Picture"]) {
 		[self fliptoCalendarWithAnimation:YES];
 	}
 	[self performTransition:3];
 	[self.calendarcurrent gotoRetirementDay];
-	NSInteger viewheight = [self getviewheight];
-	CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-	[self.calendardaysview setFrame:calendardaysframe];
+	[self.calendardaysview setFrame:[self getCalendarDaysFrame]];
+
 	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 	self.monthNameLabel.text = monthyearlabeltemp;
-	[monthyearlabeltemp release];
-	[self updatelabelsWithReset:YES];
+
 }
 
 
@@ -522,13 +574,11 @@
 	{
 		[self performTransition:1];
 		[self.calendarcurrent previousMonth];
-		NSInteger viewheight = [self getviewheight];
-		CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-		[self.calendardaysview setFrame:calendardaysframe];
+		[self.calendardaysview setFrame:[self getCalendarDaysFrame]];
+
 		NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 		self.monthNameLabel.text = monthyearlabeltemp;
-		[monthyearlabeltemp release];
-		[self updatelabelsWithReset:YES];
+
 	}
 	
 }
@@ -538,13 +588,11 @@
 	{
 		[self performTransition:2];
 		[self.calendarcurrent nextMonth];
-		NSInteger viewheight = [self getviewheight];
-		CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-		[self.calendardaysview setFrame:calendardaysframe];
+		[self.calendardaysview setFrame:[self getCalendarDaysFrame]];
+
 		NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 		self.monthNameLabel.text = monthyearlabeltemp;
-		[monthyearlabeltemp release];
-		[self updatelabelsWithReset:YES];
+
 	}
 }
 
@@ -554,31 +602,28 @@
 	{
 		[self performTransition:1];
 		[self.calendarcurrent previousYear];
-		NSInteger viewheight = [self getviewheight];
-		CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-		[self.calendardaysview setFrame:calendardaysframe];
+		[self.calendardaysview setFrame:[self getCalendarDaysFrame]];
 		NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 		self.monthNameLabel.text = monthyearlabeltemp;
-		[monthyearlabeltemp release];
-		[self updatelabelsWithReset:YES];
+
 	}
 }
 
 - (IBAction)nextYear:(id)sender { 
 	[self performTransition:2];
 	[self.calendarcurrent nextYear];
-	NSInteger viewheight = [self getviewheight];
-	CGRect calendardaysframe = CGRectMake(kCalendarDaysleft,kCalendarDaystop,kCalendarwidth,viewheight);
-	[self.calendardaysview setFrame:calendardaysframe];
+
+	[self.calendardaysview setFrame:[self getCalendarDaysFrame]];
+
 	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 	self.monthNameLabel.text = monthyearlabeltemp;
-	[monthyearlabeltemp release];
-	[self updatelabelsWithReset:YES];
+
 }
 
 
 -(void)performTransition:(NSInteger)direction
 {
+
 	// Create a CATransition object to describe the transition
 	CATransition *transition = [CATransition animation];
 	transition.duration = 0.35;
@@ -603,324 +648,139 @@
 	self.transitioning = YES;
 	transition.delegate = self;
 	[self.calendardaysview.layer addAnimation:transition forKey:nil];
-	
+    
+	 
 }
 
 -(void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
+
 	self.transitioning = NO;
-}
-
-- (void)daySelectedDoubleTap:(id)sender {
-	[self.calendarcurrent updateSelectionDoubleTap:sender];
-	[self updatelabelsWithReset:YES];
-
-}
-
-- (void)daySelectedSingleTap:(id)sender { 
-	[self.calendarcurrent updateSelection:sender];
-	[self updatelabelsWithReset:YES];
-
-}
-
--(void)resetTapCount:(id)sender {
-//	if (self.tapCount == 1) {
-//		[self daySelectedSingleTap:(id)sender];
-//	} 
-	self.tapCount = 0;
-	
-}
-
-
-- (void)dayButtonTapped:(UIButton*)sender { 
-
-	if (sender.tag > 0) {
-		NSString *path = [GlobalMethods dataFilePathofBundle:@"click1.wav"];
-		
-		//declare a system sound id
-		SystemSoundID soundID;
-		
-		//Get a URL for the sound file
-		NSURL *filePath = [NSURL fileURLWithPath:path isDirectory:NO];
-		
-		//Use audio sevices to create the sound
-		AudioServicesCreateSystemSoundID((CFURLRef)filePath, &soundID);
-		
-		//Use audio services to play the sound
-		AudioServicesPlaySystemSound(soundID);
-
-
-        self.tapCount = self.tapCount + 1; 
-        //NSLog(@"[sender tag]  %i",[sender tag]);
-        switch (self.tapCount) {
-            case 1:
-                [self daySelectedSingleTap:(id)sender];
-                [self performSelector:@selector(resetTapCount:) withObject:(id)sender afterDelay:0.7];
-                break;
-            case 2:
-                self.tapCount = 0;
-                [self daySelectedDoubleTap:(id)sender];
-                break;
-            default:
-                break;
-        }
-    }
+  
 }
 
 
 
 -(void) showGotoView {
+  
 	NSString *pictureStatus;
-	if ([[self.appDelegate.settings objectForKey:@"CurrentDisplay"] isEqualToString:@"Calendar"]) {
+	if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Calendar"]) {
 		pictureStatus = @"Display Picture";
 	} else {
 		pictureStatus = @"Display Calendar";
 	}
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@" " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Go To Today",@"Go To Retirement Date",pictureStatus, @"Send Email",nil];
-	actionSheet.tag = 1;
-	[actionSheet showInView:self.containerview];
-	[actionSheet release];
-}
+    
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"What do you want to do?" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
 
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-//NSLog(@"actionSheet.tag %i",actionSheet.tag);
-//NSLog(@"buttonIndex  %i",buttonIndex);
-
-	if (actionSheet.tag == 1) {
-		if(buttonIndex == 0) {
-			[self GotoToday];
-		} else if (buttonIndex == 1) {
-			[self GotoRetirementDay];
-		} else if (buttonIndex == 2) {
-			[self flipView];
-		} else if (buttonIndex == 3) {
-			[self sendEmail];
-		}
-	} else if (actionSheet.tag == 2) {
-		if(buttonIndex == 0) {
-			[self.appDelegate.settings setObject:@"NO" forKey:@"FirstTimeLoad"];
-			[self.appDelegate saveAllData];
-		}
-	}
-}
-
-- (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
-	if (actionSheet.tag == 2) {
-		UIImageView *settingsButton  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SettingsButton.png"]];
-		settingsButton.frame = CGRectMake(20, 50, 49, 34);
-		[actionSheet addSubview:settingsButton];
-		[settingsButton release];
-	}
-	
-}
-
-
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
-
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations.
-	 return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
+    UIAlertAction *button1 = [UIAlertAction actionWithTitle:@"Go To Today"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                        [self GotoToday];
+                                                   }];
+    UIAlertAction *button2 = [UIAlertAction actionWithTitle:@"Go To Retirement Date"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                       [self GotoRetirementDay];
+                                                   }];
  
+    UIAlertAction *button3 = [UIAlertAction actionWithTitle:pictureStatus
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                       [self flipView];
+                                                   }];
+    
+    UIAlertAction *button4 = [UIAlertAction actionWithTitle:@"Send Email"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                       [self sendEmail];
+                                                   }];
+    UIAlertAction *button5 = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction *action){
+                                                       //add code to make something happen once tapped
+                                                   }];
+//    [button1 setValue:[[UIImage imageNamed:@"beach.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
 
-#pragma mark ADBannerViewDelegate methods
+    [alertVC addAction:button1];
+    [alertVC addAction:button2];
+    [alertVC addAction:button3];
+    [alertVC addAction:button4];
+    [alertVC addAction:button5];
+    
+    [self presentViewController:alertVC animated:YES completion:nil];
 
-//-(void) loadAd {
-//	Class classAdBannerView = NSClassFromString(@"ADBannerView");
-//	if (classAdBannerView) {
-//		ADBannerView *tempAdView = [[classAdBannerView alloc] initWithFrame:CGRectZero];
-//		
-//		
-//		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 4.2) {
-//			tempAdView.currentContentSizeIdentifier =  ADBannerContentSizeIdentifierPortrait;
-//		} else {
-//			tempAdView.currentContentSizeIdentifier = ADBannerContentSizeIdentifier320x50;
+    
+//    UIAlertController *actionSheet = [[UIAlertController alloc] initWithPreferredStyle:UIAlertControllerStyleActionSheet];
+//
+//    actionSheet.preferredStyle = UIAlertControllerStyleActionSheet;
+//                                      initWithTitle:@" " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Go To Today",@"Go To Retirement Date",pictureStatus, @"Send Email",nil];
+//	actionSheet.tag = 1;
+//	[actionSheet showInView:self.containerview];
+
+}
+
+
+//- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+//
+//	if (actionSheet.tag == 1) {
+//		if(buttonIndex == 0) {
+//			[self GotoToday];
+//		} else if (buttonIndex == 1) {
+//			[self GotoRetirementDay];
+//		} else if (buttonIndex == 2) {
+//			[self flipView];
+//		} else if (buttonIndex == 3) {
+//			[self sendEmail];
 //		}
-//		tempAdView.delegate = self;
-//		
-//		// Set initial frame to be offscreen
-//		tempAdView.frame = CGRectMake(0, -50, 320, 50);
-//		
-//		// add adView to View
-//		self.adView = tempAdView;
-//		[self.view addSubview:self.adView];
-//		[tempAdView release];
+////	} else if (actionSheet.tag == 2) {
+////		if(buttonIndex == 0) {
+////			[self.appDelegate.settings setObject:@"NO" forKey:@"FirstTimeLoad"];
+////			[self.appDelegate saveAllData];
+////		}
+////	}
+//}
+
+//- (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+//	if (actionSheet.tag == 2) {
+//		UIImageView *settingsButton  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SettingsButton.png"]];
+//		settingsButton.frame = CGRectMake(20, 50, 49, 34);
+//		[actionSheet addSubview:settingsButton];
+//
 //	}
-//	
-//}
-
-
-- (void)createBannerView {
 	
-	
-	
-    Class cls = NSClassFromString(@"ADBannerView");
-    if (cls) {
-		NSLog(@"cls");
-        NSString *MycontentSizeIdentifierPortrait = ADBannerContentSizeIdentifierPortrait;
-
-        ADBannerView *adView = [[cls alloc] initWithFrame:CGRectZero];
-        adView.requiredContentSizeIdentifiers = [NSSet setWithObjects:MycontentSizeIdentifierPortrait,nil];
-		
-        // Set the current size based on device orientation
-        adView.currentContentSizeIdentifier = MycontentSizeIdentifierPortrait;
-        adView.delegate = self;
-
-		
-        // Set intital frame to be offscreen
-        CGRect bannerFrame = adView.frame;
-        bannerFrame.origin.y = -bannerFrame.size.height;
-        adView.frame = bannerFrame;
-
-        self.bannerView = adView;
-        [self.view addSubview:self.bannerView];
-		[self.view bringSubviewToFront:self.bannerView];
-        [adView release];
-
-    }
-	
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner {
-NSLog(@"bannerViewDidLoadAd");
-	if (!self.bannerIsVisible) {
-		[UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-		// banner is invisible now and moved out of the screen on 50 px
-		banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
-		self.overallView.frame = CGRectOffset(self.overallView.frame, 0, 50);
-//		self.timeRemainingText.frame = CGRectOffset(self.timeRemainingText.frame, 0, -50);
-//		self.timeRemainingLabel.frame = CGRectOffset(self.timeRemainingLabel.frame, 0, -50);
-//		self.otherLabels.frame = CGRectOffset(self.otherLabels.frame, 0, -50);
-		[UIView commitAnimations];
-		self.bannerIsVisible = YES;
-		
-	//	NSLog(@"banner.frame %f",banner.frame.origin.x);
-	//	NSLog(@"banner.frame %f",banner.frame.origin.y);
-	//	NSLog(@"banner.frame %f",banner.frame.size.width);
-	//	NSLog(@"banner.frame %f",banner.frame.size.height);
-		
-
-	}
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-NSLog(@"didFailToReceiveAdWithError %@",[error localizedDescription]);
-	if (self.bannerIsVisible) {
-		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-		// banner is visible and we move it out of the screen, due to connection issue
-		banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
-		self.overallView.frame = CGRectOffset(self.overallView.frame, 0, -50);
-		[UIView commitAnimations];
-		self.bannerIsVisible = NO;
-		
-	//	NSLog(@"banner.frame %f",banner.frame.origin.x);
-	//	NSLog(@"banner.frame %f",banner.frame.origin.y);
-	//	NSLog(@"banner.frame %f",banner.frame.size.width);
-	//	NSLog(@"banner.frame %f",banner.frame.size.height);
-	}
-}
-
-
--(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
-	NSLog(@"ForumRootViewController willLeaveApplication");
-    return YES;
-}
-
--(void)bannerViewActionDidFinish:(ADBannerView *)banner {
-	NSLog(@"ForumRootViewController bannerViewActionDidFinish");
-}
-
-//- (void)createBannerView {
-//	
-//	
-//	
-//    Class cls = NSClassFromString(@"ADBannerView");
-//    if (cls) {
-//		NSLog(@"cls");
-//        NSString *MycontentSizeIdentifierPortrait = ADBannerContentSizeIdentifierPortrait;
-//
-//        ADBannerView *adView = [[cls alloc] initWithFrame:CGRectZero];
-//        adView.requiredContentSizeIdentifiers = [NSSet setWithObjects:MycontentSizeIdentifierPortrait,nil];
-//		
-//        // Set the current size based on device orientation
-//        adView.currentContentSizeIdentifier = MycontentSizeIdentifierPortrait;
-//        adView.delegate = self;
-//
-//        // Set intital frame to be offscreen
-//        CGRect bannerFrame = adView.frame;
-//        bannerFrame.origin.y = -50;
-//        adView.frame = bannerFrame;
-//
-//        self.bannerView = adView;
-//        [self.view addSubview:self.bannerView];
-//        [adView release];
-//
-//    }
-//	
 //}
-//
-//- (void)bannerViewDidLoadAd:(ADBannerView *)banner {
-//	if (!self.bannerIsVisible) {
-//		[UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-//		// banner is invisible now and moved out of the screen on 50 px
-//		banner.frame = CGRectOffset(banner.frame, 0, 50);
-//		self.overallView.frame = CGRectOffset(self.overallView.frame, 0, 50);
-//		[UIView commitAnimations];
-//		self.bannerIsVisible = YES;
-//	}
-//}
-//
-//- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-//	if (self.bannerIsVisible) {
-//		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-//		// banner is visible and we move it out of the screen, due to connection issue
-//		banner.frame = CGRectOffset(banner.frame, 0, -50);
-//		self.overallView.frame = CGRectOffset(self.overallView.frame, 0, -50);
-//		[UIView commitAnimations];
-//		self.bannerIsVisible = NO;
-//	}
-//}
-//
-//
-//-(BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
-//	NSLog(@"ForumRootViewController willLeaveApplication");
-//    return YES;
-//}
-//
-//-(void)bannerViewActionDidFinish:(ADBannerView *)banner {
-//	NSLog(@"ForumRootViewController bannerViewActionDidFinish");
-//}
-//
 
 
+-(void)displayUpgradeNotice
+{
+    UpgradeNoticeViewController *upgradeNoticeViewController = [[UpgradeNoticeViewController alloc] initWithNibName:@"UpgradeNoticeViewController" bundle:nil];
+    [[self navigationController] pushViewController:upgradeNoticeViewController animated:YES];
+
+}
 
 #pragma mark -
-#pragma mark Memory management
+#pragma mark Not Used Methods
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-//    [super didReceiveMemoryWarning];
-//	NSLog(@"Recieved memory warning");
-//	self.pictureview.image = nil;
-//	for (id btn in self.calendarcurrent.dayButtons) {
-//		[btn setBackgroundImage:nil forState:UIControlStateNormal];
-//		[btn setBackgroundImage:nil forState:UIControlStateHighlighted];
-//	}
+
+- (void) pushVC:(UIViewController*)dstVC {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    [self.navigationController pushViewController:dstVC animated:NO];
 }
 
-- (void)viewDidUnload {
-    if (self.bannerView) {
-        bannerView.delegate = nil;
-        self.bannerView = nil;
-	}
 
+- (void) popVC {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionFade;
+    transition.subtype = kCATransitionFromBottom;
+    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 @end

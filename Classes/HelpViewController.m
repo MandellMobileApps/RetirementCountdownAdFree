@@ -8,18 +8,23 @@
 
 #import "HelpViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "TimeRemaining.h"
+#import "SSZipArchive/SSZipArchive.h"
 
 
 @implementation HelpViewController
 
-@synthesize textLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
+    self.okToSend = NO;
+    self.removeView = NO;
+    self.submitButton.enabled = YES;
+    
 	//set label at top to settings colors
-	self.textLabel.textColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	self.textLabel.textColor = self.textColor;
 
 	// add scrollview content
 	
@@ -27,188 +32,298 @@
 	[iconView setFrame:CGRectMake(50, 20, 100, 100)];
 	iconView.contentMode = UIViewContentModeScaleAspectFit;
 	[self.view addSubview:iconView];
-	[iconView release];
+
 
 	// Welcome Title
 	UILabel *welcome = [[UILabel alloc] init];
 	welcome.font = [UIFont systemFontOfSize:24];
 	welcome.frame = CGRectMake(170, 45, 150, 50);
-	welcome.textColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-	welcome.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	welcome.textColor = self.textColor;
+	welcome.backgroundColor = self.backgroundColor;
 	welcome.text = @" Enjoy!";
 //	welcome.layer.borderWidth = 2;
 //	welcome.layer.borderColor = [[UIColor redColor] CGColor];
 	[self.view addSubview:welcome];
-	[welcome release];
+
 	
 
 	UILabel *feedback = [[UILabel alloc] init];
 	feedback.font = [UIFont systemFontOfSize:14];
-	feedback.textColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.textColors objectAtIndex:7])];
-	feedback.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	feedback.numberOfLines = 0;
-	feedback.textAlignment = UITextAlignmentCenter;
-	feedback.text = @"Please Let me know \n what you think about this App!\n\n"
-	@"You can post on the AppStore, \email me at Support@MandellMobileApps.com,\n or tap on the button below.\n\n"
-	"\n";
-	[feedback setFrame:CGRectMake(10, 140, 290, 150)];
-//	feedback.layer.borderWidth = 2;
-//	feedback.layer.borderColor = [[UIColor redColor] CGColor];
+	feedback.textColor = self.textColor;
+	feedback.backgroundColor = self.backgroundColor;
+	feedback.numberOfLines = 1;
+	feedback.textAlignment = NSTextAlignmentCenter;
+	feedback.text = @"Add Question or Comment Here: ";
+	[feedback setFrame:CGRectMake(20, 120, self.view.bounds.size.width-40, 30)];
 	[self.view addSubview:feedback];
-	[feedback release];	
 
+	// issue
+	self.textView = [[UITextView alloc] init];
+    self.textView.delegate = self;
+	self.textView.frame = CGRectMake(20, 150, self.view.bounds.size.width-40, 110.0);
+     [self.view addSubview:self.textView];
+    
+ 
+    
+    // email button
+    self.submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.submitButton addTarget:self action:@selector(submitEmail) forControlEvents:UIControlEventTouchUpInside];
+    [self.submitButton setTitle:@"Submit" forState:UIControlStateNormal];
+    self.submitButton.frame = CGRectMake(20, 330, self.view.bounds.size.width-40, 40.0);  //self.view.bounds.size.width
+    [self.view addSubview:self.submitButton];
+    
+    UILabel *explain = [[UILabel alloc] init];
+    explain.font = [UIFont systemFontOfSize:14];
+    explain.textColor = self.textColor;
+    explain.backgroundColor = self.backgroundColor;
+    explain.numberOfLines = 3;
+    explain.textAlignment = NSTextAlignmentCenter;
+    explain.text = @"After you tap Submit,\nSend the email shown.";
+    [explain setFrame:CGRectMake(20, 360, self.view.bounds.size.width-40, 75)];
+    [self.view addSubview:explain];
+    
+        [self addDeviceInfo];
+  
+    
+}
 
-	// email button
-	UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	[button addTarget:self action:@selector(sendEmail) forControlEvents:UIControlEventTouchUpInside];
-	[button setTitle:@"Send Email" forState:UIControlStateNormal];
-	button.frame = CGRectMake(100, 300, 120.0, 40.0);
-	[self.view addSubview:button];
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self.textView performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.0];
 
 }
 
 
--(void) sendEmail {
-	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
-	
-	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	NSDateFormatter *dateFormatter2 = [[[NSDateFormatter alloc] init] autorelease];
-	NSDateFormatter *dateFormatter3 = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	
-	[dateFormatter2 setDateStyle:NSDateFormatterNoStyle];
-	[dateFormatter2 setTimeStyle:NSDateFormatterShortStyle];	
-	
-	[dateFormatter3 setDateStyle:NSDateFormatterMediumStyle];
-	[dateFormatter3 setTimeStyle:NSDateFormatterShortStyle];
-	
-	if ((mailClass != nil) && ([mailClass canSendMail])){
-		MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
-		mailcontroller.mailComposeDelegate = self;
-		UIDevice *thisDevice = [UIDevice currentDevice];
-		NSMutableString *holidays = [NSMutableString string];
-		for (id item in appDelegate.holidaylist) {
-			if ([[item objectForKey:@"selected"] isEqualToString:@"YES"]) {
-				[holidays appendString:[NSString stringWithFormat:@"%@;\n",[item objectForKey:@"name"]]];
-				[holidays appendString:[NSString stringWithFormat:@"     month: %i\n",[[item objectForKey:@"month"] intValue]]];
-				[holidays appendString:[NSString stringWithFormat:@"     day: %i\n",[[item objectForKey:@"day"] intValue]]];
-				[holidays appendString:[NSString stringWithFormat:@"     weekday: %i\n",[[item objectForKey:@"weekday"]intValue]]];
-				[holidays appendString:[NSString stringWithFormat:@"     ordinalweekday: %i\n\n",[[item objectForKey:@"ordinalweekday"] intValue]]];
-			}
-		}
-		NSMutableString *workdays = [NSMutableString stringWithString:@"Workdays: "];
-		for (int i=0;i<[appDelegate.workdays count];i++) {
-				[workdays appendString:[NSString stringWithFormat:@"%@,",[appDelegate.workdays objectAtIndex:i]]];
-			}
-		[workdays appendString:@"\n"];
-		
-		NSMutableString *manualworkdays = [NSMutableString stringWithString:@"Manual Workdays: "];
-		NSLog(@"[appDelegate.manualworkdays count] %i",[appDelegate.manualworkdays count]);
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(nonnull NSString *)text
+{
+     if ([text isEqualToString:@"\n"])
+     {
+         [textView resignFirstResponder];
+         return FALSE;
+     }
+    return TRUE;
+}
 
-		for (int i=0;i<[appDelegate.manualworkdays count];i++) {
-			[manualworkdays appendString:[NSString stringWithFormat:@"%@ - ",[dateFormatter stringFromDate:[[appDelegate.manualworkdays objectAtIndex:i] objectAtIndex:0]]]];
-			[manualworkdays appendString:[NSString stringWithFormat:@"%@\n",[[appDelegate.manualworkdays objectAtIndex:i] objectAtIndex:1]]];
-		}
-		[manualworkdays appendString:@"\n"];
-		
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+   
+    if (self.textView.hasText)
+    {
+  
+        self.okToSend = YES;
+    }
+    else
+    {
 
-				
-		NSString *version =[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
-		NSString *subject;
-#ifdef LITE_VERSION
-		subject = [NSString stringWithFormat:@"Retirement Countdown Lite feedback"];
+        self.okToSend = NO;
+    }
 
-#else
-		subject = [NSString stringWithFormat:@"Retirement Countdown feedback"];
+    
+}
 
-#endif 
-		
-		NSString *body = [NSString stringWithFormat:@"App Settings: \nApp Version: %@\nDevice Name: %@\niOS Version: %@\nDevice Model: %@\nCurrent Date: %@\nRetirement Date: %@\nBeginning Workhours: %@\nEnd Workhours: %@\nCurrent Display: %@\nDisplay Option: %@\nAnnual Days Off: %@, %@, %@\n%@\n%@\nHolidays: %@\n",
-							 version,
-							 thisDevice.systemName,
-							 thisDevice.systemVersion,
-							 thisDevice.model,
-							 [dateFormatter3 stringFromDate:[NSDate date]],
-							 [dateFormatter stringFromDate:[appDelegate.settings objectForKey:@"RetirementDate"]],
-							 [dateFormatter2 stringFromDate:[appDelegate.settings objectForKey:@"BeginWorkhours"]],
-							 [dateFormatter2 stringFromDate:[appDelegate.settings objectForKey:@"EndWorkhours"]],
-							 [appDelegate.settings objectForKey:@"CurrentDisplay"],
-							 [appDelegate.settings objectForKey:@"DisplayOption"],
-							 [appDelegate.settings objectForKey:@"ThisYearDaysOff"],
-							 [appDelegate.settings objectForKey:@"AllYearsDaysOff"],
-							 [appDelegate.settings objectForKey:@"RetirementYearDaysOff"],
-							 workdays,
-							 manualworkdays,
-							 holidays
-									];		
+-(void)submitEmail
+{
+    
+    self.submitButton.enabled = NO;
+    if (self.okToSend)
+    {
+        
+        [self sendEmailWithDebug];
+    }
+    else
+    {
+               //Alert that cannot send mail on this device OS version;
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Please Enter Your Question or Comment" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+        self.submitButton.enabled = YES;
+        
+    }
 
-		[mailcontroller setSubject:subject];
-		[mailcontroller setMessageBody:body isHTML:NO];
-		NSArray *recipient = [NSArray arrayWithObject:@"support@mandellmobileapps.com"];
-		[mailcontroller setToRecipients:recipient];
-		
-		NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
-		NSData *imageinpng = [[NSData alloc] initWithContentsOfFile:pathName];
-		if (imageinpng) {
-			[mailcontroller addAttachmentData:imageinpng mimeType:@"image/png" fileName:@"Retirement Countdown"];
-		}
-		[imageinpng release];
-		
-		
-		
-		
-		
-		[self presentModalViewController:mailcontroller animated:YES];
-		[mailcontroller release];
-		
-	}else{
-		//Alert that cannot send mail on this device OS version;
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Cannot send mail on this OS version" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-		[alertView release];
-	}
+    
+}
+
+
+-(void) sendEmailWithDebug {
+
+          MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
+          mailcontroller.mailComposeDelegate = self;
+          
+          TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
+          [myTimeRemaining updateTimeRemaining];
+
+    NSString *subject;
+    if (self.textView.text.length > 50)
+    {
+           subject =[self.textView.text substringToIndex:50];
+    }
+    else
+    {
+           subject =self.textView.text;
+    }
+
+          NSString *body = [NSString stringWithFormat:@"%@\n\n",self.textView.text];
+
+          [mailcontroller setSubject:subject];
+          [mailcontroller setMessageBody:body isHTML:NO];
+          
+          NSArray *recipient = [NSArray arrayWithObject:@"support@mandellmobileapps.zohodesk.com"];
+          [mailcontroller setToRecipients:recipient];
+          
+          NSMutableArray* paths = [NSMutableArray array];
+ 
+          NSString* path = [GlobalMethods dataFilePathofDocuments:@"Retirement.sqlite"];
+
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if ([fileManager fileExistsAtPath:path])
+            {
+              [paths addObject:path];
+            }
+
+            NSString* path2 = [GlobalMethods dataFilePathofDocuments:@"TextLog.txt"];
+            if ([fileManager fileExistsAtPath:path2])
+            {
+                [paths addObject:path2];
+            }
+
+
+          NSString* zipFilename = @"DebugLog.zip";
+          NSString* zipPath = [GlobalMethods dataFilePathofDocuments:zipFilename];;
+       
+
+          BOOL success =  [SSZipArchive createZipFileAtPath:zipPath withFilesAtPaths:paths withPassword:nil];
+              if (success) {
+                  [mailcontroller addAttachmentData:[NSData dataWithContentsOfFile:zipPath] mimeType:@"application/zip" fileName:zipFilename];
+              } else {
+                  [self.appDelegate addToDebugLog:@"Zip File did not save"];
+              }
+
+          NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
+          NSData *imageinpng = [[NSData alloc] initWithContentsOfFile:pathName];
+          if (imageinpng) {
+              [mailcontroller addAttachmentData:imageinpng mimeType:@"image/png" fileName:@"Retirement Countdown"];
+          }
+
+          NSString *pathName2 = [GlobalMethods dataFilePathofDocuments:@"SettingsScreenCapture"];
+          NSData *imageinpng2 = [[NSData alloc] initWithContentsOfFile:pathName2];
+          if (imageinpng2) {
+              [mailcontroller addAttachmentData:imageinpng2 mimeType:@"image/png" fileName:@"SettingsScreenCapture"];
+          }
+          
+          NSString *pathName3 = [GlobalMethods dataFilePathofDocuments:@"WorkdaysScreenCapture"];
+          NSData *imageinpng3 = [[NSData alloc] initWithContentsOfFile:pathName3];
+          if (imageinpng3) {
+              [mailcontroller addAttachmentData:imageinpng3 mimeType:@"image/png" fileName:@"WorkdaysScreenCapture"];
+          }
+          
+          NSString *pathName4 = [GlobalMethods dataFilePathofDocuments:@"WorkhoursScreenCapture"];
+          NSData *imageinpng4 = [[NSData alloc] initWithContentsOfFile:pathName4];
+          if (imageinpng4) {
+              [mailcontroller addAttachmentData:imageinpng4 mimeType:@"image/png" fileName:@"WorkhoursScreenCapture"];
+          }
+
+          [self presentViewController:mailcontroller animated:YES completion:nil];
+          self.removeView = YES;
+          
+
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
 	
-	switch (result)
-	{
-		case MFMailComposeResultCancelled:
-			//message.text = @"Result: canceled";
-			break;
-		case MFMailComposeResultSaved:
-			//message.text = @"Result: saved";
-			break;
-		case MFMailComposeResultSent:
-			//message.text = @"Result: sent";
-			break;
-		case MFMailComposeResultFailed:
-			//message.text = @"Result: failed";
-			break;
-		default:
-			//message.text = @"Result: not sent";
-			break;
-	}
-	[self dismissModalViewControllerAnimated:YES];
+    if (!error)
+    {
+        switch (result)
+        {
+            case MFMailComposeResultCancelled:
+                self.submitButton.enabled = YES;
+                break;
+            case MFMailComposeResultSaved:
+                self.submitButton.enabled = YES;
+                break;
+            case MFMailComposeResultSent:
+                self.removeView = YES;
+                self.textView.text = @"";
+                [self performSelector:@selector(removeViewAfterEmail) withObject:nil afterDelay:1.0];
+                break;
+            case MFMailComposeResultFailed:
+                self.submitButton.enabled = YES;
+                break;
+            default:
+                self.submitButton.enabled = YES;
+                break;
+        }
+      
+    }
+    else
+    {
+        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"mailComposeController error %@",[error localizedDescription]]];
+        self.submitButton.enabled = YES;
+        
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self messageSent];
+//        [self.appDelagate deleteDebugLog];
+     }
+     
+     ];
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
+-(void)removeViewAfterEmail
+{
+    if (self.removeView)
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+-(void) emailfailed
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Email did not send" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    
+}
+
+-(void) messageSent
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Thank You!" message:@"Message Sent" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    alertView.delegate = self;
+    alertView.tag =1;
+    [alertView layoutIfNeeded];
+    [alertView show];
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+{
+    if (alertView.tag ==1)
+    {
+        [self removeViewAfterEmail];
+    }
 }
 
 
-- (void)dealloc {
-	[textLabel release];
-    [super dealloc];
+
+-(void)addDeviceInfo
+{
+
+
+    UIDevice *thisDevice = [UIDevice currentDevice];
+    NSDateFormatter *dateFormatter3 = [[NSDateFormatter alloc] init];
+    [dateFormatter3 setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter3 setTimeStyle:NSDateFormatterShortStyle];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *deviceVersion = thisDevice.systemVersion;
+    NSString *deviceModel = thisDevice.model;
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    
+    NSMutableString* deviceInfo  = [NSMutableString string];
+    [deviceInfo appendFormat:@"AppVersion = %@,  ",version];
+    [deviceInfo appendFormat:@"iOSVersion = %@,  ",deviceVersion];
+    [deviceInfo appendFormat:@"DeviceModel = %@,  ",deviceModel];
+    [deviceInfo appendFormat:@"TimeZone = %@  ",calendar.timeZone.abbreviation];
+    
+    [self.appDelegate addToDebugLog:deviceInfo];
+
+
 }
 
 

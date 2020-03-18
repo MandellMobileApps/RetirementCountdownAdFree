@@ -8,60 +8,61 @@
 
 #import "RCSettingsViewController.h"
 #import "AboutViewController.h"
-#import "WorkScheduleViewController.h"
+
 #import "FeaturesViewController.h"
 #import "ShiftWorkViewController.h"
+#import "PurchaseViewController.h"
+#import "WebViewController.h"
 
 
 @implementation RCSettingsViewController
-
-@synthesize settings, settings0, settingsDetails, retirementDate, endworkhours, beginworkhours, dateFormatter, dateFormatter2, returntosettings, tableview; 
 
 
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#ifdef LITE_VERSION
 
-	self.settings = [NSArray arrayWithObjects:@"Retirement Date", @"Work Days",@"Work Hours", @"Holidays", @"Days Off (Personal/Vacation)", @"Select Picture", @"Select Colors",nil];
-    
-//    self.settings = [NSArray arrayWithObjects:@"Retirement Date", @"Work Days",@"Work Hours", @"Shift Work", @"Holidays", @"Days Off (Personal/Vacation)", @"Select Picture", @"Select Colors",nil];
-
-#else
 
 //	self.settings = [NSArray arrayWithObjects:@"Retirement Date", @"Work Days",@"Work Hours", @"Holidays", @"Days Off (Personal/Vacation)",@"Icon Badge Options", @"Select Picture", @"Select Colors",nil];
     
-    self.settings = [NSArray arrayWithObjects:@"Retirement Date", @"Work Days",@"Work Hours", @"Shift Work", @"Holidays", @"Days Off (Personal/Vacation)",@"Icon Badge Options", @"Select Picture", @"Select Colors",nil];
+    self.settings = [NSArray arrayWithObjects:@"Retirement Date", @"Work Days",@"Work Hours", @"Holidays", @"Days Off (Personal/Vacation)",@"Icon Badge Options", @"Select Picture", @"Select Colors",nil];
 
-#endif
 
- 	self.settings0 = [NSArray arrayWithObjects:@"Welcome",@"FAQs / Features",@"Contact Me", @"Rate this App",nil];
- 	self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	self.dateFormatter2 = [[[NSDateFormatter alloc] init] autorelease];
-	[self.dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-	[self.dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	[self.dateFormatter2 setDateStyle:NSDateFormatterNoStyle];
-	[self.dateFormatter2 setTimeStyle:NSDateFormatterShortStyle];			
-	
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-								
-	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
-	self.navigationItem.backBarButtonItem = backBarItem;
-	[backBarItem release];					
-							
+
+ 	self.settings0 = [NSArray arrayWithObjects:@"About",@"FAQs",@"Support",@"Rate this App",nil];
+			
+					
+}
+-(void)popThisViewController
+{
+   // [self.navigationController popViewControllerAnimated:YES];
+    
+    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	self.retirementDate = [self.appDelegate.settings objectForKey:@"RetirementDate"];
-	self.beginworkhours = [self.appDelegate.settings objectForKey:@"BeginWorkhours"];
-	self.endworkhours = [self.appDelegate.settings objectForKey:@"EndWorkhours"];
-	[tableview reloadData];
+
+     [self.tableview reloadData];
 	
-	[self.appDelegate saveAllData];
-	
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [self capturescreen];
+}
+-(NSData*)capturescreen {
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screencapture = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageinpng = UIImagePNGRepresentation(screencapture);
+    NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"SettingsScreenCapture"];
+    [imageinpng writeToFile:pathName atomically:YES];
+    NSData *returnData = [[NSData alloc] initWithData:imageinpng];
+    return returnData;
 }
 
 
@@ -72,10 +73,7 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
+
 
 
 #pragma mark Table view methods
@@ -86,7 +84,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	tableView.backgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
 	
 	if (section == 0) {
 		return [self.settings0 count];
@@ -102,7 +100,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 		
 		cell.textLabel.backgroundColor = [UIColor clearColor];
 		cell.textLabel.opaque = NO;
@@ -113,7 +111,7 @@
 		cell.detailTextLabel.backgroundColor = [UIColor clearColor];
 		cell.detailTextLabel.opaque = NO;
 		cell.detailTextLabel.textColor = [UIColor blueColor];
-		cell.detailTextLabel.textAlignment = UITextAlignmentRight;
+		cell.detailTextLabel.textAlignment = NSTextAlignmentRight;
 		cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
 		cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -134,187 +132,96 @@
 			cell.detailTextLabel.text = nil;
 		}
     } else {
-    
-#ifdef LITE_VERSION
-    
+
 		cell.textLabel.text = [self.settings objectAtIndex:indexPath.row];
         cell.imageView.image = nil;
-        //}
-		if (indexPath.row == 0)	{
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %@",[self.dateFormatter stringFromDate:self.retirementDate]];
-            
-		} else if (indexPath.row == 1)	{
-			NSArray *workdays = self.appDelegate.workdays;
+		if (indexPath.row == 0)
+        {
+            NSString* dateString = [GlobalMethods formattedDateForYear:self.appDelegate.settingsNew.retirementYear month:self.appDelegate.settingsNew.retirementMonth day:self.appDelegate.settingsNew.retirementDay];
+            cell.detailTextLabel.text = dateString;
+		}
+        else if (indexPath.row == 1)
+        {
+            NSString* sql = [NSString stringWithFormat:@"SELECT * FROM Workdays"];
+            NSArray* workdays = [SQLiteAccess selectManyRowsWithSQL:sql];
 			NSString *workdaystring = @"     ";
-			int i = 0;
-			for (id workday in workdays) {
-				if ([workday isEqualToString:@"YES"]) { 
-					if (i == 0) {workdaystring = [workdaystring stringByAppendingString:@"Su, "];}
-					if (i == 1) {workdaystring = [workdaystring stringByAppendingString:@"Mo, "];}
-					if (i == 2) {workdaystring = [workdaystring stringByAppendingString:@"Tu, "];}
-					if (i == 3) {workdaystring = [workdaystring stringByAppendingString:@"We, "];}
-					if (i == 4) {workdaystring = [workdaystring stringByAppendingString:@"Th, "];}
-					if (i == 5) {workdaystring = [workdaystring stringByAppendingString:@"Fr, "];}
-					if (i == 6) {workdaystring = [workdaystring stringByAppendingString:@"Sa, "];}
+
+			for (NSDictionary* workday in workdays)
+            {
+                NSInteger isWorkday = [[workday objectForKey:@"workday"] integerValue];
+				if (isWorkday == 1)
+                {
+					{workdaystring = [workdaystring stringByAppendingFormat:@"%@, ",[workday objectForKey:@"abbr"]];}
 				}
-				i++;
 			}	
-			int workdaystringlength = [workdaystring length];
-			if (workdaystringlength > 0){
+			NSInteger workdaystringlength = [workdaystring length];
+			if (workdaystringlength > 0)
+            {
 				workdaystring = [workdaystring substringToIndex:workdaystringlength-2];
 				cell.detailTextLabel.text = workdaystring;
             }
-        
-    
-		}	else if (indexPath.row == 2)	{
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %@ - %@",[self.dateFormatter2 stringFromDate:self.beginworkhours],[self.dateFormatter2 stringFromDate:self.endworkhours]];
-            
-//        } else if (indexPath.row == 3) {
-//            NSArray *shiftweeks = self.appDelegate.shiftweeks;
-//            NSString *shiftweekstring = @"     ";
-//            int i = 0;
-//            for (id shiftweek in shiftweeks) {
-//                if ([shiftweek isEqualToString:@"YES"]) {
-//                    if (i == 0) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 1, "];}
-//                    if (i == 1) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 2, "];}
-//                    if (i == 2) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 3, "];}
-//                    if (i == 3) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 4, "];}
-//				}
-//				i++;
-//        
-//        
-//			int shiftweekstringlength = [shiftweekstring length];
-//			if (shiftweekstringlength > 0){
-//				shiftweekstring = [shiftweekstring substringToIndex:shiftweekstringlength-2];
-//				cell.detailTextLabel.text = shiftweekstring;
-//            }
-        //}
-		} else if (indexPath.row == 3)	{
-			NSArray *holidayList = self.appDelegate.holidaylist;
-			int numberOfHolidaysSelected = 0;
-			for (id holiday in holidayList) {
-				if ([[holiday valueForKey:@"selected"] isEqualToString:@"YES"]) {
-					numberOfHolidaysSelected++;
-				}
-			}
-        
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %i holidays selected",numberOfHolidaysSelected];
-        
-		} else if (indexPath.row == 4)	{
-			NSString *thisYear = @"0";
-			NSString *allYears = @"0";
-			NSString *retireYear = @"0";
-			
-			if ([appDelegate.settings objectForKey:@"ThisYearDaysOff"]) {thisYear = [appDelegate.settings objectForKey:@"ThisYearDaysOff"];}
-			if ([appDelegate.settings objectForKey:@"AllYearsDaysOff"]) {allYears = [appDelegate.settings objectForKey:@"AllYearsDaysOff"];}	
-			if ([appDelegate.settings objectForKey:@"RetirementYearDaysOff"]) {retireYear = [appDelegate.settings objectForKey:@"RetirementYearDaysOff"];}
-			
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"Current - %@,  Between - %@,  Retire - %@",thisYear,allYears,retireYear];
-		
-		}	else if (indexPath.row == 5)	{
-
-			cell.detailTextLabel.text = nil;
-        }	else if (indexPath.row == 6)	{
-			cell.detailTextLabel.text = nil;
-		} else {
-			cell.detailTextLabel.text = nil;
-		}
-    
-
-#else
-
-
-		cell.textLabel.text = [self.settings objectAtIndex:indexPath.row];
-        cell.imageView.image = nil;
-		if (indexPath.row == 0)	{
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %@",[self.dateFormatter stringFromDate:self.retirementDate]];
-		} else if (indexPath.row == 1)	{
-			NSArray *workdays = self.appDelegate.workdays;
-			NSString *workdaystring = @"     ";
-			int i = 0;
-			for (id workday in workdays) {
-				if ([workday isEqualToString:@"YES"]) { 
-					if (i == 0) {workdaystring = [workdaystring stringByAppendingString:@"Su, "];}
-					if (i == 1) {workdaystring = [workdaystring stringByAppendingString:@"Mo, "];}
-					if (i == 2) {workdaystring = [workdaystring stringByAppendingString:@"Tu, "];}
-					if (i == 3) {workdaystring = [workdaystring stringByAppendingString:@"We, "];}
-					if (i == 4) {workdaystring = [workdaystring stringByAppendingString:@"Th, "];}
-					if (i == 5) {workdaystring = [workdaystring stringByAppendingString:@"Fr, "];}
-					if (i == 6) {workdaystring = [workdaystring stringByAppendingString:@"Sa, "];}
-				}
-				i++;
-			}	
-			int workdaystringlength = [workdaystring length];
-			if (workdaystringlength > 0){
-				workdaystring = [workdaystring substringToIndex:workdaystringlength-2];
-				cell.detailTextLabel.text = workdaystring;
         }
-		}	else if (indexPath.row == 2)	{
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %@ - %@",[self.dateFormatter2 stringFromDate:self.beginworkhours],[self.dateFormatter2 stringFromDate:self.endworkhours]];
+        else if (indexPath.row == 2)
+        {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"     %@ - %@",[self formattedTimeStringforBeginWorkhours],[self formattedTimeStringforEndWorkhours]];
 
-//        }  else if (indexPath.row == 3) {
-//                NSArray *shiftweeks = self.appDelegate.shiftweeks;
-//                NSString *shiftweekstring = @"     ";
-//                int i = 0;
-//                for (id shiftweek in shiftweeks) {
-//                    if ([shiftweek isEqualToString:@"YES"]) {
-//                        if (i == 0) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 1, "];}
-//                        if (i == 1) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 2, "];}
-//                        if (i == 2) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 3, "];}
-//                        if (i == 3) {shiftweekstring = [shiftweekstring stringByAppendingString:@"Week 4, "];}
-//  
-//                    }
-//                    i++;
-//                    
-//                }
-//        int shiftweekstringlength = [shiftweekstring length];
-//        if (shiftweekstringlength > 0){
-//            shiftweekstring = [shiftweekstring substringToIndex:shiftweekstringlength-2];
-//            cell.detailTextLabel.text = shiftweekstring;
-//        }
-            } else if (indexPath.row == 4)	{
-			NSArray *holidayList = self.appDelegate.holidaylist;
-			int numberOfHolidaysSelected = 0;
-			for (id holiday in holidayList) {
-				if ([[holiday valueForKey:@"selected"] isEqualToString:@"YES"]) {
-					numberOfHolidaysSelected++;
-				}
-			}
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"     %i holidays selected",numberOfHolidaysSelected]; 
-		} else if (indexPath.row == 5)	{
-			NSString *thisYear = @"0";
-			NSString *allYears = @"0";
-			NSString *retireYear = @"0";
+        }
+        else if (indexPath.row == 3)
+        {
+                NSString* sql = [NSString stringWithFormat:@"SELECT * FROM Holidays WHERE selected = 1"];
+                NSArray *holidayList =  [SQLiteAccess selectManyRowsWithSQL:sql];
+                NSInteger numberOfHolidaysSelected = holidayList.count;
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"     %li holidays selected",(long)numberOfHolidaysSelected];
+                
+		}
+        else if (indexPath.row == 4)
+        {
+			NSString *thisYear = [NSString stringWithFormat:@"%li",self.appDelegate.settingsNew.thisYearDaysOff];
+			NSString *allYears =  [NSString stringWithFormat:@"%li",self.appDelegate.settingsNew.otherYearsDaysOff];
+			NSString *retireYear =  [NSString stringWithFormat:@"%li",self.appDelegate.settingsNew.retirementYearDaysOff];
 			
-			if ([appDelegate.settings objectForKey:@"ThisYearDaysOff"]) {thisYear = [appDelegate.settings objectForKey:@"ThisYearDaysOff"];}
-			if ([appDelegate.settings objectForKey:@"AllYearsDaysOff"]) {allYears = [appDelegate.settings objectForKey:@"AllYearsDaysOff"];}	
-			if ([appDelegate.settings objectForKey:@"RetirementYearDaysOff"]) {retireYear = [appDelegate.settings objectForKey:@"RetirementYearDaysOff"];}
-			
+//			if ([self.appDelegate.settingsNew.thisYearDaysOff]) {thisYear = [self.appDelegate.settingsNew.ThisYearDaysOff"];}
+//			if ([self.appDelegate.settingsNew.AllYearsDaysOff"]) {allYears = [self.appDelegate.settingsNew.AllYearsDaysOff"];}
+//			if ([self.appDelegate.settingsNew.RetirementYearDaysOff"]) {retireYear = [self.appDelegate.settingsNew.RetirementYearDaysOff"];}
+//
 			cell.detailTextLabel.text = [NSString stringWithFormat:@"Current - %@,  Between - %@,  Retire - %@",thisYear,allYears,retireYear];
 		
-		}	else if (indexPath.row == 6)	{
-			NSString *option = [self.appDelegate.settings objectForKey:@"DisplayOption"];
-			if ([option isEqualToString:@"Work"]) {cell.detailTextLabel.text = @"Work Days Remaining";}
-			if ([option isEqualToString:@"Calendar"]) {cell.detailTextLabel.text = @"Calendar Days Remaining";}
-            if ([option isEqualToString:@"None"]) {cell.detailTextLabel.text = @"Badge Option Disabled";}
-            cell.imageView.image = [UIImage imageNamed:@"badgeDemo3.png"];
+        }
+        else if (indexPath.row == 5)
+        {
+                NSString *option = self.appDelegate.settingsNew.displayOption;
+                if ([option isEqualToString:@"Work"]) {cell.detailTextLabel.text = @"Work Days Remaining";}
+                if ([option isEqualToString:@"Calendar"]) {cell.detailTextLabel.text = @"Calendar Days Remaining";}
+                if ([option isEqualToString:@"None"]) {cell.detailTextLabel.text = @"Badge Option Disabled";}
+                cell.imageView.image = [UIImage imageNamed:@"badgeDemo3.png"];
 
-		}	else if (indexPath.row == 7)	{
+		}
+        else if (indexPath.row == 6)
+        {
 
 			cell.detailTextLabel.text = nil;
-        }	else if (indexPath.row == 8)	{
+        }
+        else if (indexPath.row == 7)
+        {
 			cell.detailTextLabel.text = nil;
-		} else {
+		}
+        else
+        {
 			cell.detailTextLabel.text = nil;
 		}
     
-#endif
+
     }
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.backgroundColor =[UIColor whiteColor];
+    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -329,165 +236,110 @@
 			AboutViewController *aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
 			aboutViewController.title = @"Welcome";
 			[[self navigationController] pushViewController:aboutViewController animated:YES];
-			[aboutViewController release];		
 
 		} else if (indexPath.row == 1) {
-			FeaturesViewController *featuresViewController = [[FeaturesViewController alloc] initWithNibName:@"FeaturesViewController" bundle:nil];
-			featuresViewController.title = @"FAQs and Features";
-			[[self navigationController] pushViewController:featuresViewController animated:YES];
-			[featuresViewController release];
+			WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+			webViewController.title = @"FAQs";
+            webViewController.urlString = @"https://mandellmobileapps.com/faqs";
+			[[self navigationController] pushViewController:webViewController animated:YES];
 
-		} else if (indexPath.row == 2) {
-			HelpViewController *helpViewController = [[HelpViewController alloc] initWithNibName:@"HelpViewController" bundle:nil];
-			helpViewController.title = @"Contact Me";
-			[[self navigationController] pushViewController:helpViewController animated:YES];
-			[helpViewController release];        
+        } else if (indexPath.row == 2) {
+                HelpViewController *helpViewController = [[HelpViewController alloc] initWithNibName:@"HelpViewController" bundle:nil];
+                helpViewController.title = @"Contact Me";
+                [[self navigationController] pushViewController:helpViewController animated:YES];
 
+                
 		} else if (indexPath.row == 3) {
 
-#ifdef LITE_VERSION
-            NSString *iTunesLink = @"https://itunes.apple.com/us/app/retirement-countdown-ad-free/id400298323?mt=8";
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-#else
-            
             NSString *iTunesLink = @"https://itunes.apple.com/us/app/retirement-countdown-ad-free/id424032584?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-#endif
+
 
         }
 	} else {
 
-#ifdef LITE_VERSION
+
+
 		if(indexPath.row==0) {
 			RetirementDateViewController *retirementdateViewController = [[RetirementDateViewController alloc] initWithNibName:@"RetirementDate" bundle:nil];
-			retirementdateViewController.retirementDate = self.retirementDate;
+//			retirementdateViewController.retirementDate = self.retirementDate;
 			[[self navigationController] pushViewController:retirementdateViewController animated:YES];
-			[retirementdateViewController release];
             
 		}else if(indexPath.row==1) {
             WorkdaysViewController *workdaysViewController = [[WorkdaysViewController alloc] initWithNibName:@"Workdays" bundle:nil];
             workdaysViewController.title = @"Work Days";
             [[self navigationController] pushViewController:workdaysViewController animated:YES];
-            [workdaysViewController release];
-//			WorkScheduleViewController *workScheduleViewController = [[WorkScheduleViewController alloc] initWithNibName:@"WorkScheduleViewController" bundle:nil];
-//			workScheduleViewController.title = @"Work Schedule";
-//			[[self navigationController] pushViewController:workScheduleViewController animated:YES];
-//			[workScheduleViewController release];
             
 		}else if(indexPath.row==2) {
 			WorkhoursViewController *workhoursViewController = [[WorkhoursViewController alloc] initWithNibName:@"Workhours" bundle:nil];
 			workhoursViewController.title = @"Work Hours";
 			[[self navigationController] pushViewController:workhoursViewController animated:YES];
-			[workhoursViewController release];
-            
-		//} else if(indexPath.row ==3) {
-          //  ShiftWorkViewController *shiftWorkViewController = [[ShiftWorkViewController alloc] initWithNibName:@"ShiftWorkViewController" bundle:nil];
-          //  shiftWorkViewController.title = @"Shift Work";
-           // [[self navigationController] pushViewController:shiftWorkViewController animated:YES];
-        
+
         }else if(indexPath.row==3) {
 			HolidaysViewController *holidaysViewController = [[HolidaysViewController alloc] initWithNibName:@"Holidays" bundle:nil];
 			holidaysViewController.title = @"Select Holiday";
 			[[self navigationController] pushViewController:holidaysViewController animated:YES];
-			[holidaysViewController release];
-        
+            
 		}else if(indexPath.row==4) {
 			StatutoryDaysOffViewController *statutoryDaysOffViewController = [[StatutoryDaysOffViewController alloc] initWithNibName:@"StatutoryDaysOffViewController" bundle:nil];
-			statutoryDaysOffViewController.title = @"Days Off";
+			statutoryDaysOffViewController.title = @"Annual Vacation Days";
 			[[self navigationController] pushViewController:statutoryDaysOffViewController animated:YES];
-			[statutoryDaysOffViewController release];
-            
-		}else if(indexPath.row==5) {
+        }else if(indexPath.row==5) {
+                DisplayOptionsViewController *displayoptionsViewController = [[DisplayOptionsViewController alloc] initWithNibName:@"DisplayOptions" bundle:nil];
+                displayoptionsViewController.title = @"Badge Options";
+                [[self navigationController] pushViewController:displayoptionsViewController animated:YES];
+		}else if(indexPath.row==6) {
 			ImagePickerViewController *imagePickerViewController = [[ImagePickerViewController alloc] initWithNibName:@"ImagePickerViewController" bundle:nil];
 			imagePickerViewController.title = @"Select Picture";
 			[[self navigationController] pushViewController:imagePickerViewController animated:YES];
-			[imagePickerViewController release];
-            
-		}else if(indexPath.row==6) {
-			DaysViewController *daysViewController = [[DaysViewController alloc] initWithNibName:@"DaysViewController" bundle:nil];
-			daysViewController.title = @"Select Colors";
-			[[self navigationController] pushViewController:daysViewController animated:YES];
-			[daysViewController release];
-		}
-    }
-#else
-
-		if(indexPath.row==0) {
-			RetirementDateViewController *retirementdateViewController = [[RetirementDateViewController alloc] initWithNibName:@"RetirementDate" bundle:nil];
-			retirementdateViewController.retirementDate = self.retirementDate;
-			[[self navigationController] pushViewController:retirementdateViewController animated:YES];
-			[retirementdateViewController release];
-            
-		}else if(indexPath.row==1) {
-            WorkdaysViewController *workdaysViewController = [[WorkdaysViewController alloc] initWithNibName:@"Workdays" bundle:nil];
-            workdaysViewController.title = @"Work Days";
-            [[self navigationController] pushViewController:workdaysViewController animated:YES];
-            [workdaysViewController release];
-//			WorkScheduleViewController *workScheduleViewController = [[WorkScheduleViewController alloc] initWithNibName:@"WorkScheduleViewController" bundle:nil];
-//			workScheduleViewController.title = @"Work Schedule";
-//			[[self navigationController] pushViewController:workScheduleViewController animated:YES];
-//			[workScheduleViewController release];
-            
-		}else if(indexPath.row==2) {
-			WorkhoursViewController *workhoursViewController = [[WorkhoursViewController alloc] initWithNibName:@"Workhours" bundle:nil];
-			workhoursViewController.title = @"Work Hours";
-			[[self navigationController] pushViewController:workhoursViewController animated:YES];
-			[workhoursViewController release];
-            
-		} else if(indexPath.row ==3) {
-            ShiftWorkViewController *shiftWorkViewController = [[ShiftWorkViewController alloc] initWithNibName:@"ShiftWorkViewController" bundle:nil];
-            shiftWorkViewController.title = @"Shift Work";
-            [[self navigationController] pushViewController:shiftWorkViewController animated:YES];
-    
-        }else if(indexPath.row==4) {
-			HolidaysViewController *holidaysViewController = [[HolidaysViewController alloc] initWithNibName:@"Holidays" bundle:nil];
-			holidaysViewController.title = @"Select Holiday";
-			[[self navigationController] pushViewController:holidaysViewController animated:YES];
-			[holidaysViewController release];
-            
-		}else if(indexPath.row==5) {
-			StatutoryDaysOffViewController *statutoryDaysOffViewController = [[StatutoryDaysOffViewController alloc] initWithNibName:@"StatutoryDaysOffViewController" bundle:nil];
-			statutoryDaysOffViewController.title = @"Days Off";
-			[[self navigationController] pushViewController:statutoryDaysOffViewController animated:YES];
-			[statutoryDaysOffViewController release];
-            
-		}else if(indexPath.row==6) {
-			DisplayOptionsViewController *displayoptionsViewController = [[DisplayOptionsViewController alloc] initWithNibName:@"DisplayOptions" bundle:nil];
-			displayoptionsViewController.title = @"Badge Options";
-			[[self navigationController] pushViewController:displayoptionsViewController animated:YES];
-			[displayoptionsViewController release];
             
 		}else if(indexPath.row==7) {
-			ImagePickerViewController *imagePickerViewController = [[ImagePickerViewController alloc] initWithNibName:@"ImagePickerViewController" bundle:nil];
-			imagePickerViewController.title = @"Select Picture";
-			[[self navigationController] pushViewController:imagePickerViewController animated:YES];
-			[imagePickerViewController release];
-            
-		}else if(indexPath.row==8) {
 			DaysViewController *daysViewController = [[DaysViewController alloc] initWithNibName:@"DaysViewController" bundle:nil];
 			daysViewController.title = @"Select Colors";
 			[[self navigationController] pushViewController:daysViewController animated:YES];
-			[daysViewController release];
 		}
 }
-#endif
+
 	}
 
 
 
-- (void)dealloc {
-	[settings release];
-	[settings0 release];
-	[settingsDetails release];
-	[retirementDate release];
-	[beginworkhours release];
-	[endworkhours release];
-	[dateFormatter release];
-	[dateFormatter2 release];
-	[tableview release];
-    [super dealloc];
+
+-(NSString*)formattedTimeStringforBeginWorkhours
+{
+    NSString* tod = [NSString string];
+    if (self.appDelegate.settingsNew.beginWorkAmPm == 0)
+    {
+        tod = @"AM";
+        
+    }
+    else if (self.appDelegate.settingsNew.beginWorkAmPm == 1)
+    {
+        tod = @"PM";
+        
+    }
+    NSString* dateString = [NSString stringWithFormat:@"%li:%02ld %@",self.appDelegate.settingsNew.beginWorkhours,self.appDelegate.settingsNew.beginWorkMinutes,tod];
+    
+    return dateString;
 }
 
 
+-(NSString*)formattedTimeStringforEndWorkhours
+{
+     NSString* tod = [NSString string];
+     if (self.appDelegate.settingsNew.endWorkAmPm == 0)
+     {
+         tod = @"AM";
+         
+     }
+     else if (self.appDelegate.settingsNew.endWorkAmPm == 1)
+     {
+         tod = @"PM";
+         
+     }
+     NSString* dateString = [NSString stringWithFormat:@"%li:%02ld %@",self.appDelegate.settingsNew.endWorkhours,self.appDelegate.settingsNew.endWorkMinutes,tod];
+    
+    return dateString;
+}
 @end
 

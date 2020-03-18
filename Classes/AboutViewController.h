@@ -11,11 +11,11 @@
 
 
 @interface AboutViewController : BaseViewController {
-	IBOutlet UILabel *versionLabel;
-    IBOutlet UIImageView *logoImageView;
+
 }
 @property(nonatomic,retain) IBOutlet UILabel *versionLabel;
 @property(nonatomic,retain) IBOutlet UIImageView *logoImageView;
+
 
 -(IBAction) loadWebView;
 @end

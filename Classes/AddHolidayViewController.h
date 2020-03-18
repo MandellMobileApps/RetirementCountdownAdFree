@@ -11,45 +11,25 @@
 #import "BaseViewController.h"
 
 @class SelectHolidayDateViewController;
+@class HolidaysViewController;
 
 @interface AddHolidayViewController : BaseViewController <UITableViewDelegate , UITextFieldDelegate> {
 
 
-NSArray *tableList;
-NSUInteger holidayType;
-NSUInteger locationInList;
-NSMutableDictionary *holiday;
-BOOL saveHoliday;
-NSMutableArray *holidayList;
-IBOutlet UITableView *holidayTypeTableView;
-IBOutlet UITextField *holidayNameTextField;
-IBOutlet UISegmentedControl *holidayTypeSegmentControl;
-
-
-NSMutableString *holidayName;
-int holidayMonth;
-int holidayDay;
-int holidayWeekday;
-int holidayOrdinalWeekday;
-
 
 }
-
+@property (nonatomic, assign) BOOL newHoliday;
 @property (nonatomic, retain) NSArray *tableList;
-@property (nonatomic, assign) NSUInteger holidayType;
-@property (nonatomic, assign) NSUInteger locationInList;
+@property (nonatomic, retain) HolidaysViewController *holidaysViewController;
+//@property (nonatomic, assign) NSUInteger holidayType;
+//@property (nonatomic, assign) NSUInteger locationInList;
 @property (nonatomic, retain) NSMutableDictionary *holiday;
 @property (nonatomic, assign) BOOL saveHoliday;
-@property (nonatomic, retain) NSMutableArray *holidayList;
+@property (nonatomic, assign) BOOL changeMade;
+//@property (nonatomic, retain) NSMutableArray *holidayList;
 @property (nonatomic, retain) IBOutlet UITableView *holidayTypeTableView;
 @property (nonatomic, retain) IBOutlet UITextField *holidayNameTextField;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *holidayTypeSegmentControl;
-
-@property (nonatomic, retain) NSMutableString *holidayName;
-@property (nonatomic, assign) int holidayMonth;
-@property (nonatomic, assign) int holidayDay;
-@property (nonatomic, assign) int holidayWeekday;
-@property (nonatomic, assign) int holidayOrdinalWeekday;
 
 
 - (void) cancelEdit;

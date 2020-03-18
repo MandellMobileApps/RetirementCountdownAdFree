@@ -10,7 +10,7 @@
 
 
 @implementation BaseTableViewController
-@synthesize appDelegate;
+
 
 #pragma mark -
 #pragma mark Initialization
@@ -31,59 +31,55 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.appDelegate = (RetirementCountdownAppDelegate*)[[UIApplication sharedApplication]delegate];
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	self.tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    	// iOS7 items
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+	self.appDelegate = (RetirementCountdownAppDelegate*)[[UIApplication sharedApplication]delegate];
+    self.backgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
+    self.textColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndex];
+    self.view.backgroundColor = self.backgroundColor;
+    self.tableView.backgroundColor = self.backgroundColor;
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
     {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
-	if ([self respondsToSelector:@selector(extendedLayoutIncludesOpaqueBars)])
+    if ([self respondsToSelector:@selector(extendedLayoutIncludesOpaqueBars)])
     {
         self.extendedLayoutIncludesOpaqueBars = NO;
     }
-	if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)])
     {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+    
+     if (@available(iOS 11.0, *)) {
+          self.view.accessibilityIgnoresInvertColors=NO;
+     }
+    
+   self.view.accessibilityIgnoresInvertColors=YES;
+// self.view.accessibilityViewIsModal = YES;
+
 }
 
+-(void)popThisViewController
+{
+   // [self.navigationController popViewControllerAnimated:YES];
+    
+    
+}
 
-/*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.backgroundColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.backgroundColorIndex];
+    self.textColor = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndex];
+    self.view.backgroundColor = self.backgroundColor;
 }
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+
 
 
 #pragma mark -
@@ -108,7 +104,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell...
@@ -117,58 +113,11 @@
 }
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
 #pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+
 }
 
 
@@ -182,16 +131,8 @@
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
 
 
-- (void)dealloc {
-	[appDelegate release];
-    [super dealloc];
-}
 
 
 @end

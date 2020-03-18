@@ -16,8 +16,8 @@
 	return 14;
 }
 
-+(NSString*)getTextColorNameFor:(int)nameindex {
-	NSString *tempColorName = [[[NSString alloc] init] autorelease];
++(NSString*)getTextColorNameFor:(NSInteger)nameindex {
+	NSString *tempColorName = [[NSString alloc] init];
 	switch (nameindex) {
 		case  0:
 			tempColorName = @"black";
@@ -70,8 +70,8 @@
 	return 16;
 }
 
-+(NSString*)getBackgroundColorNameFor:(int)nameindex {
-	NSString *tempColorName = [[[NSString alloc] init] autorelease];
++(NSString*)getBackgroundColorNameFor:(NSInteger)nameindex {
+	NSString *tempColorName = [[NSString alloc] init];
 	switch (nameindex) {
 		case  0:
 			tempColorName = @"black";
@@ -129,8 +129,8 @@
 	return 13;
 }
 
-+(NSString*)getDayColorNameFor:(int)nameindex {
-	NSString *tempColorName = [[[NSString alloc] init] autorelease];
++(NSString*)getDayColorNameFor:(NSInteger)nameindex {
+	NSString *tempColorName = [[NSString alloc] init];
 	switch (nameindex) {
 		case  0:
 			tempColorName = @"GlossBrightGreen";
@@ -180,8 +180,8 @@
 }
 
 
-+(NSString*)getPredefinedColorNameFor:(int)nameindex {
-NSString *tempColorName = [[[NSString alloc] init] autorelease];
++(NSString*)getPredefinedColorNameFor:(NSInteger)nameindex {
+NSString *tempColorName = [[NSString alloc] init];
 	switch (nameindex) {
 	case 0:	  tempColorName = @"lightgray"; break;
 	case 1:   tempColorName = @"White";   break;

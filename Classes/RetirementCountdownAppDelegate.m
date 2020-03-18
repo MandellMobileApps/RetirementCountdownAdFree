@@ -8,143 +8,119 @@
 
 #import "RetirementCountdownAppDelegate.h"
 #import "RootViewController.h"
-#import "Appirater.h"
 #import "TimeRemaining.h"
-#import "TestFlight.h"
+#import "TestingMethods.h"
+#import "UtilityMethods.h"
 
+#import <BackgroundTasks/BackgroundTasks.h>
+
+
+@import UserNotifications;
+
+static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 @implementation RetirementCountdownAppDelegate
 
-@synthesize window;
-@synthesize navigationController;
-@synthesize settings;
-@synthesize workdays;
-@synthesize holidaylist;
-@synthesize manualworkdays;
-@synthesize backgroundColors;
-@synthesize textColors;
-@synthesize colorSettings;
-@synthesize imageCache;
-@synthesize colorsChanged;
-@synthesize pictureChanged;
-@synthesize newdata;
-@synthesize holidayMonth;
-@synthesize holidayDay;
-@synthesize holidayWeekday;
-@synthesize holidayOrdinalWeekday;
-@synthesize thisYearDaysOff;
-@synthesize allYearsDaysOff;
-@synthesize retirementYearDaysOff;
-//@synthesize locationManager;
 
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
  
-
-
-//#ifdef LITE_VERSION
-    //[TestFlight takeOff:@"032d24bb-8926-4664-978d-e3d85b4e2b6f"];
-//#else
-    //[TestFlight takeOff:@"c2d382e3-bd31-4d69-8f43-74f1d629c505"];
-//#endif
-
-	[self CreateDatabases];
-	[self loadsettings];
-	[self loadworkdays];
-	[self loadHolidayList];
-	[self loadmanualworkdays];
-	[self loadBackgroundColors];
-	[self loadTextColors];
-	[self loadColorSettings];
-	
-	[Appirater appLaunched:YES];
+//    self.inTestingMode = NO;
+//    if (self.inTestingMode)
+//    {
+//        [TestingMethods CreateDatabases];
+//    }
+//
+    BOOL copySuccess = [self checkForDatabaseInDocuments];
+    if (!copySuccess)
+    {
+         [SQLiteAccess addToTextLog:@"[self checkForDatabaseInDocuments] failed"];
+    }
     
 
-#ifdef LITE_VERSION
-	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-#else
+   [self requestNotificationPermission];
 
-#endif
+    if (self.firstLaunch == 1)
+    {
+        [self addToDebugLog:[NSString stringWithFormat:@"FirstLaunch"]];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString *pathDoc = [GlobalMethods dataFilePathofDocuments:@"Settings.plist"];
+        BOOL success = [fileManager fileExistsAtPath:pathDoc];
+        if(success)
+        {
+            self.needsUpgradeConverstion = 1;
+            [self addToDebugLog:[NSString stringWithFormat:@"Transition From Version %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
+        }
+        else
+        {
+            // intial setup
+            NSDateComponents* comps = [GlobalMethods currentYMDcomponts];
 
+            NSInteger retireYear = comps.year+1;
+            NSInteger retireMonth = comps.month;
+            NSInteger retireDay = comps.day;
 
-    // Add the navigation controller's view to the window and display.
+            // set initial retirement date
+            NSString *sql = [NSString stringWithFormat:@"UPDATE Settings Set retirementYear = %li, retirementMonth = %li, retirementDay = %li  WHERE id = 1",(long)retireYear,(long)retireMonth,(long)retireDay];
+             [SQLiteAccess updateWithSQL:sql];
+        }
+    }
+    
+
+    BOOL showUpgradeNotice = [[NSUserDefaults standardUserDefaults] boolForKey:@"showUpgradeNotice"];
+    if (showUpgradeNotice)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNoticeThisTime"];
+    }
+    
+    
+    [self transferDefaultImage];
+    
     self.window.rootViewController = self.navigationController;
-    [window makeKeyAndVisible];
+    
+   
 
+    
+   // [self addColors];
+    //[self deleteExistingTable];
+   // [self logSettings];
+//    [self CreateDatabasesTemp];
+//    [self addThanksgivings];
+//    [self addHolidays];
+   // [self updateDaysInDayTable];
+
+
+    
+
+    
     return YES;
 }
 
 
 
--(int)updateIconBadge {
-
-	int daysLeft;
-	if ([[self.settings objectForKey:@"DisplayOption"] isEqualToString:@"Work"]) { 
-		TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
-        NSArray *dayAndSecondsLeft = [myTimeRemaining getTimeRemainingFor:[self.settings objectForKey:@"RetirementDate"]];
-		daysLeft = [[dayAndSecondsLeft objectAtIndex:0]intValue];
-        [myTimeRemaining release];
-	} else if ([[self.settings objectForKey:@"DisplayOption"] isEqualToString:@"Calendar"]) {
-        NSDate *today = [NSDate date];
-		NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-		NSDateComponents *components = [gregorian components:NSDayCalendarUnit fromDate:today toDate:[self.settings objectForKey:@"RetirementDate"] options:0];
-		[gregorian release];
-    	daysLeft = components.day;
-	} else {
-    	daysLeft = 0;
-    
-    }
-    return daysLeft;
-	
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+
+    [self checkDebugCount];
 
 }
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-	[self saveAllData];
-#ifdef LITE_VERSION
-	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-#else
-	if ([[self.settings objectForKey:@"DisplayOption"] isEqualToString:@"None"]) {
-    	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-		if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
-        {
-        	[[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
-        }
-    }
-    else
-    {
-		if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
-        {
-        	[[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:60*60*24];
-        }
-    	[UIApplication sharedApplication].applicationIconBadgeNumber = [self updateIconBadge];
-    }
-        
-#endif
-	
+
+
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-	[Appirater appEnteredForeground:YES];
-    [self loadsettings];
-	[self loadworkdays];
-	[self loadHolidayList];
-	[self loadmanualworkdays];
-	[self loadBackgroundColors];
-	[self loadTextColors];
-	[self loadColorSettings];
-	[[self.navigationController.viewControllers objectAtIndex:0] viewWillAppear:NO];
-
+    [self addToDebugLog:@"applicationWillEnterForeground"];
+    [self.rootViewController refreshRootViewController];
 }
 
 
@@ -155,6 +131,42 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
+    
+}
+
+-(void)checkDebugCount
+{
+    NSArray* logs = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM DebugLog"];
+    if (logs.count > 500)
+    {
+        // remove oldest debug logs
+        NSString* sql = @"DELETE FROM DebugLog WHERE ROWID IN (SELECT ROWID FROM DebugLog ORDER BY ROWID DESC LIMIT -1 OFFSET 250)";
+        [SQLiteAccess deleteWithSQL:sql];
+        NSString* message = [NSString stringWithFormat:@"Should be %li log records",logs.count-250];
+        [self addToDebugLog:message];
+    }
+
+}
+
+-(void)transferDefaultImage
+{
+    
+    NSString *path1 = [GlobalMethods dataFilePathofBundle:@"beach.png"];
+    NSString *path2 = [GlobalMethods dataFilePathofDocuments:@"beach.png"];
+
+    
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:path2])
+    {
+        NSError* error;
+        [fileManager copyItemAtPath:path1 toPath: path2 error:&error];
+        if (error != nil)
+        {
+            [self addToDebugLog:[error localizedDescription]];
+        }
+    }
+
+    
 }
 
 // http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/RuntimeEnvironment/RuntimeEnvironment.html  
@@ -164,275 +176,681 @@
 #pragma mark Memory management
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    //NSLog(@"Memory Low");
+    [self addToDebugLog:@"Memory Warning"];
+}
 
+
+
+#pragma mark -
+#pragma mark Upgrade Methods
+
+-(void)upgradeToSQLVersion
+{
+
+    NSDictionary* Settings = [NSDictionary dictionaryWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"Settings.plist"]];
+    NSArray* Workdays = [NSArray arrayWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"Workdays.plist"]];
+    NSArray* HolidayList = [NSArray arrayWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"HolidayList.plist"]];
+
+    // take care of Settings plist
+    NSDateComponents* retireComps = [GlobalMethods YMDFromNSDate:[Settings objectForKey:@"RetirementDate"]];
+    NSDateComponents* beginComps = [GlobalMethods HMSFromNSDate:[Settings objectForKey:@"BeginWorkhours"]];
+    
+    NSDateComponents* endComps = [GlobalMethods HMSFromNSDate:[Settings objectForKey:@"EndWorkhours"]];
+    NSMutableString* sql = [NSMutableString string];
+    [sql appendFormat:@"UPDATE Settings SET "];
+    [sql appendFormat:@" retirementYear = %li,",retireComps.year];
+    [sql appendFormat:@" retirementMonth =  %li,",retireComps.month];
+    [sql appendFormat:@" retirementDay =  %li,",retireComps.day];
+    [sql appendFormat:@" thisYearDaysOff =  %@,",[Settings objectForKey:@"ThisYearDaysOff"]];
+    [sql appendFormat:@" otherYearsDaysOff =  %@,",[Settings objectForKey:@"AllYearsDaysOff"]];
+    [sql appendFormat:@" retirementYearDaysOff =  %@,",[Settings objectForKey:@"RetirementYearDaysOff"]];
+
+    if (beginComps.hour < 12)
+    {
+    [sql appendFormat:@" beginWorkAmPm =  0,"];
+    }
+    else
+    {
+        [sql appendFormat:@" beginWorkAmPm =  1,"];
+        beginComps.hour = beginComps.hour-12;
+    }
+    [sql appendFormat:@" beginWorkhours =  %li,",beginComps.hour];
+    [sql appendFormat:@" beginWorkMinutes =  %li,",beginComps.minute];
+    
+    if (endComps.hour < 12)
+    {
+        [sql appendFormat:@" endWorkAmPm =  0,"];
+    }
+    else
+    {
+        [sql appendFormat:@" endWorkAmPm =  1,"];
+        endComps.hour = endComps.hour-12;
+    }
+    [sql appendFormat:@" endWorkhours =  %li,",endComps.hour];
+    [sql appendFormat:@" endWorkMinutes =  %li,",endComps.minute];
+    
+    [sql appendFormat:@" endWorkNextDay = 0,"];
+    
+    
+    [sql appendFormat:@" displayOption =  \"%@\",",[Settings objectForKey:@"DisplayOption"]];
+    [sql appendFormat:@" currentDisplay = \"%@\"",[Settings objectForKey:@"CurrentDisplay"]];
+    [sql appendFormat:@" WHERE id = 1"];
+    [SQLiteAccess updateWithSQL:sql];
+
+    NSDictionary* transitionSettings = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM Settings WHERE id = 1"];
+
+    
+
+    // take care of workdays plist
+    NSInteger i = 1;
+    for (NSString* string in Workdays)
+    {
+        BOOL isWorkday = [string isEqualToString:@"YES"];
+        NSString* workday;
+        if (isWorkday)
+        {
+            workday = [NSString stringWithFormat:@"UPDATE Workdays SET workday = 1 WHERE id = %li",i];
+            
+        }
+        else
+        {
+            workday = [NSString stringWithFormat:@"UPDATE Workdays SET workday = 0 WHERE id = %li",i];
+            
+        }
+        [SQLiteAccess updateWithSQL:workday];
+        
+        i++;
+    }
+    NSArray* transitionWorkday = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Workdays"];
+
+
+    
+    // take care of holidays plist
+    NSArray* oldHolidayNames = [NSArray arrayWithObjects:
+                               @"New Years Day",
+                               @"Martin Luther King Day",
+                               @"USA Presidents Day",
+                               @"Memorial Day",
+                               @"USA Independence Day",
+                               @"Labor Day",
+                               @"Veterans Day",
+                               @"Thanksgiving Day",
+                               @"Christmas Eve",
+                               @"Christmas",
+                               @"Thanksgiving Friday",
+                               @"",
+                               nil];
+    NSArray* newHolidayNames = [NSArray arrayWithObjects:
+                               @"New Years Day",
+                               @"Martin Luther King Day",
+                               @"USA Presidents Day",
+                               @"Memorial Day",
+                               @"USA Independence Day",
+                               @"Labor Day",
+                               @"Veterans Day",
+                               @"Thanksgiving Day",
+                               @"Christmas Eve",
+                               @"Christmas",
+                               @"Day after Thanksgiving",
+                               @"",
+                               nil];
+    
+    for (NSDictionary* holidayDict in HolidayList)
+    {
+        NSString* currentHolidayName = [holidayDict objectForKey:@"name"];
+        
+        if ([oldHolidayNames containsObject:currentHolidayName])
+        {
+            NSInteger index = [oldHolidayNames indexOfObject:currentHolidayName];
+            NSString* newHolidayName = [newHolidayNames objectAtIndex:index];
+            NSMutableString* sql = [NSMutableString string];
+            [sql appendFormat:@"UPDATE Holidays SET"];
+            [sql appendFormat:@" day = %@,",[holidayDict objectForKey:@"day"]];
+            [sql appendFormat:@" month = %@,",[holidayDict objectForKey:@"month"]];
+            [sql appendFormat:@" ordinalweekday = %@,",[holidayDict objectForKey:@"ordinalweekday"]];
+            [sql appendFormat:@" selected = %@,",[holidayDict objectForKey:@"selected"]];
+            [sql appendFormat:@" weekday = %@",[holidayDict objectForKey:@"weekday"]];
+            [sql appendFormat:@" WHERE name = %@",newHolidayName];
+    
+            
+        }
+        else
+        {
+            NSMutableString* sql = [NSMutableString string];
+            [sql appendFormat:@"INSERT INTO Holidays (day,month,name,ordinalweekday,selected,weekday,isCustom) Values ("];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"day"]];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"month"]];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"name"]];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"ordinalweekday"]];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"selected"]];
+            [sql appendFormat:@"%@,",[holidayDict objectForKey:@"weekday"]];
+            [sql appendFormat:@"1)"];
+      
+
+        }
+
+    }
+    NSArray* transitionHoliday = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Holidays"];
+ 
+}
+
+// take care of manual plist
+-(void)upgradeManualDays
+{
+    NSArray* oldManualDays = [NSArray arrayWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"ManualWorkdays.plist"]];
+    
+    for (NSArray* array in oldManualDays)
+    {
+        NSDate* date = [array objectAtIndex:0];
+        NSString* manual = [array objectAtIndex:1];
+        NSInteger isManual = 1;
+        
+        if ([manual isEqualToString:@"NO"])
+        {
+            isManual = 0;
+        }
+
+        NSDateComponents* comps = [GlobalMethods YMDFromNSDate:date];
+        
+        NSString* thisDaySql = [NSString stringWithFormat:@"SELECT * FROM Days WHERE year = %li AND month = %li AND day = %li ",comps.year,comps.month,comps.day];
+        NSDictionary* thisDay = [SQLiteAccess selectOneRowWithSQL:thisDaySql];
+        NSInteger isDefaultDay = [[thisDay objectForKey:@"isDefaultWorkday"] integerValue];
+        NSInteger overide = 0;
+        
+        if ((isManual == 0) && (isDefaultDay == 1))
+        {
+            overide = 1;
+        }
+        else  if ((isManual == 1) && (isDefaultDay == 0))
+        {
+            overide = 1;
+        }
+        
+        if (overide == 1)
+        {
+            NSMutableString* sql= [NSMutableString stringWithFormat:@"UPDATE Days SET isManualWork = 1 WHERE year = %li AND month = %li AND day = %li",comps.year,comps.month,comps.day];
+            [SQLiteAccess updateWithSQL:sql];
+        }
+    }
 }
 
 #pragma mark -
-#pragma mark Startup Methods
+#pragma mark Sql Methods
 
--(void) CreateDatabases {
-	
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	BOOL success;
-	NSArray *databases = [[NSArray alloc] initWithObjects:
-						  @"Settings.plist",
-						  @"ManualWorkdays.plist",
-						  @"Workdays.plist",
-						  @"HolidayList.plist",
-						  @"BackgroundColors.plist",
-						  @"TextColors.plist",
-						  @"ColorSettings.plist",
-                          @"Shiftworkdays.plist",
-						  nil];
-	for (NSString *db in databases) {
-		NSString *pathDoc = [GlobalMethods dataFilePathofDocuments:db];
-		success = [fileManager fileExistsAtPath:pathDoc];
-		if(!success){
-			NSString *pathApp = [GlobalMethods dataFilePathofBundle:db];
-			[fileManager copyItemAtPath:pathApp toPath:pathDoc error:nil];
-		}
-        if ([db isEqualToString:@"HolidayList.plist"])
+
+
+-(void)updateSettingsString:(NSString*)value  forProperty:(NSString*)propertyName
+{
+    [self.settingsNew setValue:value forKey:propertyName];
+    NSString *sql = [NSString stringWithFormat:@"UPDATE Settings Set %@ = \"%@\" WHERE id = 1",propertyName,value];
+      [SQLiteAccess updateWithSQL:sql];
+    [self refreshSettings];
+    [self addToDebugLog:sql];
+ 
+}
+
+-(void)updateSettingsInteger:(NSInteger)value  forProperty:(NSString*)propertyName
+{
+     [ self.settingsNew setValue:@(value) forKey:propertyName];
+    NSString *sql = [NSString stringWithFormat:@"UPDATE Settings Set %@ = %li WHERE id = 1",propertyName,value];
+      [SQLiteAccess updateWithSQL:sql];
+    [self refreshSettings];
+     [self addToDebugLog:sql];
+    
+}
+
+-(void)insertIntoTable:(NSString*)table forDictionary:(NSDictionary*)dictionary
+{
+   
+    NSString* dtSql = [NSString stringWithFormat:@"PRAGMA table_info('%@')",table];
+    NSArray* dataTypes = [SQLiteAccess selectManyRowsWithSQL:dtSql];
+
+    NSMutableArray* dataTypesArray = [NSMutableArray array];
+
+    NSArray* allKeys = [dictionary allKeys];
+    NSArray* allValues = [dictionary allValues];
+    
+    NSMutableString* sql = [NSMutableString string];
+    
+    [sql appendFormat:@"INSERT INTO %@ (",table];
+    NSInteger i = 0;
+     for (NSString* key in allKeys)
+     {
+         for (NSDictionary* item in dataTypes)
+         {
+             if ([[item objectForKey:@"name"] isEqualToString:key])
+             {
+                 [dataTypesArray addObject:[item objectForKey:@"type"]];
+             }
+         }
+         [sql appendFormat:@"%@,",key];
+
+         i++;
+     }
+     sql = [NSMutableString stringWithString:[sql substringToIndex:sql.length - 1]];
+    [sql appendFormat:@") VALUES ("];
+     NSInteger v = 0;
+     for (NSString* value in allValues)
+     {
+         NSString* dataType = [dataTypesArray objectAtIndex:v];
+         if ([dataType containsString:@"text"])
+         {
+             [sql appendFormat:@"\"%@\",",value];
+         }
+         else
+         {
+             [sql appendFormat:@"%@,",value];
+         }
+         v++;
+     }
+     sql = [NSMutableString stringWithString:[sql substringToIndex:sql.length - 1]];
+     [sql appendString:@")"];
+    
+     [SQLiteAccess insertWithSQL:sql];
+
+    
+}
+
+-(void)updateTable:(NSString*)table forDictionary:(NSDictionary*)dictionary
+{
+    // @"UPDATE Settings Set retirementYear = %li, retirementMonth = %li, retirementDay = %li  WHERE id = 1
+    //   UPDATE Holidays SET ordinalweekday = 0,delete = 0,id = 5,weekday = 0,day = 8,selected = 1,month = 7,name = USA Independence Day WHERE id = 5
+  
+    
+    NSArray* allKeys = [dictionary allKeys];
+    NSMutableString* sql = [NSMutableString string];
+    [sql appendFormat:@"UPDATE %@ SET ",table];
+     for (NSString* key in allKeys)
+     {
+         [sql appendFormat:@"%@ = %@,",key,[dictionary valueForKey:key]];
+     }
+     sql = [NSMutableString stringWithString:[sql substringToIndex:sql.length - 1]];
+     [sql appendFormat:@" WHERE id = %@",[dictionary valueForKey:@"id"]];
+    
+     [SQLiteAccess insertWithSQL:sql];
+
+}
+
+
+
+#pragma mark -
+#pragma mark New Object Methods
+
+
+-(void)refreshSettings
+{
+    NSString* sql = [NSString stringWithFormat:@"SELECT * FROM Settings WHERE id = 1"];
+    NSDictionary* new = [SQLiteAccess selectOneRowWithSQL:sql];
+    self.settingsNew = [SettingsNew settingsFromDictionary:new];
+
+}
+-(void)updateDaysInDayTable
+{
+
+    // reset Days
+    NSMutableString* sql = [NSMutableString stringWithFormat:@"UPDATE Days SET "];
+    [sql appendFormat:@" isWeekdayWorkday = 0,"];
+
+    [sql appendFormat:@" holidayId = 0,"];
+    [sql appendFormat:@" holidayName = \"\","];
+    [sql appendFormat:@" isHoliday = 0,"];
+
+    [sql appendFormat:@" isDefaultWorkday = 0,"];
+    [sql appendFormat:@" defaultImageName = \"\","];
+    [sql appendFormat:@" defaultTextColorIndex = 0,"];
+
+    [sql appendFormat:@" imageName = \"\","];
+    [sql appendFormat:@" textColorIndex = 0,"];
+
+    [sql appendFormat:@" isWorkday = 0"];
+
+    [SQLiteAccess updateWithSQL:sql];
+ 
+ 
+    //Sets default Workdays to isWorkday = 1
+    sql = [NSMutableString string];
+    [sql appendFormat:@"UPDATE Days SET "];
+    
+    [sql appendFormat:@"isWeekdayWorkday = 1,"];
+    
+    [sql appendFormat:@" holidayId = 0,"];
+    [sql appendFormat:@" holidayName = \"\","];
+    [sql appendFormat:@" isHoliday = 0,"];
+    
+    [sql appendFormat:@" isDefaultWorkday = 1,"];
+    [sql appendFormat:@" defaultImageName = \"%@\",",self.settingsNew.imageNameWorkdays];
+    [sql appendFormat:@" defaultTextColorIndex = %li,",self.settingsNew.textColorIndexWorkdays];
+    
+    [sql appendFormat:@" imageName = \"%@\",",self.settingsNew.imageNameWorkdays];
+    [sql appendFormat:@" textColorIndex = %li,",self.settingsNew.textColorIndexWorkdays];
+    
+    [sql appendFormat:@" isWorkday = 1"];
+    [sql appendFormat:@" WHERE "];
+    [sql appendFormat:@" weekday IN (SELECT weekday FROM Workdays WHERE workday = 1)"];
+    
+    [SQLiteAccess updateWithSQL:sql];
+
+    
+    sql = [NSMutableString string];
+    [sql appendFormat:@"UPDATE Days SET "];
+    
+    [sql appendFormat:@" isWeekdayWorkday = 0,"];
+    [sql appendFormat:@" isRetirement = 0,"];
+    
+    [sql appendFormat:@" holidayId = 0,"];
+    [sql appendFormat:@" holidayName = \"\","];
+    [sql appendFormat:@" isHoliday = 0,"];
+    
+    [sql appendFormat:@" isDefaultWorkday = 0,"];
+    [sql appendFormat:@" defaultImageName = \"%@\",",self.settingsNew.imageNameNonWorkdays];
+    [sql appendFormat:@" defaultTextColorIndex = %li,",self.settingsNew.textColorIndexNonWorkdays];
+    
+    [sql appendFormat:@" imageName = \"%@\",",self.settingsNew.imageNameNonWorkdays];
+    [sql appendFormat:@" textColorIndex = %li,",self.settingsNew.textColorIndexNonWorkdays];
+    
+    [sql appendFormat:@" isWorkday = 0"];
+    [sql appendFormat:@" WHERE "];
+    [sql appendFormat:@" isWeekdayWorkday = 0"];
+    
+    [SQLiteAccess updateWithSQL:sql];
+
+    
+    // Overwrites Workday to = 0, if isHoliday
+    NSMutableString* sqlSelectedHolidays = [NSMutableString stringWithFormat:@"SELECT * FROM Holidays WHERE selected = 1"];
+    NSArray* selectedHolidays = [SQLiteAccess selectManyRowsWithSQL:sqlSelectedHolidays];
+
+    for (NSDictionary* holiday in selectedHolidays)
+    {
+        NSString* day = [holiday objectForKey:@"day"];
+        NSString* month = [holiday objectForKey:@"month"];
+        NSString* name = [holiday objectForKey:@"name"];
+        NSString* ordinalweekday = [holiday objectForKey:@"ordinalweekday"];
+        NSString* weekday = [holiday objectForKey:@"weekday"];
+        NSString* holidayId = [holiday objectForKey:@"id"];
+        NSString* imageName = [holiday objectForKey:@"imageName"];
+        NSString* textColorIndex = [holiday objectForKey:@"textColorIndex"];
+        NSString* isCustom = [holiday objectForKey:@"isCustom"];
+        if ([isCustom integerValue] == 1)
         {
-			NSMutableArray *holidays = [[NSMutableArray alloc] initWithContentsOfFile:pathDoc];
-            int i = 0;
-            int a = -1;
-            for (NSMutableDictionary* item in holidays)
-            {
-            	if ([[item objectForKey:@"name"] isEqualToString:@"USA Independance Day"])
-                {
-                    [item setObject:@"USA Independence Day" forKey:@"name"];
-                }
-            	if ([[item objectForKey:@"name"] isEqualToString:@"Day after Thanksgiving"])
-                {
-                    a=i;
-                }
-                i++;
-            }
-            if (a>-1)
-            {
-            	[holidays removeObjectAtIndex:a];
-            }
-            BOOL ok = [holidays writeToFile:pathDoc atomically:YES];
-            if (ok != YES) {NSLog(@"saveHolidayList did not save!");}
+            imageName = self.settingsNew.imageNameHoliday;
+            textColorIndex = [NSString stringWithFormat:@"%li",self.settingsNew.textColorIndexHoliday];
         }
-	}	
-	[databases release];
-	
-    
-	
-}
-
-
--(void) saveAllData {
-	[self savesettings];
-	[self saveworkdays];
-	[self saveHolidayList];
-	[self savemanualworkdays];
-	[self saveBackgroundColors];
-	[self saveTextColors];
-	[self saveColorSettings];
-}
-
-
-
-
-// settings  //////////////////////////////////////	
--(void) loadsettings {
-	NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"Settings.plist"]];
-	if ([[tempDict objectForKey:@"RetirementYearDaysOff"] intValue] > 365) {
-		[tempDict  setObject:[tempDict objectForKey:@"AllYearsDaysOff"] forKey:@"RetirementYearDaysOff"];
-	}
-	self.settings = tempDict;
-    [tempDict release];	
-    
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:DaySelectedForTwoWeekSchedule] < 1)
-    {
-    	[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:DaySelectedForTwoWeekSchedule];
-    }
-     if (![[NSUserDefaults standardUserDefaults] integerForKey:WorkScheduleSelected])
-    {
-    	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:WorkScheduleSelected];  // 0 is 7day and 1 is 14day
-    }
-     if ([[[NSUserDefaults standardUserDefaults] arrayForKey:DaysForTwoWeekSchedule] count] < 1)
-    {
-        NSMutableArray* temp = [NSMutableArray arrayWithCapacity:14];
-        for (int i = 0;i<14;i++)
+        
+        if ([day integerValue]>0)
         {
-        	[temp addObject:@"No"];
+            sql = [NSMutableString string];
+            [sql appendFormat:@"UPDATE Days SET "];
+            
+            // [sql appendFormat:@"isWeekdayWorkday = 0,"];  leave as is
+            
+            [sql appendFormat:@" holidayId = %@,",holidayId];
+            [sql appendFormat:@" holidayName =  \"%@\",",name];
+            [sql appendFormat:@" isHoliday = 1,"];
+            
+            [sql appendFormat:@" isDefaultWorkday = 0,"];
+            [sql appendFormat:@" defaultImageName = \"%@\",",imageName];
+            [sql appendFormat:@" defaultTextColorIndex = %@,",textColorIndex];
+            
+            [sql appendFormat:@" imageName = \"%@\",",imageName];
+            [sql appendFormat:@" textColorIndex = %@,",textColorIndex];
+            
+            [sql appendFormat:@" isWorkday = 0"];
+            [sql appendFormat:@" WHERE "];
+            [sql appendFormat:@" month = %@",month];
+            [sql appendFormat:@" AND day = %@",day];
+            
+            [SQLiteAccess updateWithSQL:sql];
+            
         }
-        [[NSUserDefaults standardUserDefaults] setObject:temp forKey:DaysForTwoWeekSchedule];
-    }
-
-	
-}
-
--(void) savesettings {
-	BOOL ok = [self.settings writeToFile:[GlobalMethods dataFilePathofDocuments:@"Settings.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"savesettings did not save!");}
-}
-
-// workdays /////////////////////////////
--(void)loadworkdays {
-	NSMutableArray *preloadworkdays = [[NSMutableArray alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"Workdays.plist"]];
-	self.workdays = preloadworkdays;
-	[preloadworkdays release];
-}
-
-//shift days defaults NSUsderDefaults
-
--(void) saveworkdays {
-	BOOL ok = [self.workdays writeToFile:[GlobalMethods dataFilePathofDocuments:@"Workdays.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"saveworkdays did not save!");}
-}
-
-
-// manual workdays ///////////////////////
--(void)loadmanualworkdays {
-	NSMutableArray *preloadmanualworkdays = [[NSMutableArray alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"ManualWorkdays.plist"]];
-	self.manualworkdays = preloadmanualworkdays;
-	[preloadmanualworkdays release];
-}
-
--(void) savemanualworkdays {
-	BOOL ok = [self.manualworkdays writeToFile:[GlobalMethods dataFilePathofDocuments:@"ManualWorkdays.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"savemanualworkdays did not save!");}
-}
-
-
-// holidays /////////////////////////////
--(void)loadHolidayList {
-	NSMutableArray *holidays = [[NSMutableArray alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"HolidayList.plist"]];
-
-    	NSMutableDictionary *thanksgiving = [[NSMutableDictionary alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofBundle:@"Thanksgiving.plist"]];
-    
-    NSString* thisYear = @"2017";  //  need to find out how to get this
-    NSString* week = [thanksgiving objectForKey:thisYear];
-    for (NSMutableDictionary* holiday in holidays)
-    {
-            if ([[holiday objectForKey:@"name"] isEqualToString:@"Thanksgiving Day"])
-            {
-                [holiday setObject:week forKey:@"ordinalweekday"];
-                
-            }
-    
-    }
-    
-    
-    
-	self.holidaylist = holidays;
-	[holidays release];
-}
-
--(void)saveHolidayList {
-	BOOL ok = [self.holidaylist writeToFile:[GlobalMethods dataFilePathofDocuments:@"HolidayList.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"saveHolidayList did not save!");}
-}
-
-//  Background Colors  ///////////////////////
--(void)loadBackgroundColors {
-	NSMutableArray *backgroundColorsTemp = [[NSMutableArray alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"BackgroundColors.plist"]];
-	NSLog(@"path %@",[GlobalMethods dataFilePathofDocuments:@"BackgroundColors.plist"]);
-	self.backgroundColors = backgroundColorsTemp;
-    if ([self.backgroundColors count] > 7)
-    {
-    	NSString* backgroundColor = [self.backgroundColors objectAtIndex:7];
-        if ([backgroundColor isEqualToString:@"iPhoneStandard"])
+        else
         {
-        	[self.backgroundColors replaceObjectAtIndex:7 withObject:@"lightgray"];
+            
+            sql = [NSMutableString string];
+            [sql appendFormat:@"UPDATE Days SET "];
+            
+            // [sql appendFormat:@"isWeekdayWorkday = 0,"];  leave as is
+            
+            [sql appendFormat:@" holidayId = %@,",holidayId];
+            [sql appendFormat:@" holidayName =  \"%@\",",name];
+            [sql appendFormat:@" isHoliday = 1,"];
+            
+            [sql appendFormat:@" isDefaultWorkday = 0,"];
+            [sql appendFormat:@" defaultImageName = \"%@\",",imageName];
+            [sql appendFormat:@" defaultTextColorIndex = %@,",textColorIndex];
+            
+            [sql appendFormat:@" imageName = \"%@\",",imageName];
+            [sql appendFormat:@" textColorIndex = %@,",textColorIndex];
+            
+            [sql appendFormat:@" isWorkday = 0"];
+            [sql appendFormat:@" WHERE "];
+            [sql appendFormat:@" month = %@",month];
+             [sql appendFormat:@" AND ordinalweekday = %@",ordinalweekday];
+             [sql appendFormat:@" AND weekday = %@",weekday];
+            
+            [SQLiteAccess updateWithSQL:sql];
+  
+            
         }
     }
-//	NSLog(@"self.backgroundColors %@",self.backgroundColors);
-	[backgroundColorsTemp release];
+    
+      // if retiredate
+    sql = [NSMutableString string];
+    [sql appendFormat:@"UPDATE Days SET "];
+    [sql appendFormat:@" isRetirement = 1,"];
+    [sql appendFormat:@" imageName = \"%@\",",self.settingsNew.imageNameRetirement];
+    [sql appendFormat:@" textColorIndex = %li",self.settingsNew.textColorIndexRetirement];
+
+    [sql appendFormat:@" WHERE "];
+    [sql appendFormat:@" year = %li",self.settingsNew.retirementYear];
+    [sql appendFormat:@" AND month = %li",self.settingsNew.retirementMonth];
+    [sql appendFormat:@" AND day = %li",self.settingsNew.retirementDay];
+
+    
+    
+    [SQLiteAccess updateWithSQL:sql];
+  
+    
+    sql = [NSMutableString string];
+     [sql appendFormat:@"UPDATE Days SET "];
+     
+     [sql appendFormat:@" imageName = \"%@\",",self.settingsNew.imageNameManualWorkdays];
+     [sql appendFormat:@" textColorIndex = %li,",self.settingsNew.textColorIndexManualWorkdays];
+     
+     [sql appendFormat:@" isWorkday = 1"];
+     [sql appendFormat:@" WHERE "];
+     [sql appendFormat:@" isDefaultWorkday = 0"];
+    [sql appendFormat:@" AND isManualWork = 1"];
+     
+     [SQLiteAccess updateWithSQL:sql];
+
+    
+    sql = [NSMutableString string];
+     [sql appendFormat:@"UPDATE Days SET "];
+     
+     [sql appendFormat:@" imageName = \"%@\",",self.settingsNew.imageNameManualNonWorkdays];
+     [sql appendFormat:@" textColorIndex = %li,",self.settingsNew.textColorIndexManualNonWorkdays];
+     
+     [sql appendFormat:@" isWorkday = 0"];
+     [sql appendFormat:@" WHERE "];
+     [sql appendFormat:@" isDefaultWorkday = 1"];
+    [sql appendFormat:@" AND isManualWork = 1"];
+     
+     [SQLiteAccess updateWithSQL:sql];
+ 
+
+    
+
+    
 }
 
--(void)saveBackgroundColors {
-	BOOL ok = [self.backgroundColors writeToFile:[GlobalMethods dataFilePathofDocuments:@"BackgroundColors.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"saveDayColors did not save!");}
-}
-
-//// Text Colors /////
--(void)loadTextColors {
-	NSMutableArray *textColorsTemp = [[NSMutableArray alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"TextColors.plist"]];
-	self.textColors = textColorsTemp;
-	[textColorsTemp release];
-}
-
--(void)saveTextColors {
-	BOOL ok = [self.textColors writeToFile:[GlobalMethods dataFilePathofDocuments:@"TextColors.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"saveTextColors did not save!");}
-}
-
-//////////////  Color Settings
--(void)loadColorSettings {
-	NSMutableDictionary *colorsSettingsTemp = [[NSMutableDictionary alloc] initWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:@"ColorSettings.plist"]];
-	self.colorSettings = colorsSettingsTemp;
-	[colorsSettingsTemp release];
-}
-
--(void)saveColorSettings {
-	BOOL ok = [self.colorSettings writeToFile:[GlobalMethods dataFilePathofDocuments:@"ColorSettings.plist"] atomically:YES];
-	if (ok != YES) {NSLog(@"ColorSettings did not save!");}
-}
 
 
-- (UIImage*)imageFromCache:(NSString*)fileName {
-	UIImage *image = [self.imageCache objectForKey:fileName];
-	
-	if (image == nil) {
-		image = [UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofBundle:[NSString stringWithFormat:@"%@.png",fileName]]];
-		if (image == nil) {
-			image = [UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:[NSString stringWithFormat:@"%@.png",fileName]]];
-		}
-		if (image) {
-			[self.imageCache setObject:image forKey:fileName];
-		}
-	}
-	return image;
-}
+
+
 
 #pragma mark Badge Update in Background
 
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+-(void)requestNotificationPermission
 {
-    [UIApplication sharedApplication].applicationIconBadgeNumber = [self updateIconBadge];
-    completionHandler(UIBackgroundFetchResultNewData);
+
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    [center requestAuthorizationWithOptions:
+             (UNAuthorizationOptionBadge)
+       completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        self.notificationPermissiongranted = granted;
+        [self addToDebugLog:[NSString stringWithFormat:@"requestNotificationPermission granted: %s  -  %@", granted ? "YES" : "NO",error.localizedDescription]];
+    }];
+    
 }
 
 
 
+-(void)configure {
 
-- (void)dealloc {
-	[navigationController release];
-	[window release];
-	[ settings release];
-	[ workdays release];
-	[ holidaylist release];
-	[ manualworkdays release];
-	[ backgroundColors release];
-	[ textColors release];
-	[ colorSettings release];
-	[imageCache release];
-	[super dealloc];
+    [[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:TaskID
+                                                          usingQueue:nil
+                                                       launchHandler:^(BGTask *task) {
+       [self updateIconBadgeInBackground];
+    }];
 }
 
-//    NSDate* eventDate = [NSDate date];
-//    NSDate* lastDate;
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"lastUpdate"])
+-(void)scheduleAppRefresh {
+
+    BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
+    request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:2*60];
+    NSError *error = NULL;
+    BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
+    if (!success) {
+        [self addToDebugLog:[NSString stringWithFormat:@"Failed to submit request: %@",error]];
+    }
+
+}
+
+
+
+-(void)updateIconBadge {
+
+    [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
+
+}
+
+-(void)updateIconBadgeInBackground {
+    // get data from SQL before doing Time Remaining
+    TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
+    [myTimeRemaining updateTimeRemaining];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
+
+}
+
+
+
+#pragma mark Debug Array
+
+// create and append
+-(void)addToDebugLog:(NSString*)message
+{
+    NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
+    NSString* dateString = [GlobalMethods debugFormattedTime];
+    float timestamp = [GlobalMethods debugTimestamp];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp,date, Log) Values (%f,\"%@\",\"%@\");",timestamp, dateString,thisMessage];
+    [SQLiteAccess insertWithSQL:sql];
+}
+
+
+
+#pragma mark SQLite
+
+-(BOOL) checkForDatabaseInDocuments
+{
+    
+   
+    
+    NSString *path1 = [GlobalMethods dataFilePathofBundle:@"Retirement.sqlite"];
+    NSString *path2 = [GlobalMethods dataFilePathofDocuments:@"Retirement.sqlite"];
+
+    
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:path2])
+    {
+        NSError* error;
+        [fileManager copyItemAtPath:path1 toPath: path2 error:&error];
+        if (error == nil)
+        {
+            self.firstLaunch = 1;
+                NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+            [self addToDebugLog:[NSString stringWithFormat:@"First Launch using version %@",version]];
+             [[NSUserDefaults standardUserDefaults] setFloat:[version floatValue] forKey:@"version"];
+            return YES;
+        }
+        else
+        {
+            [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"checkForDatabaseInDocuments Error  %@", [error localizedDescription]]];
+             self.firstLaunch = 1;
+            return NO;
+        }
+        
+        
+    }
+    else
+    {
+        self.firstLaunch = 0;
+        float versionPrevious = [[NSUserDefaults standardUserDefaults] floatForKey:@"version"];
+        float versionCurrent = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
+        if (versionPrevious != versionCurrent)
+        {
+            [self addToDebugLog:[NSString stringWithFormat:@"Upgraded From %.02f to %.02f",versionPrevious,versionCurrent]];
+            [[NSUserDefaults standardUserDefaults] setFloat:versionCurrent forKey:@"version"];
+        }
+    }
+
+    return YES;
+}
+//
+//-(void)checkForNewTables
+//{
+//    NSMutableString* versionSql = [NSMutableString string];
+//    [versionSql appendFormat:@"CREATE TABLE IF NOT EXISTS Versions2 ("];
+//    [versionSql appendFormat:@"id integer PRIMARY KEY AUTOINCREMENT NOT NULL,"];
+//    [versionSql appendFormat:@"timestamp integer(128),"];
+//    [versionSql appendFormat:@"date text(128),"];
+//    [versionSql appendFormat:@"version float(128)"];
+//    [versionSql appendFormat:@");"];
+//    [SQLiteAccess insertWithSQL:versionSql];
+//
+//    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+//    NSMutableString* checkVersionSql = [NSMutableString string];
+//    [checkVersionSql appendFormat:@"SELECT * FROM Versions2 WHERE version = %@",version];
+//    NSArray* versions = [SQLiteAccess selectManyRowsWithSQL:checkVersionSql];
+//    if (versions.count == 0)
 //    {
-//    	lastDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastUpdate"];
+//
+//
 //    }
-//    else
+//
+//
+//
+//
+//
+//
+//}
+
+
+//-(void)CopyNewDatabaseForNewVersion
+//{
+//    NSDictionary* settings = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM settings"];
+//
+//    if ([[settings objectForKey:@"version"]integerValue]== 1)
 //    {
-//    	lastDate = [[NSDate date] dateByAddingTimeInterval:-60*60*24*2];
+//
+//        NSArray* holidays = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM Holidays WHERE isCustom = 0"];
+//        NSArray* holidaysCustom = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM Holidays WHERE isCustom = 1"];
+//        NSArray* workdays = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM Workdays"];
+//        NSArray* manualDays = [SQLiteAccess selectOneRowWithSQL:@"SELECT * FROM Days WHERE isManualWork = 1"];
+//
 //    }
-//   	NSTimeInterval howRecent = [eventDate timeIntervalSinceDate:lastDate];
-//   	if (howRecent > 60*60*24) {
-//        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastUpdate"];
-//	    [UIApplication sharedApplication].applicationIconBadgeNumber = [self updateIconBadge];
-//   	}
-
-
-
+//
+//}
 
 
 @end

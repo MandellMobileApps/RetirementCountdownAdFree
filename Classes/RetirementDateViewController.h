@@ -11,18 +11,18 @@
 
 
 @interface RetirementDateViewController : BaseTableViewController {
-@private
-	UIDatePicker *pickerView;
-	NSDate *retirementDate;
-	NSArray *dataArray;
-	NSDateFormatter *dateFormatter;
+
 }
 
-@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView; 
+@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
+@property (nonatomic, retain) NSArray *dataArray;
 @property (nonatomic, retain) NSDate *retirementDate;
-@property (nonatomic, retain) NSArray *dataArray; 
-@property (nonatomic, retain) NSDateFormatter *dateFormatter; 
 
+@property (nonatomic, assign) NSInteger year;
+@property (nonatomic, assign) NSInteger month;
+@property (nonatomic, assign) NSInteger day;
+
+//@property (nonatomic, assign) BOOL changeMade;
 
 - (IBAction)dateAction:(id)sender;	
 

@@ -10,7 +10,9 @@
 #import "RetirementCountdownAppDelegate.h"
 
 @interface BaseTableViewController : UITableViewController {
-	RetirementCountdownAppDelegate *appDelegate;
+	
 }
 @property (nonatomic,retain) RetirementCountdownAppDelegate *appDelegate;
+@property (nonatomic,retain) UIColor *backgroundColor;
+@property (nonatomic,retain) UIColor *textColor;
 @end

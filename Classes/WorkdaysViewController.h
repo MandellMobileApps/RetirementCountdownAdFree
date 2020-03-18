@@ -12,8 +12,7 @@
 
 @interface WorkdaysViewController : BaseViewController {
 
-	NSMutableArray *selectedworkdays;
-	NSArray *allworkdays;
+
 
 	
 }

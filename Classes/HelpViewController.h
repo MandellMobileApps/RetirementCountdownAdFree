@@ -11,16 +11,18 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "BaseViewController.h"
 
+@class RetirementCountdownAppDelegate;
 
-@interface HelpViewController : BaseViewController <MFMailComposeViewControllerDelegate> {
+@interface HelpViewController : BaseViewController <MFMailComposeViewControllerDelegate,UITextViewDelegate> {
 
-IBOutlet UILabel *textLabel;
 
 
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *textLabel;
-
--(void) sendEmail;
+@property (nonatomic, retain)  IBOutlet UITextView *textView;
+@property (nonatomic, retain)  IBOutlet UIButton *submitButton;
+@property (nonatomic)  BOOL okToSend;
+@property (nonatomic)  BOOL removeView;
 
 @end

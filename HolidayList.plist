@@ -3,158 +3,186 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>day</key>
+		<integer>1</integer>
+		<key>month</key>
+		<integer>1</integer>
 		<key>name</key>
 		<string>New Years Day</string>
-		<key>month</key>
-		<integer>1</integer>
-		<key>day</key>
-		<integer>1</integer>
-		<key>weekday</key>
-		<integer>0</integer>
 		<key>ordinalweekday</key>
 		<integer>0</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>day</key>
+		<integer>0</integer>
+		<key>month</key>
+		<integer>1</integer>
 		<key>name</key>
 		<string>Martin Luther King Day</string>
-		<key>month</key>
-		<integer>1</integer>
-		<key>day</key>
-		<integer>0</integer>
-		<key>weekday</key>
-		<integer>2</integer>
 		<key>ordinalweekday</key>
 		<integer>3</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
+		<key>day</key>
+		<integer>0</integer>
+		<key>month</key>
+		<integer>2</integer>
 		<key>name</key>
 		<string>USA Presidents Day</string>
-		<key>month</key>
-		<integer>2</integer>
-		<key>day</key>
-		<integer>0</integer>
-		<key>weekday</key>
-		<integer>2</integer>
 		<key>ordinalweekday</key>
 		<integer>3</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
-		<key>name</key>
-		<string>Memorial Day</string>
+		<key>day</key>
+		<integer>0</integer>
 		<key>month</key>
 		<integer>5</integer>
-		<key>day</key>
-		<integer>0</integer>
-		<key>weekday</key>
-		<integer>2</integer>
+		<key>name</key>
+		<string>Memorial Day</string>
 		<key>ordinalweekday</key>
 		<integer>4</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
-		<key>name</key>
-		<string>USA Independence Day</string>
+		<key>day</key>
+		<integer>4</integer>
 		<key>month</key>
 		<integer>7</integer>
-		<key>day</key>
-		<integer>4</integer>
-		<key>weekday</key>
-		<integer>0</integer>
+		<key>name</key>
+		<string>USA Independence Day</string>
 		<key>ordinalweekday</key>
 		<integer>0</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
-		<key>name</key>
-		<string>Labor Day</string>
-		<key>month</key>
-		<integer>9</integer>
 		<key>day</key>
 		<integer>0</integer>
-		<key>weekday</key>
-		<integer>2</integer>
+		<key>month</key>
+		<integer>9</integer>
+		<key>name</key>
+		<string>Labor Day</string>
 		<key>ordinalweekday</key>
 		<integer>1</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>2</integer>
 	</dict>
 	<dict>
+		<key>day</key>
+		<integer>11</integer>
+		<key>month</key>
+		<integer>11</integer>
 		<key>name</key>
 		<string>Veterans Day</string>
-		<key>month</key>
-		<integer>11</integer>
-		<key>day</key>
-		<integer>11</integer>
-		<key>weekday</key>
-		<integer>0</integer>
 		<key>ordinalweekday</key>
 		<integer>0</integer>
 		<key>selected</key>
 		<string>NO</string>
+		<key>weekday</key>
+		<integer>0</integer>
 	</dict>
 	<dict>
+		<key>day</key>
+		<integer>0</integer>
+		<key>month</key>
+		<integer>11</integer>
 		<key>name</key>
 		<string>Thanksgiving Day</string>
-		<key>month</key>
-		<integer>11</integer>
-		<key>day</key>
-		<integer>0</integer>
+		<key>ordinalweekday</key>
+		<string>5</string>
+		<key>selected</key>
+		<string>YES</string>
 		<key>weekday</key>
 		<integer>5</integer>
-		<key>ordinalweekday</key>
-		<integer>4</integer>
-		<key>selected</key>
-		<string>NO</string>
 	</dict>
 	<dict>
-		<key>name</key>
-		<string>Day after Thanksgiving</string>
-		<key>month</key>
-		<integer>11</integer>
-		<key>day</key>
-		<integer>0</integer>
-		<key>weekday</key>
-		<integer>6</integer>
-		<key>ordinalweekday</key>
-		<integer>4</integer>
-		<key>selected</key>
-		<string>NO</string>
-	</dict>
-	<dict>
-		<key>name</key>
-		<string>Christmas Eve</string>
-		<key>month</key>
-		<integer>12</integer>
 		<key>day</key>
 		<integer>24</integer>
-		<key>weekday</key>
-		<integer>0</integer>
-		<key>ordinalweekday</key>
-		<integer>0</integer>
-		<key>selected</key>
-		<string>NO</string>
-	</dict>
-	<dict>
-		<key>name</key>
-		<string>Christmas</string>
 		<key>month</key>
 		<integer>12</integer>
-		<key>day</key>
-		<integer>25</integer>
-		<key>weekday</key>
-		<integer>0</integer>
+		<key>name</key>
+		<string>Christmas Eve</string>
 		<key>ordinalweekday</key>
 		<integer>0</integer>
 		<key>selected</key>
-		<string>NO</string>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>0</integer>
 	</dict>
+	<dict>
+		<key>day</key>
+		<integer>25</integer>
+		<key>month</key>
+		<integer>12</integer>
+		<key>name</key>
+		<string>Christmas</string>
+		<key>ordinalweekday</key>
+		<integer>0</integer>
+		<key>selected</key>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>0</integer>
+	</dict>
+	<dict>
+		<key>day</key>
+		<integer>29</integer>
+		<key>month</key>
+		<integer>11</integer>
+		<key>name</key>
+		<string>Thanksgiving Friday</string>
+		<key>ordinalweekday</key>
+		<integer>0</integer>
+		<key>selected</key>
+		<string>YES</string>
+		<key>weekday</key>
+		<integer>0</integer>
+	</dict>
+    <dict>
+        <key>day</key>
+        <integer>29</integer>
+        <key>month</key>
+        <integer>11</integer>
+        <key>name</key>
+        <string>Custom1</string>
+        <key>ordinalweekday</key>
+        <integer>0</integer>
+        <key>selected</key>
+        <string>YES</string>
+        <key>weekday</key>
+        <integer>0</integer>
+    </dict>
+    <dict>
+        <key>day</key>
+        <integer>25</integer>
+        <key>month</key>
+        <integer>2</integer>
+        <key>name</key>
+        <string>Custom2</string>
+        <key>ordinalweekday</key>
+        <integer>0</integer>
+        <key>selected</key>
+        <string>YES</string>
+        <key>weekday</key>
+        <integer>0</integer>
+    </dict>
 </array>
 </plist>

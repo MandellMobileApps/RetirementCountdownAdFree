@@ -20,10 +20,10 @@
 +(int)getCountForDayColorNames;
 +(int)getCountForPredefinedColorNames;
 
-+(NSString*)getTextColorNameFor:(int)nameindex;
-+(NSString*)getBackgroundColorNameFor:(int)nameindex;
-+(NSString*)getDayColorNameFor:(int)nameindex;
-+(NSString*)getPredefinedColorNameFor:(int)nameindex;
++(NSString*)getTextColorNameFor:(NSInteger)nameindex;
++(NSString*)getBackgroundColorNameFor:(NSInteger)nameindex;
++(NSString*)getDayColorNameFor:(NSInteger)nameindex;
++(NSString*)getPredefinedColorNameFor:(NSInteger)nameindex;
 
 
 

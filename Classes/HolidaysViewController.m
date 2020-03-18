@@ -9,41 +9,42 @@
 #import "HolidaysViewController.h"
 
 
-@implementation HolidaysViewController
 
-@synthesize changed;
-@synthesize holidaynames;
-@synthesize holidaymonth;
-@synthesize holidayday;
-@synthesize holidayweekday;
-@synthesize holidayordinal;
-@synthesize holidayused;
-@synthesize holidayList;
-@synthesize holidayTableView;
+@implementation HolidaysViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:nil action:nil];
+	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:nil action:nil];
 	self.navigationItem.backBarButtonItem = backBarItem;
-	[backBarItem release];	
-	self.navigationItem.rightBarButtonItem = self.editButtonItem;
-		self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
 
+	self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    [self refreshHolidayList];
+
+}
+
+-(void)refreshHolidayList
+{
+    self.holidayListStandard = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Holidays WHERE isCustom = 0"];
+    
+     self.holidayListCustom = [NSMutableArray arrayWithArray:[SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Holidays WHERE isCustom = 1"]];
+    
+    [self.holidayTableView reloadData];
+    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	self.holidayList = self.appDelegate.holidaylist;
-	[self.holidayTableView reloadData];
+
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	self.appDelegate.holidaylist = self.holidayList;
+
 }
 
 
@@ -54,21 +55,47 @@
 
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0) {	
-        return UITableViewCellEditingStyleNone;
-    } else {
-        return UITableViewCellEditingStyleDelete;
+	 if (indexPath.section == 0)
+     {
+         if (indexPath.row != 0)
+         {
+             return UITableViewCellEditingStyleDelete;
+         }
+     }
+    return UITableViewCellEditingStyleNone;
+   
+
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row != 0)
+        {
+               // delete from sqlite
+                NSDictionary* this = [self.holidayListCustom objectAtIndex:indexPath.row-1];
+                NSString* sql = [NSString stringWithFormat:@"DELETE FROM Holidays WHERE id = %@",[this objectForKey:@"id"]];
+                [SQLiteAccess deleteWithSQL:sql];
+            
+                // delete from array
+                [self.holidayListCustom removeObjectAtIndex:indexPath.row-1];
+                
+                // delete from tableview
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation: UITableViewRowAnimationFade];
+
+        }
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // If row is deleted, remove it from the list.
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.holidayList removeObjectAtIndex:indexPath.row-1];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-    }
-}
+- (void)tableView:(UITableView *)tableView
+                   didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+ 
 
+    
+}
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -79,106 +106,185 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
+}
+- (CGFloat)tableView:(UITableView *)tableView
+heightForHeaderInSection:(NSInteger)section;
+{
+     return 30;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
+{
+
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 300, 22)];
+     if (section == 0)
+    {
+     
+      label1.text = @"Custom Holidays";
+    }
+    else
+    {
+           label1.text = @"Holidays";
+  
+
+    }
+    [headerView addSubview:label1];
+    return headerView;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-		return [self.holidayList count] + 1;
+    if (section == 0)
+    {
+        return self.holidayListCustom.count+1;
+    }
+    return [self.holidayListStandard count];
+
+
 }
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
-    NSMutableDictionary *holidayDictionary;
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 		cell.detailTextLabel.textColor = [UIColor redColor];
 	}
-	if (indexPath.row == 0) {
-		cell.textLabel.text = @"Add New Holiday";
-		cell.textLabel.textColor = [UIColor blueColor];
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.imageView.image = nil;
-	}else {
-		holidayDictionary = [self.holidayList objectAtIndex:indexPath.row-1];
-		cell.textLabel.text = [holidayDictionary valueForKey:@"name"];
-		cell.textLabel.textColor = [UIColor blackColor];
-		cell.detailTextLabel.text = @"";
-		if ([[holidayDictionary valueForKey:@"selected"] isEqualToString:@"YES"])
+
+    if (indexPath.section == 1)
+    {
+        NSDictionary *holiday = [self.holidayListStandard objectAtIndex:indexPath.row];
+        cell.textLabel.text = [holiday objectForKey:@"name"];
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.text = @"";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        if ([[holiday objectForKey:@"selected"] integerValue])
         {
             cell.imageView.image = [UIImage imageNamed:@"checkbox_checked_gray.png"];
-		}
+        }
         else
         {
             cell.imageView.image = [UIImage imageNamed:@"checkbox_unchecked_gray.png"];
         }
-		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-	}
+ 
+    }
+   if (indexPath.section == 0)
+    {
+        if (indexPath.row == 0)
+        {
+            cell.textLabel.text = @"Add New Holiday";
+            cell.textLabel.textColor = [UIColor blueColor];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.imageView.image = nil;
+            
+        }
+        else
+        {
+            NSDictionary *holiday = [self.holidayListCustom objectAtIndex:indexPath.row-1];
+            cell.textLabel.text = [holiday objectForKey:@"name"];
+            cell.textLabel.textColor = [UIColor blackColor];
+            cell.detailTextLabel.text = @"";
+            if ([[holiday objectForKey:@"selected"] integerValue])
+            {
+                cell.imageView.image = [UIImage imageNamed:@"checkbox_checked_gray.png"];
+            }
+            else
+            {
+                cell.imageView.image = [UIImage imageNamed:@"checkbox_unchecked_gray.png"];
+            }
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        }
+    }
+
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row == 0)
+        {
+        AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
+        addHolidayViewController.title = @"Add Holiday";
+        addHolidayViewController.newHoliday = YES;
+         addHolidayViewController.holidaysViewController = self;
+        [[self navigationController] pushViewController:addHolidayViewController animated:YES];
+        }
+        else
+        {
+            AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
+            addHolidayViewController.title = @"Edit Holiday";
+            addHolidayViewController.newHoliday = NO;
+            addHolidayViewController.holiday = [self.holidayListCustom objectAtIndex:indexPath.row-1];;
+             addHolidayViewController.holidaysViewController = self;
+            [[self navigationController] pushViewController:addHolidayViewController animated:YES];
+            
+        }
+    }
 
-		if (indexPath.row == 0) {
-			AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
-			addHolidayViewController.title = @"Add Holiday";
-			addHolidayViewController.locationInList = 1000;
-			[[self navigationController] pushViewController:addHolidayViewController animated:YES];
-			[addHolidayViewController release];
-		} else {
-			AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
-			addHolidayViewController.title = @"Edit Holiday";
-			addHolidayViewController.locationInList = indexPath.row - 1;
-			[[self navigationController] pushViewController:addHolidayViewController animated:YES];
-			[addHolidayViewController release];
-		}
-
-
+     self.appDelegate.settingsChanged = YES;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-	if (indexPath.row == 0) {
-		AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
-		addHolidayViewController.title = @"Add Holiday";
-		addHolidayViewController.locationInList = 1000;
-		[[self navigationController] pushViewController:addHolidayViewController animated:YES];
-		[addHolidayViewController release];
-	} else {		
-			
-		if ([[[self.holidayList objectAtIndex:indexPath.row-1] valueForKey:@"selected"] isEqualToString:@"YES"]) {
-			[[self.holidayList objectAtIndex:indexPath.row-1] setObject:@"NO" forKey:@"selected"];
-		} else {
-			[[self.holidayList objectAtIndex:indexPath.row-1] setObject:@"YES" forKey:@"selected"];
-		}
-		[self.holidayTableView reloadData];
-		self.appDelegate.holidaylist = self.holidayList;
-		self.appDelegate.colorsChanged = YES;
-	}
+    if (indexPath.section == 0)
+    {
+        if (indexPath.row == 0)
+        {
+        
+            AddHolidayViewController *addHolidayViewController = [[AddHolidayViewController alloc] initWithNibName:@"AddHolidayViewController" bundle:nil];
+            addHolidayViewController.title = @"Add Holiday";
+            addHolidayViewController.newHoliday = YES;
+            addHolidayViewController.holidaysViewController = self;
+            [[self navigationController] pushViewController:addHolidayViewController animated:YES];
+        }
+        else
+        {
+            
+            NSMutableDictionary *holiday = [NSMutableDictionary dictionaryWithDictionary:[self.holidayListCustom objectAtIndex:indexPath.row-1]];
+
+            if ([[holiday objectForKey:@"selected"] integerValue]) {
+                [holiday setValue:@"0" forKey:@"selected"];
+            } else {
+                 [holiday setValue:@"1" forKey:@"selected"];
+            }
+            NSString *sql = [NSString stringWithFormat:@"UPDATE Holidays Set selected = %@ WHERE id = %@",[holiday objectForKey:@"selected"],[holiday objectForKey:@"id"]];
+            [SQLiteAccess updateWithSQL:sql];
+
+             [self refreshHolidayList];
+            
+        }
+        
+    }
+    else if (indexPath.section == 1)
+    {
+	
+        NSMutableDictionary *holiday = [NSMutableDictionary dictionaryWithDictionary:[self.holidayListStandard objectAtIndex:indexPath.row]];
+       
+        if ([[holiday objectForKey:@"selected"] integerValue]) {
+            [holiday setValue:@"0" forKey:@"selected"];
+        } else {
+             [holiday setValue:@"1" forKey:@"selected"];
+        }
+        NSString *sql = [NSString stringWithFormat:@"UPDATE Holidays Set selected = %@ WHERE id = %@",[holiday objectForKey:@"selected"],[holiday objectForKey:@"id"]];
+        [SQLiteAccess updateWithSQL:sql];
+         
+         [self refreshHolidayList];
+
+    }
+    self.appDelegate.settingsChanged = YES;
 }
 
-
-- (void)dealloc {
-
-	[holidaynames release];
-	[holidaymonth release];
-	[holidayday release];
-	[holidayweekday release];
-	[holidayordinal release];
-	[holidayused release];
-	[holidayList release];
-	[holidayTableView release];
-    [super dealloc];
-}
 
 
 @end

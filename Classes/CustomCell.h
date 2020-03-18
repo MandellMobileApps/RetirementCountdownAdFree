@@ -11,9 +11,7 @@
 
 @interface CustomCell : UITableViewCell {
 
-	IBOutlet	UILabel *mainLabel;
-	IBOutlet	UIButton *colorButton;
-	IBOutlet	UILabel *dayLabel;
+
 
 
 }

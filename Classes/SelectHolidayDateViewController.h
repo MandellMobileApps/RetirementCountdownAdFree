@@ -9,33 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "BaseTableViewController.h"
 
+@class AddHolidayViewController;
 
 @interface SelectHolidayDateViewController : BaseTableViewController {
 
-	NSString *title;
-	NSString *tableToLookup;
-	NSUInteger valueSelected;
-	NSUInteger locationInList;
-	
-	NSMutableString *holidayName;
-	NSUInteger holidayMonth;
-	NSUInteger holidayDay;
-	NSUInteger holidayWeekday;
-	NSUInteger holidayOrdinalWeekday;
-	BOOL cancelledSave;
+
 
 }
 
-@property (nonatomic, retain) NSString *title;
+//@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) AddHolidayViewController *addHolidayViewController;
+@property (nonatomic, retain) NSMutableDictionary *holiday;
 @property (nonatomic, retain) NSString *tableToLookup;
 @property (nonatomic, assign) NSUInteger valueSelected;
 @property (nonatomic, assign) NSUInteger locationInList;
 
-@property (nonatomic, retain) NSMutableString *holidayName;
-@property (nonatomic, assign) NSUInteger holidayMonth;
-@property (nonatomic, assign) NSUInteger holidayDay;
-@property (nonatomic, assign) NSUInteger holidayWeekday;
-@property (nonatomic, assign) NSUInteger holidayOrdinalWeekday;
 
 @property (nonatomic, assign) BOOL cancelledSave;
 

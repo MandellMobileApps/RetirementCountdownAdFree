@@ -11,14 +11,25 @@
 
 @implementation ImagePickerViewController
 
-@synthesize picker,currentImageView, selectedImage;
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	//NSLog(@"self.appDelegate.settings %@",self.appDelegate.settings);
 
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	currentImageView.image = [self.appDelegate imageFromCache:[self.appDelegate.settings objectForKey:@"PictureName"]];
+
+    NSString* fullImageName;
+    if (self.appDelegate.settingsNew.customPicture == 0)
+    {
+        fullImageName = [GlobalMethods fullImageNameFor:DefaultPicture];
+    
+    }
+    else
+    {
+        fullImageName = [GlobalMethods fullImageNameFor:CustomPicture];
+        
+    }
+     UIImage* tempImage =[UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:fullImageName]];
+    
+    self.currentImageView.image = tempImage;
+   
 
 }
 
@@ -27,13 +38,17 @@
 	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
 	imagePicker.delegate = self;
 	imagePicker.allowsEditing = YES;
-	[self presentModalViewController:imagePicker animated:YES];
-	[imagePicker release];
+    [self presentViewController:imagePicker animated:YES completion:nil];
+
 }
 
 -(IBAction)defaultButton:(id)sender {
-	currentImageView.image = [self.appDelegate imageFromCache:@"beach"];
-	[self.appDelegate.settings setObject:@"beach" forKey:@"PictureName"];
+    NSString* fullImageName = [GlobalMethods fullImageNameFor:DefaultPicture];
+    UIImage* tempImage =[UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:fullImageName]];
+    
+    self.currentImageView.image = tempImage;
+    [self.appDelegate updateSettingsInteger:0 forProperty:@"customPicture"];
+    [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];
 	self.appDelegate.pictureChanged = YES;
 }
 
@@ -46,17 +61,20 @@
 		self.selectedImage = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
 	}
 
-		self.currentImageView.image = self.selectedImage;
-		[self dismissModalViewControllerAnimated:YES];
-		NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(self.selectedImage,0.5)];
-		NSString *path = [GlobalMethods dataFilePathofDocuments:@"customPicture.png"];
-		[imageData writeToFile:path atomically:YES];
-		[imageData release];
-		[self.appDelegate.settings setObject:@"customPicture" forKey:@"PictureName"];
-		self.appDelegate.pictureChanged = YES;
-		UIImage *tempImage = [self.appDelegate imageFromCache:@"customPicture"];  // this loads into appDelegate image cache
-		if (tempImage) { } // because I hate warnings!!
-//	}	
+    self.currentImageView.image = self.selectedImage;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(self.selectedImage,0.5)];
+    NSString *path = [GlobalMethods dataFilePathofDocuments:[GlobalMethods fullImageNameFor:CustomPicture]];
+    BOOL success = [imageData writeToFile:path atomically:YES];
+    if(!success)
+     {
+         [self.appDelegate addToDebugLog:@"saving custom picture failed"];
+     }
+    [self.appDelegate updateSettingsInteger:1 forProperty:@"customPicture"];
+    [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];
+    self.appDelegate.pictureChanged = YES;
+    
+
 	
 }
 
@@ -66,7 +84,7 @@
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -78,16 +96,7 @@
 
 }
 
-- (void)viewDidUnload {
 
-}
-
-- (void)dealloc {
-	[picker release];
-	[currentImageView release];
-	[selectedImage release];
-    [super dealloc];
-}
 
 
 @end

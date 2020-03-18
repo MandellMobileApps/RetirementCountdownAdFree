@@ -12,25 +12,87 @@
 
 @implementation DaysViewController
 
-@synthesize backgrounds,  tableViewForReload, backgroundImageNames, textColorNames;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-	UIBarButtonItem *backBarItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil];
-	self.navigationItem.backBarButtonItem = backBarItem;
-	[backBarItem release];
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-	self.backgrounds = [NSArray arrayWithObjects:@"Today", @"Retirement Day", @"Workdays", @"Non-Workdays", @"Holidays", @"Manual Workdays", @"Manual Non-Workdays",  @"Background", nil];
+
+	self.backgroundSettings = [NSArray arrayWithObjects:@"Today", @"Retirement Day", @"Workdays", @"Non-Workdays", @"Custom Holidays", @"Manual Workdays", @"Manual Non-Workdays",  @"Background", nil];
 
 
 }
 
+-(NSString*)imageNameForIndex:(NSInteger)row
+{
+    NSString* name;
+    switch (row) {
+        case 0:
+            name = self.appDelegate.settingsNew.imageNameToday;
+        break;
+        case 1:
+            name = self.appDelegate.settingsNew.imageNameRetirement;
+            break;
+        case 2:
+            name = self.appDelegate.settingsNew.imageNameWorkdays;
+        break;
+        case 3:
+            name = self.appDelegate.settingsNew.imageNameNonWorkdays;
+        break;
+        case 4:
+            name = self.appDelegate.settingsNew.imageNameHoliday;
+        break;
+        case 5:
+            name = self.appDelegate.settingsNew.imageNameManualWorkdays;
+        break;
+        case 6:
+            name = self.appDelegate.settingsNew.imageNameManualNonWorkdays;
+        break;
+            
+        default:
+            break;
+    }
+    return name;
+    
+    
+    
+}
+
+-(UIColor*)textColorForIndex:(NSInteger)row
+{
+    UIColor* name;
+    switch (row) {
+        case 0:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexToday];
+        break;
+        case 1:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexRetirement];
+            break;
+        case 2:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexWorkdays];
+        break;
+        case 3:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexNonWorkdays];
+        break;
+        case 4:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexHoliday];
+        break;
+        case 5:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexManualWorkdays];
+        break;
+        case 6:
+            name = [GlobalMethods colorForIndex:self.appDelegate.settingsNew.textColorIndexManualNonWorkdays];
+        break;
+            
+        default:
+            break;
+    }
+    return name;
+    
+    
+    
+}
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-	self.backgroundImageNames =  self.appDelegate.backgroundColors;
-	self.textColorNames = self.appDelegate.textColors;
 	[self.tableViewForReload reloadData];
 }
 
@@ -51,8 +113,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-    return [self.backgrounds count];
+    return [self.backgroundSettings count];
 }
 
 
@@ -71,34 +132,33 @@
 			}
 			
 		}
-		NSString *buttonPictureName = [self.backgroundImageNames objectAtIndex:indexPath.row];
-		UIImage *buttonBackground = [self.appDelegate imageFromCache:buttonPictureName];
+		NSString *buttonPictureName = [self imageNameForIndex:indexPath.row];
+        UIImage *buttonBackground = [UIImage imageNamed:[GlobalMethods fullImageNameFor:buttonPictureName]];
 		[cell.colorButton setBackgroundImage:buttonBackground forState:UIControlStateNormal];
 		[cell.colorButton setBackgroundImage:buttonBackground forState:UIControlStateHighlighted];
 		cell.dayLabel.text = @"25";
-		cell.dayLabel.textColor = [ColorsClass performSelector:NSSelectorFromString([self.textColorNames objectAtIndex:indexPath.row])];
-		cell.mainLabel.text =[self.backgrounds objectAtIndex:indexPath.row];
+        cell.dayLabel.textColor = [self textColorForIndex:indexPath.row];
+		cell.mainLabel.text =[self.backgroundSettings objectAtIndex:indexPath.row];
 		return cell;
 		
 	}else{
 		static NSString *CellIdentifier = @"Cell";
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			mainLabel = [[[UILabel alloc] initWithFrame:CGRectMake(25.0, 5.0, 250.0, 35.0)] autorelease];
+			mainLabel = [[UILabel alloc] initWithFrame:CGRectMake(25.0, 5.0, 250.0, 35.0)];
 			mainLabel.opaque = YES;
 			mainLabel.tag = 1; 
 			mainLabel.font = [UIFont boldSystemFontOfSize:18]; 
-			mainLabel.textAlignment = UITextAlignmentCenter; 
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			mainLabel.textAlignment = NSTextAlignmentCenter;
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			[cell.contentView addSubview:mainLabel]; 
 		} else {
 			mainLabel = (UILabel *)[cell.contentView viewWithTag:1]; 
 		}
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		UIColor *tempBackgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-
-		mainLabel.backgroundColor = tempBackgroundColor;
-		mainLabel.textColor = [ColorsClass performSelector:NSSelectorFromString([self.textColorNames objectAtIndex:indexPath.row])];
+	
+		mainLabel.backgroundColor = self.backgroundColor;
+		mainLabel.textColor = self.textColor;
 		mainLabel.text = @"Calendar Background";
 		return cell;
 	}
@@ -106,35 +166,28 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
 	if (indexPath.row < 7) {
 		ColorsViewController *colorsViewController = [[ColorsViewController alloc] initWithNibName:@"ColorsView" bundle:nil];
-		colorsViewController.title = [self.backgrounds objectAtIndex:indexPath.row];
-		colorsViewController.currentBackground = indexPath.row;
+		colorsViewController.title = [self.backgroundSettings objectAtIndex:indexPath.row];
+		colorsViewController.currentDaySelected = indexPath.row;
 		[[self navigationController] pushViewController:colorsViewController animated:YES];
-		[colorsViewController release];
+
 	} else {
 		CalendarBackgroundViewController *calendarBackgroundViewController = [[CalendarBackgroundViewController alloc] initWithNibName:@"CalendarBackgroundViewController" bundle:nil];
 		calendarBackgroundViewController.title = @"Select Colors";
 		[[self navigationController] pushViewController:calendarBackgroundViewController animated:YES];
-		[calendarBackgroundViewController release];
+
 	}
 	
 
 }
 
 
-- (void)dealloc {
-	[backgrounds release];
-	[tableViewForReload release];
-	[backgroundImageNames release];
-	[textColorNames release];
-    [super dealloc];
-}
 
 
 @end

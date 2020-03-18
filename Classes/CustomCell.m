@@ -11,7 +11,7 @@
 
 @implementation CustomCell
 
-@synthesize mainLabel, colorButton, dayLabel;
+
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -30,13 +30,6 @@
 }
 
 
-
-- (void)dealloc {
-	[mainLabel release];
-	[colorButton release];
-	[dayLabel release];
-	[super dealloc];
-}
 
 
 @end

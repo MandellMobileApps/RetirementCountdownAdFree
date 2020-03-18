@@ -13,23 +13,17 @@
 
 
 @interface ColorsViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource> {
-
-	int currentBackground;
-	NSMutableArray *backgroundColors;
-	NSMutableArray *textColors;
-	IBOutlet UIButton *dayButton;
-	IBOutlet UILabel *dayLabel;
-		
-IBOutlet	UITableView *tableViewButton;
-IBOutlet	UITableView *tableViewLabel;
 }
 
-@property (nonatomic, retain) NSMutableArray *backgroundColors;
-@property (nonatomic, retain) NSMutableArray *textColors;
+@property (nonatomic, retain) NSArray *backgroundImages;
+@property (nonatomic, retain) NSArray *textColors;
 @property (nonatomic, retain) IBOutlet UITableView *tableViewButton;
 @property (nonatomic, retain) IBOutlet UITableView *tableViewLabel;
 @property (nonatomic, retain) IBOutlet UIButton *dayButton;
 @property (nonatomic, retain) IBOutlet UILabel *dayLabel;
-@property (nonatomic, assign) int currentBackground;
+@property (nonatomic, assign) NSInteger currentDaySelected;
+@property (nonatomic, assign) NSInteger currentColorIndexSelected;
+@property (nonatomic, assign) NSString* currentImageNameSelected;
+
 
 @end

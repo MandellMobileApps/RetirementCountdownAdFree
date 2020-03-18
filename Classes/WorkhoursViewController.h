@@ -12,30 +12,28 @@
 
 
 @interface WorkhoursViewController : BaseViewController <UITableViewDataSource,UITableViewDelegate> {
-@private
-	UIDatePicker *pickerView;
-    IBOutlet UIView *pickerViewContainer;
-	NSDate *beginWorkhours;
-	NSDate *endWorkhours;
-	NSArray *dataArray;
-	NSArray *detaildataArray;
-	NSDateFormatter *dateFormatter;
-    IBOutlet UITableView* thisTableView;
-    int currentSelection;
+
 }
 
-@property (nonatomic, retain) IBOutlet UIDatePicker *pickerView;
+@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, retain) IBOutlet UIView *pickerViewContainer;
 @property (nonatomic, retain) IBOutlet UITableView* thisTableView;
-@property (nonatomic, retain) NSDate *beginWorkhours;
-@property (nonatomic, retain) NSDate *endWorkhours;
+@property (nonatomic, retain) IBOutlet UILabel* header;
+@property (nonatomic, retain)  NSString* headerText;
+
 @property (nonatomic, retain) NSArray *dataArray; 
 @property (nonatomic, retain) NSArray *detaildataArray;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter; 
-@property (nonatomic) int currentSelection;
 
-- (IBAction)dateAction:(id)sender;
+@property (nonatomic, retain) NSArray *hourArray;
+@property (nonatomic, retain) NSArray *minuteArray;
+@property (nonatomic, retain) NSArray *ampmArray;
+
+@property (nonatomic) NSInteger currentSelection;
+
+
+//
+//- (IBAction)dateAction:(id)sender;
 -(IBAction)datePickerDoneButtonTapped:(id)sender;
--(void) showDatePickerForIndex:(int)selection;
+-(void) showDatePickerForIndex:(NSInteger)selection;
 -(IBAction)resetHours:(id)sender;
 @end

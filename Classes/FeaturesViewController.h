@@ -12,9 +12,6 @@
 
 @interface FeaturesViewController : BaseViewController <UIScrollViewDelegate> {
 
-IBOutlet UIScrollView *myScrollView;
-IBOutlet UILabel *scrollLabel;
-
 
 }
 

@@ -11,15 +11,11 @@
 
 @implementation DisplayOptionsViewController
 
-@synthesize displayoptions,option,badgedisplayoptions;
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.displayoptions = [NSArray arrayWithObjects:@"Show Working Days Remaining", @"Show Calendar Days Remaining",@"Do Not Show Badge",nil];
-	self.option = [self.appDelegate.settings objectForKey:@"DisplayOption"];
-	
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	self.option = self.appDelegate.settingsNew.displayOption;
 
 }
 
@@ -27,9 +23,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[self.appDelegate.settings setObject:self.option forKey:@"DisplayOption"];
-	
-	
+    
+	self.appDelegate.settingsNew.displayOption = self.option;
+
+	[self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Display Option Set To: %@",self.option]];
 	
 }
 
@@ -50,8 +47,8 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
-    return [displayoptions count];
+    tableView.backgroundColor = self.backgroundColor;
+    return [self.displayoptions count];
 }
 
 
@@ -60,10 +57,10 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
-    cell.textLabel.text = [displayoptions objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.displayoptions objectAtIndex:indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryNone;
     if (indexPath.row == 0) { 
         if ([self.option isEqualToString:@"Work"]) { cell.accessoryType = UITableViewCellAccessoryCheckmark;}
@@ -79,7 +76,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+    cell.backgroundColor = self.backgroundColor;
 }
 
 
@@ -87,12 +84,15 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	if (indexPath.row == 0) {
 			self.option = @"Work";
+        [self.appDelegate updateSettingsString:@"Work" forProperty:@"displayOption"];
     }
 	else if (indexPath.row == 1) {
 			self.option = @"Calendar";
+        [self.appDelegate updateSettingsString:@"Calendar" forProperty:@"displayOption"];
 	}
 	else if (indexPath.row == 2) {
 			self.option = @"None";
+        [self.appDelegate updateSettingsString:@"None" forProperty:@"displayOption"];
 	}
     [tableView reloadData];
 	self.appDelegate.colorsChanged = YES;	
@@ -100,11 +100,6 @@
 
 
 
-- (void)dealloc {
-	[displayoptions release];
-	[option release];
-	[super dealloc];
-}
 
 
 @end

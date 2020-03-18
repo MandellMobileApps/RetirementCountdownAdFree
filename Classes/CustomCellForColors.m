@@ -11,7 +11,7 @@
 
 @implementation CustomCellForColors
 
-@synthesize colorButton;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -29,10 +29,7 @@
 }
 
 
-- (void)dealloc {
-	[colorButton release];
-	[super dealloc];
-}
+
 
 
 @end

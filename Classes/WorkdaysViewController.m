@@ -11,32 +11,43 @@
 
 @implementation WorkdaysViewController
 
-@synthesize selectedworkdays, allworkdays;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.allworkdays = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
-	self.selectedworkdays = self.appDelegate.workdays;
-	self.view.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+    
+    self.allworkdays = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Workdays"];
+
+    
 }
 
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
+-(void)viewWillDisappear:(BOOL)animated
+{
+    
+    [self capturescreen];
 }
 
+-(NSData*)capturescreen {
+    UIGraphicsBeginImageContext(self.view.bounds.size);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screencapture = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageinpng = UIImagePNGRepresentation(screencapture);
+    NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"WorkdaysScreenCapture"];
+    [imageinpng writeToFile:pathName atomically:YES];
+    NSData *returnData = [[NSData alloc] initWithData:imageinpng];
+    return returnData;
+}
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    tableView.accessibilityIgnoresInvertColors = YES;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	tableView.backgroundColor = [ColorsClass performSelector:NSSelectorFromString([self.appDelegate.backgroundColors objectAtIndex:7])];
+	tableView.backgroundColor = self.backgroundColor;
     return 7;
 }
 
@@ -47,11 +58,12 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-
-	cell.textLabel.text = [self.allworkdays objectAtIndex:indexPath.row];
-	if ([[self.selectedworkdays objectAtIndex:indexPath.row] isEqualToString:@"YES"]) {
+    NSDictionary* thisDay = [self.allworkdays objectAtIndex:indexPath.row];
+    cell.textLabel.text = [thisDay objectForKey:@"name"];
+    NSInteger selected = [[thisDay objectForKey:@"workday"] integerValue];
+	if (selected == 1) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark; 
 	} else {
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -60,27 +72,33 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-	cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundView.accessibilityIgnoresInvertColors = YES;
+	//cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"320x44pattern_4.png"]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([[self.selectedworkdays objectAtIndex:indexPath.row] isEqualToString:@"YES"]) {
-		[self.selectedworkdays replaceObjectAtIndex:indexPath.row withObject:@"NO"];
-	} else {
-		[self.selectedworkdays replaceObjectAtIndex:indexPath.row withObject:@"YES"];
-	}
+    NSDictionary* thisDay = [self.allworkdays objectAtIndex:indexPath.row];
+    NSInteger selected = [[thisDay objectForKey:@"workday"] integerValue];
+    if (selected == 1)
+    {
+        NSString *sql = [NSString stringWithFormat:@"UPDATE Workdays Set workday = 0 WHERE id = %li ",indexPath.row+1];
+         [SQLiteAccess updateWithSQL:sql];
+        
+        
+    }
+    else
+    {
+        NSString *sql = [NSString stringWithFormat:@"UPDATE Workdays Set workday = 1 WHERE id = %li ",indexPath.row+1];
+         [SQLiteAccess updateWithSQL:sql];
+        
+    }
+    self.allworkdays = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM Workdays"];
 	[tableView reloadData];
-	self.appDelegate.workdays = self.selectedworkdays;
-	self.appDelegate.colorsChanged = YES;
+	self.appDelegate.settingsChanged = YES;
 }
 
 
-- (void)dealloc {
-	[selectedworkdays release];
-	[allworkdays release];
-    [super dealloc];
-}
 
 
 @end

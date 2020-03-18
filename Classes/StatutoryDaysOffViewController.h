@@ -12,10 +12,6 @@
 
 @interface StatutoryDaysOffViewController : BaseViewController {
 
-	IBOutlet UITextField  *thisYear;
-	IBOutlet UITextField  *allYears;
-	IBOutlet UITextField  *retirementYear;
-    IBOutlet UILabel  *singleYearLabel;
 }
 
 
