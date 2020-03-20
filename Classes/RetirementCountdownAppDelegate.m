@@ -84,8 +84,10 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     
     self.window.rootViewController = self.navigationController;
     
-   
+    
 
+
+    
     
    // [self addColors];
     //[self deleteExistingTable];
@@ -134,19 +136,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     
 }
 
--(void)checkDebugCount
-{
-    NSArray* logs = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM DebugLog"];
-    if (logs.count > 500)
-    {
-        // remove oldest debug logs
-        NSString* sql = @"DELETE FROM DebugLog WHERE ROWID IN (SELECT ROWID FROM DebugLog ORDER BY ROWID DESC LIMIT -1 OFFSET 250)";
-        [SQLiteAccess deleteWithSQL:sql];
-        NSString* message = [NSString stringWithFormat:@"Should be %li log records",logs.count-250];
-        [self addToDebugLog:message];
-    }
 
-}
 
 -(void)transferDefaultImage
 {
@@ -386,7 +376,8 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     NSString *sql = [NSString stringWithFormat:@"UPDATE Settings Set %@ = \"%@\" WHERE id = 1",propertyName,value];
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
-    [self addToDebugLog:sql];
+    self.settingsChanged = YES;
+    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to \"%@\"",propertyName,value]];
  
 }
 
@@ -396,7 +387,8 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     NSString *sql = [NSString stringWithFormat:@"UPDATE Settings Set %@ = %li WHERE id = 1",propertyName,value];
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
-     [self addToDebugLog:sql];
+    self.settingsChanged = YES;
+    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to %li",propertyName,value]];
     
 }
 
@@ -699,7 +691,14 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
              (UNAuthorizationOptionBadge)
        completionHandler:^(BOOL granted, NSError * _Nullable error) {
         self.notificationPermissiongranted = granted;
-        [self addToDebugLog:[NSString stringWithFormat:@"requestNotificationPermission granted: %s  -  %@", granted ? "YES" : "NO",error.localizedDescription]];
+        
+        BOOL notificationGranted = [[NSUserDefaults standardUserDefaults] boolForKey:@"notificationGranted"];
+
+        if (notificationGranted != granted)
+        {
+            [self addToDebugLog:[NSString stringWithFormat:@"notificationGranted changed to %@",granted ? @"YES" : @"NO"]];
+            [[NSUserDefaults standardUserDefaults] setBool:notificationGranted forKey:@"notificationGranted"];
+        }
     }];
     
 }
@@ -720,10 +719,9 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
     request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:2*60];
     NSError *error = NULL;
-    BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
-    if (!success) {
-        [self addToDebugLog:[NSString stringWithFormat:@"Failed to submit request: %@",error]];
-    }
+    [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
+    [self addToDebugLog:[NSString stringWithFormat:@"BGAppRefreshTaskRequest, error = %@",error]];
+
 
 }
 
@@ -731,12 +729,14 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 -(void)updateIconBadge {
 
+    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadge %li",self.badgeDaysOff]];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
 
 }
 
 -(void)updateIconBadgeInBackground {
     // get data from SQL before doing Time Remaining
+    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]];
     TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
     [myTimeRemaining updateTimeRemaining];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
@@ -745,9 +745,13 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 
 
+
+
+
 #pragma mark Debug Array
 
 // create and append
+//-(void)addType:(NSInteger)type ToDebugLog:(NSString*)message
 -(void)addToDebugLog:(NSString*)message
 {
     NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
@@ -757,7 +761,19 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     [SQLiteAccess insertWithSQL:sql];
 }
 
+-(void)checkDebugCount
+{
+    NSArray* logs = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM DebugLog"];
+    if (logs.count > 5000)
+    {
+        // remove oldest debug logs
+        NSString* sql = @"DELETE FROM DebugLog WHERE ROWID IN (SELECT ROWID FROM DebugLog ORDER BY ROWID DESC LIMIT -1 OFFSET 4000)";
+        [SQLiteAccess deleteWithSQL:sql];
+        NSString* message = [NSString stringWithFormat:@"Should be %li log records",logs.count-250];
+        [self addToDebugLog:message];
+    }
 
+}
 
 #pragma mark SQLite
 
@@ -802,10 +818,25 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
             [self addToDebugLog:[NSString stringWithFormat:@"Upgraded From %.02f to %.02f",versionPrevious,versionCurrent]];
             [[NSUserDefaults standardUserDefaults] setFloat:versionCurrent forKey:@"version"];
         }
+        [self checkForNewColumns];
+        
     }
 
     return YES;
 }
+
+-(void)checkForNewColumns
+{
+    // version 3.4
+    [SQLiteAccess addColumn:@"Type" ofType:ColumnTypeInteger toTable:@"DebugLog"];
+    
+    
+    
+    
+    
+}
+
+
 //
 //-(void)checkForNewTables
 //{
@@ -851,6 +882,46 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 //    }
 //
 //}
+
+//    //  alter table myTable
+//    //add column newColumn INTEGER default 0;
+//
+//    NSArray* dbs = [SQLiteAccess selectManyValuesWithSQL:@"SELECT name FROM sqlite_master WHERE type = \"table\""];
+//    DLog(@"dbs %@",dbs);
+//
+//    for (NSString* tablename in dbs)
+//    {
+//        NSMutableDictionary* table = [NSMutableDictionary dictionary];
+//        [table setObject:tablename forKey:@"tablename"];
+//
+//        NSArray* columns = [SQLiteAccess selectManyRowsWithSQL:[NSString stringWithFormat:@"PRAGMA table_info(%@);",tablename]];
+//
+//       //DLog(@"columns %@",columns);
+//        NSMutableArray* newColumns = [NSMutableArray array];
+//        for (NSDictionary* column in columns)
+//        {
+//
+//            NSMutableDictionary* shortColumn = [NSMutableDictionary dictionary];
+//            [shortColumn setObject:[column objectForKey:@"name"] forKey:@"name"];
+//            [shortColumn setObject:[column objectForKey:@"type"] forKey:@"type"];
+//            [newColumns addObject:shortColumn];
+//
+//        }
+//         [table setObject:newColumns forKey:@"columns"];
+//
+//
+//
+//        NSString* path = [GlobalMethods dataFilePathofDocuments:@"Schema.plist"];
+//        DLog(@"path %@",path);
+//        [table writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//
+//
+//
+//       DLog(@"table %@",table);
+//
+//
+//    }
+
 
 
 @end

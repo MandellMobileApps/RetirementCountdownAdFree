@@ -72,8 +72,8 @@ static NSInteger holidayImageCount = 15;
 
 
 -(void)updateIconBadge;
+//-(void)addType:(NSInteger)type ToDebugLog:(NSString*)message;
 -(void)addToDebugLog:(NSString*)message;
-
 
 -(void)updateSettingsString:(NSString*)value  forProperty:(NSString*)propertyName;
 -(void)updateSettingsInteger:(NSInteger)value  forProperty:(NSString*)propertyName;;

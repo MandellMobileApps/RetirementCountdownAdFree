@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+enum ColumnType {
+ColumnTypeInteger = 0,
+ColumnTypeText = 1
+};
+
 @interface SQLiteAccess : NSObject <UIApplicationDelegate> {
 }
 
@@ -19,5 +24,5 @@
 + (void)updateWithSQL:(NSString *)sql;
 + (void)deleteWithSQL:(NSString *)sql;
 +(void)addToTextLog:(NSString*)log;
-
++(void)addColumn:(NSString*)columnName ofType:(NSInteger)type toTable:(NSString*)tableName;
 @end

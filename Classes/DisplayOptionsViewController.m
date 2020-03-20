@@ -23,10 +23,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-    
-	self.appDelegate.settingsNew.displayOption = self.option;
-
-	[self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Display Option Set To: %@",self.option]];
 	
 }
 
@@ -95,7 +91,7 @@
         [self.appDelegate updateSettingsString:@"None" forProperty:@"displayOption"];
 	}
     [tableView reloadData];
-	self.appDelegate.colorsChanged = YES;	
+	
 }
 
 

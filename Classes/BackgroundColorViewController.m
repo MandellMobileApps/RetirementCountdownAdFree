@@ -182,6 +182,7 @@
     [tableView reloadData];
     
     self.appDelegate.settingsChanged = YES;
+    self.appDelegate.colorsChanged = YES;
     
 }
 

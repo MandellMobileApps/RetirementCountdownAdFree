@@ -184,25 +184,24 @@
          //  End Update Calendar Days Left **********************************************************
     
     
+//  Debug Log **********************************************************
+
+    
     [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Time Period  %li  to %li",startConcat,endConcat]];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"totalWorkdays %li,  AnnualDaysOff %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff]];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"totalWorkdays %li,  AnnualDaysOff %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff]];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Workdays %li,  AnnualDays %li, BadgeDays %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff,self.appDelegate.badgeDaysOff]];
+    
+    if (self.appDelegate.secondsLeftToday > 0)
+    {
+        NSInteger secondsLeftTemp = self.appDelegate.secondsLeftToday % 60;
+        NSInteger minutesleftTemp = secondsLeftTemp / 60;
+        NSInteger hoursleftTemp = minutesleftTemp / 60;
+        minutesleftTemp = minutesleftTemp % 60;
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Today hours %li,  minutes %li, seconds %li", hoursleftTemp,minutesleftTemp,secondsLeftTemp]];
+        
+    }
     
     
-    
-    
-    NSMutableString* string = [NSMutableString string];
-    [string appendFormat:@"Time Remaining "];
-    [string appendFormat:@"Today: %li  ",startConcat];
-    [string appendFormat:@"Retire: %li  ",endConcat];
-    [string appendFormat:@"secondsLeftToday: %li  ",self.appDelegate.secondsLeftToday];
-    [string appendFormat:@"totalWorkdays: %li  ",self.appDelegate.totalWorkdays];
-    [string appendFormat:@"totalAnnualDaysOff: %li  ",self.appDelegate.totalAnnualDaysOff];
-    [string appendFormat:@"calendarYearsLeft: %li  ",self.appDelegate.calendarYearsLeft];
-    [string appendFormat:@"calendarMonthsLeft: %li  ",self.appDelegate.calendarMonthsLeft];
-    [string appendFormat:@"calendarDaysLeft: %li  ",self.appDelegate.calendarDaysLeft];
-    [string appendFormat:@"badgeDaysOff: %li",self.appDelegate.badgeDaysOff];
-    [self.appDelegate addToDebugLog:string];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"CalendarYears %li, Months %li, Days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft]];
 
 
 }

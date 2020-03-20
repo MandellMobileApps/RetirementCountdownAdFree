@@ -119,6 +119,50 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
     return nil;
 }
 
+//    ALTER TABLE table_name
+//    ADD new_column_name column_definition;
+
+//    SELECT *
+//    FROM INFORMATION_SCHEMA.COLUMNS
+//    --WHERE TABLE_NAME = N'YourTableName'
+
++(void)addColumn:(NSString*)columnName ofType:(NSInteger)type toTable:(NSString*)tableName
+{
+
+    //    //  alter table myTable
+    //    //add column newColumn INTEGER default 0;
+    NSArray* dbs = [SQLiteAccess selectManyValuesWithSQL:@"SELECT name FROM sqlite_master WHERE type = \"table\""];
+
+    NSArray* columns = [SQLiteAccess selectManyRowsWithSQL:[NSString stringWithFormat:@"PRAGMA table_info(%@);",tableName]];
+    BOOL columnDoesNoteExist = YES;
+    
+    for (NSDictionary* column in columns)
+    {
+        NSString* thisColumnName = [column objectForKey:@"name"];
+        if ([thisColumnName isEqualToString:columnName])
+        {
+            columnDoesNoteExist = NO;
+        }
+    }
+    if (columnDoesNoteExist)
+    {
+        NSString* thisType;
+        if (type == ColumnTypeInteger)
+        {
+            thisType = @"INTEGER";
+            
+        }
+        else if (type == ColumnTypeText)
+        {
+            thisType = @"TEXT";
+            
+        }
+        NSString* sql = [NSString stringWithFormat:@"ALERT TABLE %@ ADD COLUMN %@ %@",tableName,columnName,thisType];
+        [SQLiteAccess updateWithSQL:sql];
+    }
+ 
+}
+
 
 + (NSNumber *)oldexecuteSQL:(NSString *)sql withCallback:(void *)callbackFunction context:(id)contextObject
     {

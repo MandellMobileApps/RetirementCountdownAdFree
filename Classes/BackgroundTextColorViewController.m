@@ -184,7 +184,7 @@ self.backgroundTextColorTable.backgroundColor = [UIColor lightGrayColor];
     [tableView reloadData];
     
     self.appDelegate.settingsChanged = YES;
-    
+     self.appDelegate.colorsChanged = YES;
 }
 
 

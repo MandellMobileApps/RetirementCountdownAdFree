@@ -397,6 +397,7 @@
     RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
     rcsettingsViewController.title = @"Settings";
     [[self navigationController] pushViewController:rcsettingsViewController animated:YES];
+    [self.appDelegate addToDebugLog:@"showSettingsView"];
 
 
   }
