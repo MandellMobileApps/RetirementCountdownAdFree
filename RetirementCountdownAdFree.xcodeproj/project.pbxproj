@@ -63,6 +63,7 @@
 		5184B71A23FBA1C10039A1DD /* UpgradeNoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5184B71823FBA1C10039A1DD /* UpgradeNoticeViewController.m */; };
 		5184B71B23FBA1C10039A1DD /* UpgradeNoticeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5184B71923FBA1C10039A1DD /* UpgradeNoticeViewController.xib */; };
 		51A8552823C3A61C003199DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51A8552723C3A61C003199DD /* Images.xcassets */; };
+		51C3C196242681BE007B58FF /* UpgradeNoticeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51C3C195242681BE007B58FF /* UpgradeNoticeViewController.xib */; };
 		FC18D85D1275F9C700FD7326 /* SettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FC18D85C1275F9C700FD7326 /* SettingsButton.png */; };
 		FC1CA70117D79049006CBBE4 /* FeaturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1CA6FF17D79049006CBBE4 /* FeaturesViewController.m */; };
 		FC1CA70317D79049006CBBE4 /* FeaturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1CA70017D79049006CBBE4 /* FeaturesViewController.xib */; };
@@ -260,6 +261,7 @@
 		5184B71823FBA1C10039A1DD /* UpgradeNoticeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UpgradeNoticeViewController.m; sourceTree = "<group>"; };
 		5184B71923FBA1C10039A1DD /* UpgradeNoticeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpgradeNoticeViewController.xib; sourceTree = "<group>"; };
 		51A8552723C3A61C003199DD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RetirementCountdownAdFree/Images.xcassets; sourceTree = "<group>"; };
+		51C3C195242681BE007B58FF /* UpgradeNoticeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpgradeNoticeViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RetirementCountdownAdFree-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RetirementCountdownAdFree-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		FC18D85C1275F9C700FD7326 /* SettingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsButton.png; sourceTree = "<group>"; };
 		FC1CA6F117D628B3006CBBE4 /* beach57Lite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beach57Lite.png; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 				5184B71723FBA1C10039A1DD /* UpgradeNoticeViewController.h */,
 				5184B71823FBA1C10039A1DD /* UpgradeNoticeViewController.m */,
 				5184B71923FBA1C10039A1DD /* UpgradeNoticeViewController.xib */,
+				51C3C195242681BE007B58FF /* UpgradeNoticeViewController.xib */,
 				FC48128A12678BCD007E0824 /* BaseTableViewController.h */,
 				FC48128B12678BCD007E0824 /* BaseTableViewController.m */,
 				FC48128C12678BCD007E0824 /* GlobalMethods.h */,
@@ -923,6 +926,7 @@
 				FC9CB62616BC209800349396 /* beach114.png in Resources */,
 				FC9CB63516BC536100349396 /* Default-568h@2x.png in Resources */,
 				FC1CA70317D79049006CBBE4 /* FeaturesViewController.xib in Resources */,
+				51C3C196242681BE007B58FF /* UpgradeNoticeViewController.xib in Resources */,
 				FC1CA76D17DB7749006CBBE4 /* checkbox_unchecked_gray.png in Resources */,
 				FC1CA76F17DB7749006CBBE4 /* checkbox_checked_gray.png in Resources */,
 				FCFFCE3717EDEA4C00D3D3D7 /* badgeDemo.png in Resources */,
