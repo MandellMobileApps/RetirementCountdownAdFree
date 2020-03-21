@@ -15,7 +15,6 @@
 #import "LoadingViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <StoreKit/StoreKit.h>
-#import "TimeRemainingNew.h"
 #import "UpgradeNoticeViewController.h"
 
 
