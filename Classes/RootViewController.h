@@ -89,6 +89,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *annualLabel;
 @property (nonatomic, retain) IBOutlet UILabel *annual2Label;
 
+@property (nonatomic, retain) IBOutlet UIButton        *forceUpdateButton;
+
 //@property (nonatomic, assign) BOOL firstLoad;
 
 -(void)refreshRootViewController;

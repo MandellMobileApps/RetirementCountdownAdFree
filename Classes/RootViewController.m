@@ -195,6 +195,13 @@
 	
 }
 
+-(IBAction)forceUpdate:(id)sender
+{
+    [self.appDelegate addToDebugLog:@"forceUpdate"];
+    [self refreshRootViewController];
+
+}
+
 -(void)refreshRootViewController
 {
     [self.appDelegate addToDebugLog:@"refreshRootViewController"];

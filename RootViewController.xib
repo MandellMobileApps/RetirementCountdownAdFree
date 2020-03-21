@@ -18,6 +18,7 @@
                 <outlet property="calendarview" destination="13" id="25"/>
                 <outlet property="containerview" destination="12" id="26"/>
                 <outlet property="dayLabel" destination="52" id="97"/>
+                <outlet property="forceUpdateButton" destination="3gL-KI-Pmt" id="VIr-TY-SIC"/>
                 <outlet property="hoursLabel" destination="79" id="96"/>
                 <outlet property="minutesLabel" destination="76" id="95"/>
                 <outlet property="monthLabel" destination="57" id="94"/>
@@ -384,6 +385,13 @@
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gL-KI-Pmt">
+                            <rect key="frame" x="0.0" y="283" width="320" height="197"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <connections>
+                                <action selector="forceUpdate:" destination="-1" eventType="touchUpInside" id="HW9-4k-ZBe"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
