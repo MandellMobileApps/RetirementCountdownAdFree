@@ -763,15 +763,15 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 -(void)checkDebugCount
 {
-    NSArray* logs = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM DebugLog"];
-    if (logs.count > 5000)
-    {
-        // remove oldest debug logs
-        NSString* sql = @"DELETE FROM DebugLog WHERE ROWID IN (SELECT ROWID FROM DebugLog ORDER BY ROWID DESC LIMIT -1 OFFSET 4000)";
-        [SQLiteAccess deleteWithSQL:sql];
-        NSString* message = [NSString stringWithFormat:@"Should be %li log records",logs.count-250];
-        [self addToDebugLog:message];
-    }
+//    NSArray* logs = [SQLiteAccess selectManyRowsWithSQL:@"SELECT * FROM DebugLog"];
+//    if (logs.count > 5000)
+//    {
+//        // remove oldest debug logs
+//        NSString* sql = @"DELETE FROM DebugLog WHERE ROWID IN (SELECT ROWID FROM DebugLog ORDER BY ROWID DESC LIMIT -1 OFFSET 4000)";
+//        [SQLiteAccess deleteWithSQL:sql];
+//        NSString* message = [NSString stringWithFormat:@"Should be %li log records",logs.count-250];
+//        [self addToDebugLog:message];
+//    }
 
 }
 
