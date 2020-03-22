@@ -53,15 +53,15 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNoticeThisTime"];
     }
 
-//    [SKStoreReviewController requestReview];
+    [SKStoreReviewController requestReview];
 
 }
 
-//- (void)DisplayReviewController {
-//    if (@available(iOS 10.3, *)) {
-//        [SKStoreReviewController requestReview];
-//    }
-//}
+- (void)DisplayReviewController {
+    if (@available(iOS 10.3, *)) {
+        [SKStoreReviewController requestReview];
+    }
+}
 
 
 
