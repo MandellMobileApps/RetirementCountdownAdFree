@@ -187,8 +187,8 @@
 //  Debug Log **********************************************************
 
     
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Time Period  %li  to %li",startConcat,endConcat]];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Workdays %li,  AnnualDays %li, BadgeDays %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff,self.appDelegate.badgeDaysOff]];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Time Period  %li  to %li",startConcat,endConcat] ofType:DebugLogTypeTime];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Workdays %li,  AnnualDays %li, BadgeDays %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff,self.appDelegate.badgeDaysOff] ofType:DebugLogTypeTime];
     
     if (self.appDelegate.secondsLeftToday > 0)
     {
@@ -196,12 +196,12 @@
         NSInteger minutesleftTemp = secondsLeftTemp / 60;
         NSInteger hoursleftTemp = minutesleftTemp / 60;
         minutesleftTemp = minutesleftTemp % 60;
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Today hours %li,  minutes %li, seconds %li", hoursleftTemp,minutesleftTemp,secondsLeftTemp]];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Today hours %li,  minutes %li, seconds %li", hoursleftTemp,minutesleftTemp,secondsLeftTemp] ofType:DebugLogTypeTime];
         
     }
     
     
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"CalendarYears %li, Months %li, Days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft]];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"CalendarYears %li, Months %li, Days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft] ofType:DebugLogTypeTime];
 
 
 }

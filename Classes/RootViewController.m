@@ -196,7 +196,7 @@
 
 -(void)refreshRootViewController
 {
-    [self.appDelegate addToDebugLog:@"refreshRootViewController"];
+    [self.appDelegate addToDebugLog:@"refreshRootViewController" ofType:DebugLogTypeNav];
     //[self showBusyView:YES];
     
     if (self.appDelegate.needsUpgradeConverstion ==1)
@@ -396,7 +396,7 @@
     RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
     rcsettingsViewController.title = @"Settings";
     [[self navigationController] pushViewController:rcsettingsViewController animated:YES];
-    [self.appDelegate addToDebugLog:@"showSettingsView"];
+    [self.appDelegate addToDebugLog:@"showSettingsView" ofType:DebugLogTypeNav];
 
 
   }
@@ -423,12 +423,12 @@
     
     if (self.appDelegate.calendarYearsLeft < 0)
     {
-         [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels Before Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+         [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels Before Retry %li",(long)self.appDelegate.calendarYearsLeft] ofType:DebugLogTypeTime];
          [self updateColors];
          [self.appDelegate refreshSettings];
          [self.appDelegate updateDaysInDayTable];
         [myTimeRemaining updateTimeRemaining];
-        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels After Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels After Retry %li",(long)self.appDelegate.calendarYearsLeft] ofType:DebugLogTypeTime];
     }
     
  

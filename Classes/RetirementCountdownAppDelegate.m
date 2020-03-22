@@ -47,7 +47,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
     if (self.firstLaunch == 1)
     {
-        [self addToDebugLog:[NSString stringWithFormat:@"FirstLaunch"]];
+        [self addToDebugLog:[NSString stringWithFormat:@"FirstLaunch"] ofType:DebugLogTypeLaunch];
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *pathDoc = [GlobalMethods dataFilePathofDocuments:@"Settings.plist"];
@@ -55,7 +55,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         if(success)
         {
             self.needsUpgradeConverstion = 1;
-            [self addToDebugLog:[NSString stringWithFormat:@"Transition From Version %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
+            [self addToDebugLog:[NSString stringWithFormat:@"Transition From Version %@",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]] ofType:DebugLogTypeLaunch];
         }
         else
         {
@@ -121,7 +121,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [self addToDebugLog:@"applicationWillEnterForeground"];
+    [self addToDebugLog:@"applicationWillEnterForeground" ofType:DebugLogTypeLaunch];
     [self.rootViewController refreshRootViewController];
 }
 
@@ -152,7 +152,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         [fileManager copyItemAtPath:path1 toPath: path2 error:&error];
         if (error != nil)
         {
-            [self addToDebugLog:[error localizedDescription]];
+            [self addToDebugLog:[error localizedDescription]  ofType:DebugLogTypeLaunch];
         }
     }
 
@@ -167,7 +167,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     //NSLog(@"Memory Low");
-    [self addToDebugLog:@"Memory Warning"];
+    [self addToDebugLog:@"Memory Warning"  ofType:DebugLogTypeLaunch];
 }
 
 
@@ -377,7 +377,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
     self.settingsChanged = YES;
-    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to \"%@\"",propertyName,value]];
+    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to \"%@\"",propertyName,value] ofType:DebugLogTypeSettings];
  
 }
 
@@ -388,7 +388,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
     self.settingsChanged = YES;
-    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to %li",propertyName,value]];
+    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to %li",propertyName,value]ofType:DebugLogTypeSettings];
     
 }
 
@@ -696,7 +696,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
         if (notificationGranted != granted)
         {
-            [self addToDebugLog:[NSString stringWithFormat:@"notificationGranted changed to %@",granted ? @"YES" : @"NO"]];
+            [self addToDebugLog:[NSString stringWithFormat:@"notificationGranted changed to %@",granted ? @"YES" : @"NO"] ofType:DebugLogTypeLaunch];
             [[NSUserDefaults standardUserDefaults] setBool:notificationGranted forKey:@"notificationGranted"];
         }
     }];
@@ -720,7 +720,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:2*60];
     NSError *error = NULL;
     [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
-    [self addToDebugLog:[NSString stringWithFormat:@"BGAppRefreshTaskRequest, error = %@",error]];
+    [self addToDebugLog:[NSString stringWithFormat:@"BGAppRefreshTaskRequest, error = %@",error]ofType:DebugLogTypeLaunch];
 
 
 }
@@ -729,14 +729,14 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 -(void)updateIconBadge {
 
-    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadge %li",self.badgeDaysOff]];
+    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadge %li",self.badgeDaysOff] ofType:DebugLogTypeTime];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
 
 }
 
 -(void)updateIconBadgeInBackground {
     // get data from SQL before doing Time Remaining
-    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]];
+    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]ofType:DebugLogTypeTime];
     TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
     [myTimeRemaining updateTimeRemaining];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
@@ -752,12 +752,12 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 // create and append
 //-(void)addType:(NSInteger)type ToDebugLog:(NSString*)message
--(void)addToDebugLog:(NSString*)message
+-(void)addToDebugLog:(NSString*)message ofType:(NSInteger)type
 {
     NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
     NSString* dateString = [GlobalMethods debugFormattedTime];
     float timestamp = [GlobalMethods debugTimestamp];
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp,date, Log) Values (%f,\"%@\",\"%@\");",timestamp, dateString,thisMessage];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp,date, Log, Type) Values (%f,\"%@\",\"%@\",%li);",timestamp, dateString,thisMessage,type];
     [SQLiteAccess insertWithSQL:sql];
 }
 
@@ -795,7 +795,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         {
             self.firstLaunch = 1;
                 NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-            [self addToDebugLog:[NSString stringWithFormat:@"First Launch using version %@",version]];
+            [self addToDebugLog:[NSString stringWithFormat:@"First Launch using version %@",version]ofType:DebugLogTypeLaunch];
              [[NSUserDefaults standardUserDefaults] setFloat:[version floatValue] forKey:@"version"];
             return YES;
         }
@@ -815,7 +815,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         float versionCurrent = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
         if (versionPrevious != versionCurrent)
         {
-            [self addToDebugLog:[NSString stringWithFormat:@"Upgraded From %.02f to %.02f",versionPrevious,versionCurrent]];
+            [self addToDebugLog:[NSString stringWithFormat:@"Upgraded From %.02f to %.02f",versionPrevious,versionCurrent]ofType:DebugLogTypeLaunch];
             [[NSUserDefaults standardUserDefaults] setFloat:versionCurrent forKey:@"version"];
         }
         [self checkForNewColumns];
