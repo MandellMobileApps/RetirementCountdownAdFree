@@ -718,7 +718,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 
     [self addToDebugLog:@"scheduleBackgroundTask" ofType:DebugLogTypeBackground];
     BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
-    request.earliestBeginDate =  [NSDate date];//   [GlobalMethods tonightMidnight];
+    request.earliestBeginDate =  [GlobalMethods tonightMidnight];
     NSError *error = NULL;
      BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
     if (!success) {
