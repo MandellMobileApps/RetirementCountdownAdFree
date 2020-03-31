@@ -17,7 +17,7 @@
 
 @import UserNotifications;
 
-static NSString* TaskID = @"com.mandellmobileapps.localnotification";
+static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 
 @implementation RetirementCountdownAppDelegate
 
@@ -84,7 +84,8 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     
     self.window.rootViewController = self.navigationController;
     
-    
+    [self registerBackgroundTask];
+   
 
 
     
@@ -115,7 +116,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-
+    [self scheduleBackgroundTask];
 
 }
 
@@ -694,9 +695,9 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         
         BOOL notificationGranted = [[NSUserDefaults standardUserDefaults] boolForKey:@"notificationGranted"];
 
-        if (notificationGranted != granted)
+        if ((notificationGranted != granted) || (self.firstLaunch))
         {
-            [self addToDebugLog:[NSString stringWithFormat:@"notificationGranted changed to %@",granted ? @"YES" : @"NO"] ofType:DebugLogTypeLaunch];
+            [self addToDebugLog:[NSString stringWithFormat:@"notificationGranted set to %@",granted ? @"YES" : @"NO"] ofType:DebugLogTypeBackground];
             [[NSUserDefaults standardUserDefaults] setBool:notificationGranted forKey:@"notificationGranted"];
         }
     }];
@@ -705,25 +706,42 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 
 
--(void)configure {
-
-    [[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:TaskID
-                                                          usingQueue:nil
-                                                       launchHandler:^(BGTask *task) {
-       [self updateIconBadgeInBackground];
+-(void)registerBackgroundTask {
+    [self addToDebugLog:@"registerBackgroundTask" ofType:DebugLogTypeBackground];
+    [[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:TaskID usingQueue:nil launchHandler:^(BGTask *task) {
+             BOOL success = [self updateIconBadgeInBackground];
+             [task setTaskCompletedWithSuccess:success];
     }];
 }
 
--(void)scheduleAppRefresh {
+-(void)scheduleBackgroundTask {
 
+    [self addToDebugLog:@"scheduleBackgroundTask" ofType:DebugLogTypeBackground];
     BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
-    request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:2*60];
+    request.earliestBeginDate =  [NSDate date];//   [GlobalMethods tonightMidnight];
     NSError *error = NULL;
-    [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
-    [self addToDebugLog:[NSString stringWithFormat:@"BGAppRefreshTaskRequest, error = %@",error]ofType:DebugLogTypeLaunch];
-
+     BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
+    if (!success) {
+       [self addToDebugLog:[NSString stringWithFormat:@"submitTaskRequest Failed, error = %@",[error localizedDescription]] ofType:DebugLogTypeBackground];
+    }
 
 }
+
+//- (void)setTaskCompletedWithSuccess:(BOOL)success
+//{
+//    [self addToDebugLog:[NSString stringWithFormat:@"setTaskCompletedWithSuccess = %@", success ? @"YES" : @"NO"] ofType:DebugLogTypeBackground];
+//
+//
+//}
+
+
+//    Here are possible error codes for Domain=BGTaskSchedulerErrorDomain extracted from ObjC headers with some explanation.
+//
+//    BGTaskSchedulerErrorCodeUnavailable = 1 // Background task scheduling functionality is not available for this app/extension. Background App Refresh may have been disabled in Settings.
+//
+//    BGTaskSchedulerErrorCodeTooManyPendingTaskRequests = 2 // The task request could not be submitted because there are too many pending task requests of this type. Cancel some existing task requests before trying again.
+//
+//    BGTaskSchedulerErrorCodeNotPermitted = 3 // The task request could not be submitted because the appropriate background mode is not included in the UIBackgroundModes array, or its identifier was not present in the BGTaskSchedulerPermittedIdentifiers array in the app's Info.plist.
 
 
 
@@ -734,13 +752,19 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 
 }
 
--(void)updateIconBadgeInBackground {
+-(BOOL)updateIconBadgeInBackground {
     // get data from SQL before doing Time Remaining
-    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]ofType:DebugLogTypeTime];
+    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]ofType:DebugLogTypeBackground];
+    
+    [self scheduleBackgroundTask];
+    
     TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
     [myTimeRemaining updateTimeRemaining];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
-
+    
+  
+    
+    return true;
 }
 
 
@@ -756,10 +780,23 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 {
     NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
     NSString* dateString = [GlobalMethods debugFormattedTime];
-    float timestamp = [GlobalMethods debugTimestamp];
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp,date, Log, Type) Values (%f,\"%@\",\"%@\",%li);",timestamp, dateString,thisMessage,type];
+    double timestamp = [GlobalMethods debugTimestamp];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp, date, Log, Type) Values (%f,\"%@\",\"%@\",%li);",timestamp, dateString,thisMessage,type];
     [SQLiteAccess insertWithSQL:sql];
+
+    
+//    NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
+//    NSString* dateString = [GlobalMethods debugFormattedTime];
+//    double timestamp = [GlobalMethods debugTimestamp];
+//    double lastTimestamp = [[NSUserDefaults standardUserDefaults] doubleForKey:@"timestamp"];
+//    double delta = timestamp-lastTimestamp;
+//    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp,delta, date, Log, Type) Values (%f,%f,\"%@\",\"%@\",%li);",timestamp, delta, dateString,thisMessage,type];
+//    [SQLiteAccess insertWithSQL:sql];
+//    [[NSUserDefaults standardUserDefaults] setDouble:timestamp forKey:@"timestamp"];
+    
 }
+
+
 
 -(void)checkDebugCount
 {
@@ -794,6 +831,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
         if (error == nil)
         {
             self.firstLaunch = 1;
+            [self checkForNewColumns];
                 NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
             [self addToDebugLog:[NSString stringWithFormat:@"First Launch using version %@",version]ofType:DebugLogTypeLaunch];
              [[NSUserDefaults standardUserDefaults] setFloat:[version floatValue] forKey:@"version"];
@@ -811,6 +849,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
     else
     {
         self.firstLaunch = 0;
+        [self checkForNewColumns];
         float versionPrevious = [[NSUserDefaults standardUserDefaults] floatForKey:@"version"];
         float versionCurrent = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue];
         if (versionPrevious != versionCurrent)
@@ -818,8 +857,6 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
             [self addToDebugLog:[NSString stringWithFormat:@"Upgraded From %.02f to %.02f",versionPrevious,versionCurrent]ofType:DebugLogTypeLaunch];
             [[NSUserDefaults standardUserDefaults] setFloat:versionCurrent forKey:@"version"];
         }
-        [self checkForNewColumns];
-        
     }
 
     return YES;
@@ -829,7 +866,7 @@ static NSString* TaskID = @"com.mandellmobileapps.localnotification";
 {
     // version 3.4
     [SQLiteAccess addColumn:@"Type" ofType:ColumnTypeInteger toTable:@"DebugLog"];
-    
+  //  [SQLiteAccess addColumn:@"delta" ofType:ColumnTypeInteger toTable:@"DebugLog"];
     
     
     

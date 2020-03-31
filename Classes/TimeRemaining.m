@@ -43,6 +43,7 @@
     NSString* todayString = [NSString stringWithFormat:@"%04ld%02ld%02ld",(long)todayYear,(long)todayMonth,(long)todayDay];
     NSString* todaySql = [NSString stringWithFormat:@"SELECT * FROM Days WHERE concat = %@",todayString];
     NSDictionary* todayDict  = [SQLiteAccess selectOneRowWithSQL:todaySql];
+    
     NSInteger startConcat = [[todayDict objectForKey:@"concat"]integerValue];
     
     NSString* retireString = [NSString stringWithFormat:@"%04ld%02ld%02ld",(long)retireYear,(long)retireMonth,retireDay];
@@ -90,6 +91,14 @@
 //
 //    }
 //    else
+    
+    
+    
+    
+    
+    // will this fix secondsLeftToday not being reset for a non-workday????
+    self.appDelegate.secondsLeftToday = 0;
+    
     if (workingToday == 1)
     {
 

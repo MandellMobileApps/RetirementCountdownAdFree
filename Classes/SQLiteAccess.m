@@ -47,7 +47,7 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
     NSInteger maxNumberOfRetries = 5;
     BOOL retry = NO;
     NSString *path = [self dataFilePathofDocuments:@"Retirement.sqlite"];
-    DLog(@"path %@",path);
+    //DLog(@"path %@",path);
 
     do {
         

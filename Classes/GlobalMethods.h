@@ -83,7 +83,7 @@ enum DateFormat {
 
 }
 +(NSString*) formattedDateForYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;
-+(float) debugTimestamp;
++(double) debugTimestamp;
 +(NSString*) debugFormattedTime;
 +(NSDateComponents*)currentYMDcomponts;
 +(NSInteger)secondsFromMidnightNow;
@@ -104,12 +104,13 @@ enum DateFormat {
 + (NSString *)dataFilePathofBundle:(NSString *)nameoffile;
 
 
-+(NSString*)isWorkday:(NSDate*)date forWorkdays:(NSArray*)theseWorkdays;
-+(NSString*)isManualWorkday:(NSDate*)date forManualWorkdays:(NSArray*)theseWorkdays;
+//+(NSString*)isWorkday:(NSDate*)date forWorkdays:(NSArray*)theseWorkdays;
+//+(NSString*)isManualWorkday:(NSDate*)date forManualWorkdays:(NSArray*)theseWorkdays;
 +(NSArray *)getHolidaysForMonth:(NSInteger)month year:(NSInteger)year forHolidayList:(NSArray*)theseHolidays;
 //+(NSString*)isHoliday:(NSDate*)date forHolidays:(NSArray*)theseHolidays;
 +(NSInteger)getHolidayCountFromDate:(NSDate*)fromDate toDate:(NSDate*)toDate forHolidayList:(NSArray*)theseHolidays;
 
++(NSDate*)tonightMidnight;
 
 +(NSDate*)todayNsDate;
 +(NSDate*)todayNsDateNoTime;

@@ -45,7 +45,8 @@ enum DebugLogType {
     DebugLogTypeLaunch = 2,
     DebugLogTypeSettings = 3,
     DebugLogTypeError = 4,
-    DebugLogTypeOther = 5
+    DebugLogTypeBackground = 5,
+    DebugLogTypeOther = 6
     
 };
 
