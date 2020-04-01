@@ -113,7 +113,7 @@
             self.appDelegate.secondsLeftToday = endSecondsFromMidnight - nowSecondsFromMidnight;
             totalWorkdays--;
         }
-        else if (nowSecondsFromMidnight>endSecondsFromMidnight)
+        else if (nowSecondsFromMidnight>endSecondsFromMidnight)   //after work ends
         {
             self.appDelegate.secondsLeftToday = 0;
          
@@ -195,22 +195,26 @@
     
 //  Debug Log **********************************************************
 
+
+    NSInteger secondsLeftTemp = self.appDelegate.secondsLeftToday % 60;
+    NSInteger minutesleftTemp = secondsLeftTemp / 60;
+    NSInteger hoursleftTemp = minutesleftTemp / 60;
+    minutesleftTemp = minutesleftTemp % 60;
+
+    NSArray* logArray = [NSArray arrayWithObjects:
+             [NSString stringWithFormat:@"Time - Today;  %li / %li / %li",todayMonth,todayDay,todayYear],
+             [NSString stringWithFormat:@"Time - Retire;  %li / %li / %li",retireMonth,retireDay,retireYear],
+             [NSString stringWithFormat:@"Time - Working days %li",totalWorkdays],
+             [NSString stringWithFormat:@"Time - workingToday %@ hrs %li, mins %li, secs %li",workingToday?@"Yes":@"No",hoursleftTemp,minutesleftTemp,secondsLeftTemp],
+             [NSString stringWithFormat:@"Time - Calendar years %li, months %li, days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft],
+             [NSString stringWithFormat:@"Time - Total CalendarDays %li",calendarDaysLeft],
+             nil];
     
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Time Period  %li  to %li",startConcat,endConcat] ofType:DebugLogTypeTime];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Workdays %li,  AnnualDays %li, BadgeDays %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff,self.appDelegate.badgeDaysOff] ofType:DebugLogTypeTime];
-    
-    if (self.appDelegate.secondsLeftToday > 0)
+    for (NSString* logItem in logArray)
     {
-        NSInteger secondsLeftTemp = self.appDelegate.secondsLeftToday % 60;
-        NSInteger minutesleftTemp = secondsLeftTemp / 60;
-        NSInteger hoursleftTemp = minutesleftTemp / 60;
-        minutesleftTemp = minutesleftTemp % 60;
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Today hours %li,  minutes %li, seconds %li", hoursleftTemp,minutesleftTemp,secondsLeftTemp] ofType:DebugLogTypeTime];
+        [self.appDelegate addToDebugLog:logItem ofType:DebugLogTypeTime];
         
     }
-    
-    
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"CalendarYears %li, Months %li, Days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft] ofType:DebugLogTypeTime];
 
 
 }

@@ -378,7 +378,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
     self.settingsChanged = YES;
-    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to \"%@\"",propertyName,value] ofType:DebugLogTypeSettings];
+    [self addToDebugLog:[NSString stringWithFormat:@"Settings - %@ set to \"%@\"",propertyName,value] ofType:DebugLogTypeSettings];
  
 }
 
@@ -389,7 +389,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
       [SQLiteAccess updateWithSQL:sql];
     [self refreshSettings];
     self.settingsChanged = YES;
-    [self addToDebugLog:[NSString stringWithFormat:@"%@ set to %li",propertyName,value]ofType:DebugLogTypeSettings];
+    [self addToDebugLog:[NSString stringWithFormat:@"Settings - %@ set to %li",propertyName,value]ofType:DebugLogTypeSettings];
     
 }
 
@@ -716,9 +716,9 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 
 -(void)scheduleBackgroundTask {
 
-    [self addToDebugLog:@"scheduleBackgroundTask" ofType:DebugLogTypeBackground];
     BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
     request.earliestBeginDate =  [GlobalMethods tonightMidnight];
+    [self addToDebugLog:[NSString stringWithFormat:@"scheduleBackgroundTask earliestBeginDate %@",request.earliestBeginDate] ofType:DebugLogTypeBackground];
     NSError *error = NULL;
      BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
     if (!success) {
@@ -780,8 +780,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 {
     NSString* thisMessage = [message stringByReplacingOccurrencesOfString:@"\""withString:@""];
     NSString* dateString = [GlobalMethods debugFormattedTime];
-    double timestamp = [GlobalMethods debugTimestamp];
-    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (timestamp, date, Log, Type) Values (%f,\"%@\",\"%@\",%li);",timestamp, dateString,thisMessage,type];
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO DebugLog (date, Log, Type) Values (\"%@\",\"%@\",%li);", dateString,thisMessage,type];
     [SQLiteAccess insertWithSQL:sql];
 
     

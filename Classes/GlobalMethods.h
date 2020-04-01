@@ -47,7 +47,7 @@ enum DateFormat {
 #define DateFormatCustom1String @"MM/dd/yyyy"                           // (06/07/2013)
 #define DateFormatCustom2String @"M/d/yyyy h:mm:ss a"                   // (6/7/2013 6:18:57 PM) 10/24/2016  4:42:39 PM
 #define DateFormatCustom3String @"MM/dd/yyyy hh:mm:ss a"                // (06/07/2013 06:18:57 PM)
-#define DateFormatCustom4String @"MM/dd/yyyy hh:mm:ss.SSS a"                 // "MM/dd/yyyy hh:mm:ss a"    // not used, just put something there so it will not come back as a date for an empty string
+#define DateFormatCustom4String @"EEE  MM/dd/yyyy      hh : mm : ss.SSS   a"                 // "MM/dd/yyyy hh:mm:ss a"    // not used, just put something there so it will not come back as a date for an empty string
 #define DateFormatCustom5String @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSSZZ"  //
 #define DateFormatCustom6String @"yyyy'-'MM'-'dd'T'HH':'mm':'ssZZ"      //
 #define DateFormatCustom7String @"yyyy-MM-dd'T'HH:mm"    // 2016-09-19T09:41:50   // 2016-09-19T09:41:50             // 2014-09-29T11:30:00 for Ticket Custom Fields

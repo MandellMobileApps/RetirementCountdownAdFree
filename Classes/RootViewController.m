@@ -278,7 +278,7 @@
 		mailcontroller.mailComposeDelegate = self;
 		[mailcontroller addAttachmentData:[self capturescreen] mimeType:@"image/png" fileName:@"Retirement Countdown"];
         [self presentViewController:mailcontroller animated:YES completion:nil];
-
+        [self.appDelegate addToDebugLog:@"Nav - sendEmail" ofType:DebugLogTypeNav];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
@@ -310,11 +310,14 @@
 -(void)flipView {
     if ([self.pictureview superview]) {
         [self fliptoCalendarWithAnimation:YES];
+         [self.appDelegate addToDebugLog:@"Nav - flipView to Calendar" ofType:DebugLogTypeNav];
         
     } else {
         [self fliptoPictureWithAnimation:YES];
+         [self.appDelegate addToDebugLog:@"Nav - flipView to Picture" ofType:DebugLogTypeNav];
         
     }
+   
 }
 
 //+ (void)transitionWithView:(UIView *)view
@@ -396,7 +399,7 @@
     RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
     rcsettingsViewController.title = @"Settings";
     [[self navigationController] pushViewController:rcsettingsViewController animated:YES];
-    [self.appDelegate addToDebugLog:@"showSettingsView" ofType:DebugLogTypeNav];
+    [self.appDelegate addToDebugLog:@"Nav - SettingsView" ofType:DebugLogTypeNav];
 
 
   }
@@ -535,7 +538,7 @@
 
 -(void)GotoToday {
    
-
+    
     if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Picture"]) {
         [self fliptoCalendarWithAnimation:YES];
          
@@ -547,7 +550,7 @@
     NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
     self.monthNameLabel.text = monthyearlabeltemp;
   
-
+   [self.appDelegate addToDebugLog:@"Nav - GotoToday" ofType:DebugLogTypeNav];
 
 }
 
@@ -565,6 +568,7 @@
 
 	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 	self.monthNameLabel.text = monthyearlabeltemp;
+    [self.appDelegate addToDebugLog:@"Nav - GotoRetirementDay" ofType:DebugLogTypeNav];
 
 }
 
@@ -663,7 +667,9 @@
 
 -(void) showGotoView {
   
-	NSString *pictureStatus;
+	[self.appDelegate addToDebugLog:@"Nav - GoToView" ofType:DebugLogTypeNav];
+    
+    NSString *pictureStatus;
 	if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Calendar"]) {
 		pictureStatus = @"Display Picture";
 	} else {
@@ -698,6 +704,7 @@
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action){
                                                        //add code to make something happen once tapped
+                                                [self.appDelegate addToDebugLog:@"Nav - cancel GoToView" ofType:DebugLogTypeNav];
                                                    }];
 //    [button1 setValue:[[UIImage imageNamed:@"beach.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
 
