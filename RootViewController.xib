@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,6 +30,7 @@
                 <outlet property="overallView" destination="8" id="38"/>
                 <outlet property="prevMonthButton" destination="20" id="40"/>
                 <outlet property="prevYearButton" destination="21" id="39"/>
+                <outlet property="refreshView" destination="Kca-8j-xP7" id="bTE-CZ-dDF"/>
                 <outlet property="secondsLabel" destination="73" id="90"/>
                 <outlet property="view" destination="36" id="37"/>
                 <outlet property="workDaysLabel" destination="82" id="106"/>
@@ -392,6 +393,10 @@
                                 <action selector="forceUpdate:" destination="-1" eventType="touchUpInside" id="HW9-4k-ZBe"/>
                             </connections>
                         </button>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="refresh.png" id="Kca-8j-xP7">
+                            <rect key="frame" x="275" y="289" width="35" height="27"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
@@ -404,5 +409,6 @@
     </objects>
     <resources>
         <image name="GlossSlateBlue.png" width="60" height="60"/>
+        <image name="refresh.png" width="97" height="97"/>
     </resources>
 </document>

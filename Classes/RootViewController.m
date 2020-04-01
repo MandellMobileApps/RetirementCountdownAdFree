@@ -16,6 +16,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <StoreKit/StoreKit.h>
 #import "UpgradeNoticeViewController.h"
+#import "UIImageView+Rotate.h"
 
 
 @implementation RootViewController
@@ -127,6 +128,18 @@
 #pragma mark -
 #pragma mark Update Data
 
+//-(void)setupSubviews
+//{
+//    UIImage* globeSprite = [GlobalClassMethods pngImageForName:@"GlobeSpinYellow"];
+//    self.rotatingGlobeImageView = [[UIImageView alloc]initWithFrame:self.bounds];
+//    NSArray* images = [self splitImage:globeSprite into:20];
+//    self.rotatingGlobeImageView.animationImages = images;
+//    [self addSubview:self.rotatingGlobeImageView];
+//    [self startGlobeAnimationWithDuration:1];
+//
+//
+//}
+
 -(void)showBusyView:(BOOL)load
 {
     
@@ -196,7 +209,10 @@
 
 -(IBAction)forceUpdate:(id)sender
 {
-    [self.appDelegate addToDebugLog:@"forceUpdate"];
+    // repeatCount 0 for infinity loop
+    [self.refreshView rotate360WithDuration:0.5 repeatCount:1];
+
+    [self.appDelegate addToDebugLog:@"forceUpdate" ofType:DebugLogTypeOther];
     [self refreshRootViewController];
 
 }

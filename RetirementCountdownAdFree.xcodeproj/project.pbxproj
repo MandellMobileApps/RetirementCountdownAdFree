@@ -24,6 +24,8 @@
 		36E183841C7239AD009F4018 /* checkbox-empty.V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 36E183821C7239AC009F4018 /* checkbox-empty.V2.png */; };
 		5104B7C723F30C6000104B43 /* Retirement.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 5104B7C623F30C6000104B43 /* Retirement.sqlite */; };
 		5104B7C923F3138000104B43 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5104B7C823F3138000104B43 /* libobjc.A.tbd */; };
+		512DD9CF2435147B00FCFE01 /* UIImageView+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 512DD9CD2435147A00FCFE01 /* UIImageView+Rotate.m */; };
+		512DD9D12435168500FCFE01 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 512DD9D02435168500FCFE01 /* refresh.png */; };
 		5139BE2F23ECDDFB00CE625B /* SQLiteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 5139BE2E23ECDDFB00CE625B /* SQLiteAccess.m */; };
 		513D4FD023E3742600C70693 /* ManualWorkdays.plist in Resources */ = {isa = PBXBuildFile; fileRef = 513D4FC823E3742400C70693 /* ManualWorkdays.plist */; };
 		513D4FD123E3742600C70693 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 513D4FC923E3742400C70693 /* Settings.plist */; };
@@ -197,6 +199,9 @@
 		36E183821C7239AC009F4018 /* checkbox-empty.V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-empty.V2.png"; sourceTree = "<group>"; };
 		5104B7C623F30C6000104B43 /* Retirement.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Retirement.sqlite; sourceTree = "<group>"; };
 		5104B7C823F3138000104B43 /* libobjc.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.A.tbd; path = usr/lib/libobjc.A.tbd; sourceTree = SDKROOT; };
+		512DD9CD2435147A00FCFE01 /* UIImageView+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Rotate.m"; sourceTree = "<group>"; };
+		512DD9CE2435147A00FCFE01 /* UIImageView+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Rotate.h"; sourceTree = "<group>"; };
+		512DD9D02435168500FCFE01 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		5139BE2E23ECDDFB00CE625B /* SQLiteAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteAccess.m; sourceTree = "<group>"; };
 		5139BE3023ECDE0B00CE625B /* SQLiteAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteAccess.h; sourceTree = "<group>"; };
 		513D4FC823E3742400C70693 /* ManualWorkdays.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ManualWorkdays.plist; sourceTree = "<group>"; };
@@ -612,6 +617,8 @@
 				5184B70623F9E7940039A1DD /* UtilityMethods.m */,
 				5184B70823F9E9050039A1DD /* TestingMethods.h */,
 				5184B70923F9E9050039A1DD /* TestingMethods.m */,
+				512DD9CE2435147A00FCFE01 /* UIImageView+Rotate.h */,
+				512DD9CD2435147A00FCFE01 /* UIImageView+Rotate.m */,
 				513D4FEC23E9D31D00C70693 /* DayView.h */,
 				513D4FED23E9D31D00C70693 /* DayView.m */,
 				FC48128E12678BCD007E0824 /* Calendar.h */,
@@ -685,6 +692,7 @@
 			children = (
 				368D2B2221C704B800247A8B /* BuyButtonShiftVC.png */,
 				FCDA8B71184A7BD200CC0A00 /* red-x-outer.png */,
+				512DD9D02435168500FCFE01 /* refresh.png */,
 				FCDA8B6E184A749700CC0A00 /* red-x.png */,
 				FC18D85C1275F9C700FD7326 /* SettingsButton.png */,
 				FC48124F12678BAB007E0824 /* beach.png */,
@@ -847,6 +855,7 @@
 				FC48125F12678BAB007E0824 /* Memorial Day.png in Resources */,
 				FC48126012678BAB007E0824 /* USA Independance Day1.png in Resources */,
 				FC48126112678BAB007E0824 /* Labor Day.png in Resources */,
+				512DD9D12435168500FCFE01 /* refresh.png in Resources */,
 				361120FD1E105F9B003CDD49 /* Thanksgiving.plist in Resources */,
 				FC48126212678BAB007E0824 /* Veterans Day.png in Resources */,
 				513D4FD423E3742600C70693 /* HolidayList.plist in Resources */,
@@ -961,6 +970,7 @@
 				FC4812E112678BEC007E0824 /* ImagePickerViewController.m in Sources */,
 				5184B70723F9E7940039A1DD /* UtilityMethods.m in Sources */,
 				514FBADF23D2265600940DAA /* mz_os_posix.c in Sources */,
+				512DD9CF2435147B00FCFE01 /* UIImageView+Rotate.m in Sources */,
 				514FBAD923D2265600940DAA /* mz_crypt_apple.c in Sources */,
 				FC4812E212678BEC007E0824 /* ColorsViewController.m in Sources */,
 				FC4812E312678BEC007E0824 /* DaysViewController.m in Sources */,

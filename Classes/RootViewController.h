@@ -73,6 +73,8 @@
 @property (nonatomic, retain) IBOutlet UIView	*calendardaysview;
 @property (nonatomic, retain) IBOutlet UIView *swipeview;
 @property (nonatomic, retain) IBOutlet UIImageView *pictureview;
+@property (nonatomic, retain) IBOutlet UIImageView *refreshView;
+
 
 @property (nonatomic, assign) BOOL transitioning;
 @property (nonatomic, retain) NSDate *retirementDate;
