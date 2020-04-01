@@ -68,7 +68,7 @@
     BOOL success = [imageData writeToFile:path atomically:YES];
     if(!success)
      {
-         [self.appDelegate addToDebugLog:@"saving custom picture failed"];
+         [self.appDelegate addToDebugLog:@"saving custom picture failed" ofType:DebugLogTypeError];
      }
     [self.appDelegate updateSettingsInteger:1 forProperty:@"customPicture"];
     [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];

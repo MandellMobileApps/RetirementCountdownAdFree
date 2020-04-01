@@ -43,6 +43,7 @@
     NSString* todayString = [NSString stringWithFormat:@"%04ld%02ld%02ld",(long)todayYear,(long)todayMonth,(long)todayDay];
     NSString* todaySql = [NSString stringWithFormat:@"SELECT * FROM Days WHERE concat = %@",todayString];
     NSDictionary* todayDict  = [SQLiteAccess selectOneRowWithSQL:todaySql];
+    
     NSInteger startConcat = [[todayDict objectForKey:@"concat"]integerValue];
     
     NSString* retireString = [NSString stringWithFormat:@"%04ld%02ld%02ld",(long)retireYear,(long)retireMonth,retireDay];
@@ -90,6 +91,14 @@
 //
 //    }
 //    else
+    
+    
+    
+    
+    
+    // will this fix secondsLeftToday not being reset for a non-workday????
+    self.appDelegate.secondsLeftToday = 0;
+    
     if (workingToday == 1)
     {
 
@@ -104,7 +113,7 @@
             self.appDelegate.secondsLeftToday = endSecondsFromMidnight - nowSecondsFromMidnight;
             totalWorkdays--;
         }
-        else if (nowSecondsFromMidnight>endSecondsFromMidnight)
+        else if (nowSecondsFromMidnight>endSecondsFromMidnight)   //after work ends
         {
             self.appDelegate.secondsLeftToday = 0;
          
@@ -184,25 +193,28 @@
          //  End Update Calendar Days Left **********************************************************
     
     
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"Time Period  %li  to %li",startConcat,endConcat]];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"totalWorkdays %li,  AnnualDaysOff %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff]];
-    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"totalWorkdays %li,  AnnualDaysOff %li", self.appDelegate.totalWorkdays,self.appDelegate.totalAnnualDaysOff]];
+//  Debug Log **********************************************************
+
+
+    NSInteger secondsLeftTemp = self.appDelegate.secondsLeftToday % 60;
+    NSInteger minutesleftTemp = secondsLeftTemp / 60;
+    NSInteger hoursleftTemp = minutesleftTemp / 60;
+    minutesleftTemp = minutesleftTemp % 60;
+
+    NSArray* logArray = [NSArray arrayWithObjects:
+             [NSString stringWithFormat:@"Time - Today;  %li / %li / %li",todayMonth,todayDay,todayYear],
+             [NSString stringWithFormat:@"Time - Retire;  %li / %li / %li",retireMonth,retireDay,retireYear],
+             [NSString stringWithFormat:@"Time - Working days %li",totalWorkdays],
+             [NSString stringWithFormat:@"Time - workingToday %@ hrs %li, mins %li, secs %li",workingToday?@"Yes":@"No",hoursleftTemp,minutesleftTemp,secondsLeftTemp],
+             [NSString stringWithFormat:@"Time - Calendar years %li, months %li, days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft],
+             [NSString stringWithFormat:@"Time - Total CalendarDays %li",calendarDaysLeft],
+             nil];
     
-    
-    
-    
-    NSMutableString* string = [NSMutableString string];
-    [string appendFormat:@"Time Remaining "];
-    [string appendFormat:@"Today: %li  ",startConcat];
-    [string appendFormat:@"Retire: %li  ",endConcat];
-    [string appendFormat:@"secondsLeftToday: %li  ",self.appDelegate.secondsLeftToday];
-    [string appendFormat:@"totalWorkdays: %li  ",self.appDelegate.totalWorkdays];
-    [string appendFormat:@"totalAnnualDaysOff: %li  ",self.appDelegate.totalAnnualDaysOff];
-    [string appendFormat:@"calendarYearsLeft: %li  ",self.appDelegate.calendarYearsLeft];
-    [string appendFormat:@"calendarMonthsLeft: %li  ",self.appDelegate.calendarMonthsLeft];
-    [string appendFormat:@"calendarDaysLeft: %li  ",self.appDelegate.calendarDaysLeft];
-    [string appendFormat:@"badgeDaysOff: %li",self.appDelegate.badgeDaysOff];
-    [self.appDelegate addToDebugLog:string];
+    for (NSString* logItem in logArray)
+    {
+        [self.appDelegate addToDebugLog:logItem ofType:DebugLogTypeTime];
+        
+    }
 
 
 }

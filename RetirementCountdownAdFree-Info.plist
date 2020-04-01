@@ -6,7 +6,7 @@
 	<string></string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.mandellmobileapps.localNotification</string>
+		<string>com.mandellmobileapps.refreshBadgeIcon</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -63,7 +63,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>processing</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

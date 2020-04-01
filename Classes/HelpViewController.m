@@ -194,7 +194,7 @@
               if (success) {
                   [mailcontroller addAttachmentData:[NSData dataWithContentsOfFile:zipPath] mimeType:@"application/zip" fileName:zipFilename];
               } else {
-                  [self.appDelegate addToDebugLog:@"Zip File did not save"];
+                  [self.appDelegate addToDebugLog:@"Zip File did not save"  ofType:DebugLogTypeError];
               }
 
           NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
@@ -255,7 +255,7 @@
     }
     else
     {
-        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"mailComposeController error %@",[error localizedDescription]]];
+        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"mailComposeController error %@",[error localizedDescription]] ofType:DebugLogTypeError];
         self.submitButton.enabled = YES;
         
     }
@@ -321,7 +321,7 @@
     [deviceInfo appendFormat:@"DeviceModel = %@,  ",deviceModel];
     [deviceInfo appendFormat:@"TimeZone = %@  ",calendar.timeZone.abbreviation];
     
-    [self.appDelegate addToDebugLog:deviceInfo];
+    [self.appDelegate addToDebugLog:deviceInfo  ofType:DebugLogTypeOther];
 
 
 }

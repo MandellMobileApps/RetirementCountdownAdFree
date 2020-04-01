@@ -15,7 +15,6 @@
 #import "LoadingViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <StoreKit/StoreKit.h>
-#import "TimeRemainingNew.h"
 #import "UpgradeNoticeViewController.h"
 
 
@@ -204,7 +203,7 @@
 
 -(void)refreshRootViewController
 {
-    [self.appDelegate addToDebugLog:@"refreshRootViewController"];
+    [self.appDelegate addToDebugLog:@"refreshRootViewController" ofType:DebugLogTypeNav];
     //[self showBusyView:YES];
     
     if (self.appDelegate.needsUpgradeConverstion ==1)
@@ -286,7 +285,7 @@
 		mailcontroller.mailComposeDelegate = self;
 		[mailcontroller addAttachmentData:[self capturescreen] mimeType:@"image/png" fileName:@"Retirement Countdown"];
         [self presentViewController:mailcontroller animated:YES completion:nil];
-
+        [self.appDelegate addToDebugLog:@"Nav - sendEmail" ofType:DebugLogTypeNav];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
@@ -318,11 +317,14 @@
 -(void)flipView {
     if ([self.pictureview superview]) {
         [self fliptoCalendarWithAnimation:YES];
+         [self.appDelegate addToDebugLog:@"Nav - flipView to Calendar" ofType:DebugLogTypeNav];
         
     } else {
         [self fliptoPictureWithAnimation:YES];
+         [self.appDelegate addToDebugLog:@"Nav - flipView to Picture" ofType:DebugLogTypeNav];
         
     }
+   
 }
 
 //+ (void)transitionWithView:(UIView *)view
@@ -404,6 +406,7 @@
     RCSettingsViewController *rcsettingsViewController = [[RCSettingsViewController alloc] initWithNibName:@"RCSettings" bundle:nil];
     rcsettingsViewController.title = @"Settings";
     [[self navigationController] pushViewController:rcsettingsViewController animated:YES];
+    [self.appDelegate addToDebugLog:@"Nav - SettingsView" ofType:DebugLogTypeNav];
 
 
   }
@@ -430,12 +433,12 @@
     
     if (self.appDelegate.calendarYearsLeft < 0)
     {
-         [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels Before Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+         [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels Before Retry %li",(long)self.appDelegate.calendarYearsLeft] ofType:DebugLogTypeTime];
          [self updateColors];
          [self.appDelegate refreshSettings];
          [self.appDelegate updateDaysInDayTable];
         [myTimeRemaining updateTimeRemaining];
-        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels After Retry %li",(long)self.appDelegate.calendarYearsLeft]];
+        [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"updatelabels After Retry %li",(long)self.appDelegate.calendarYearsLeft] ofType:DebugLogTypeTime];
     }
     
  
@@ -542,7 +545,7 @@
 
 -(void)GotoToday {
    
-
+    
     if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Picture"]) {
         [self fliptoCalendarWithAnimation:YES];
          
@@ -554,7 +557,7 @@
     NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
     self.monthNameLabel.text = monthyearlabeltemp;
   
-
+   [self.appDelegate addToDebugLog:@"Nav - GotoToday" ofType:DebugLogTypeNav];
 
 }
 
@@ -572,6 +575,7 @@
 
 	NSString *monthyearlabeltemp  = [[NSString alloc] initWithFormat:@"%@  %li",[self.calendarcurrent currentMonthName], (long)[self.calendarcurrent currentYear]];
 	self.monthNameLabel.text = monthyearlabeltemp;
+    [self.appDelegate addToDebugLog:@"Nav - GotoRetirementDay" ofType:DebugLogTypeNav];
 
 }
 
@@ -670,7 +674,9 @@
 
 -(void) showGotoView {
   
-	NSString *pictureStatus;
+	[self.appDelegate addToDebugLog:@"Nav - GoToView" ofType:DebugLogTypeNav];
+    
+    NSString *pictureStatus;
 	if ([self.appDelegate.settingsNew.currentDisplay isEqualToString:@"Calendar"]) {
 		pictureStatus = @"Display Picture";
 	} else {
@@ -705,6 +711,7 @@
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action){
                                                        //add code to make something happen once tapped
+                                                [self.appDelegate addToDebugLog:@"Nav - cancel GoToView" ofType:DebugLogTypeNav];
                                                    }];
 //    [button1 setValue:[[UIImage imageNamed:@"beach.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@"image"];
 

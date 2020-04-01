@@ -39,6 +39,18 @@ static NSInteger holidayImageCount = 15;
 #define DefaultPicture @"beach"
 #define CustomPicture @"customPicture"
 
+enum DebugLogType {
+    DebugLogTypeNav = 0,
+    DebugLogTypeTime = 1,
+    DebugLogTypeLaunch = 2,
+    DebugLogTypeSettings = 3,
+    DebugLogTypeError = 4,
+    DebugLogTypeBackground = 5,
+    DebugLogTypeOther = 6
+    
+};
+
+
 @interface RetirementCountdownAppDelegate : NSObject <UIApplicationDelegate,NSKeyedArchiverDelegate> {
 
 	
@@ -72,8 +84,8 @@ static NSInteger holidayImageCount = 15;
 
 
 -(void)updateIconBadge;
--(void)addToDebugLog:(NSString*)message;
-
+-(void)addToDebugLog:(NSString*)message ofType:(NSInteger)type;
+//-(void)addToDebugLog:(NSString*)message;
 
 -(void)updateSettingsString:(NSString*)value  forProperty:(NSString*)propertyName;
 -(void)updateSettingsInteger:(NSInteger)value  forProperty:(NSString*)propertyName;;

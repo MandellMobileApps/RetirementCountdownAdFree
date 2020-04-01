@@ -24,7 +24,26 @@
 
 
 
++(NSDate*)tonightMidnight
+{
 
+    NSDate* todayNSDate = [GlobalMethods todayNsDate];
+     NSCalendar *calendar = [NSCalendar currentCalendar];
+     calendar.timeZone = [NSTimeZone localTimeZone];
+     NSUInteger unitFlags = NSCalendarUnitYear |NSCalendarUnitMonth |NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSDateComponents *comps = [calendar components:unitFlags fromDate:todayNSDate];
+    comps.day = comps.day+1;
+    comps.second = 0;
+    comps.minute = 0;
+    comps.hour = 0;
+        
+    NSDate* thisDate = [calendar dateFromComponents:comps];
+        
+    return thisDate;
+    
+    
+    
+}
 
 +(NSString*) fullImageNameFor:(NSString*)imageName
 {
@@ -88,12 +107,11 @@ NSDateComponents *comps = [calendar components:unitFlags fromDate:todayNSDate];
 }
 
 
-+(float) debugTimestamp
++(double) debugTimestamp
 {
     NSDate *date = [GlobalMethods todayNsDate];
-    NSInteger thisTimestamp = date.timeIntervalSinceReferenceDate;
-    float thisFloatTimestamp = thisTimestamp;
-    return thisFloatTimestamp;
+    double thisTimestamp = date.timeIntervalSinceReferenceDate;
+    return thisTimestamp;
 
 }
 
@@ -516,27 +534,27 @@ NSDateComponents *comps = [calendar components:unitFlags fromDate:todayNSDate];
 //
 //}
 
-+(NSString*)isWorkday:(NSDate*)date forWorkdays:(NSArray*)theseWorkdays {
-	
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-	NSDateComponents *comps = [gregorian components:(NSCalendarUnitWeekday) fromDate:date];
-	NSInteger dayofweek = [comps weekday];	
-
-	
-	
-	NSString *thisWorkdayTemp;
-	
-	if ([[theseWorkdays objectAtIndex:dayofweek - 1] isEqualToString:@"YES"]) {
-		thisWorkdayTemp = @"YES";									
-	} else {
-		thisWorkdayTemp = @"NO";
-	}	
-	
-	NSString *isWorkdayTemp = [[NSString alloc] initWithString:thisWorkdayTemp];
-	
-	return isWorkdayTemp;
-	
-}
+//+(NSString*)isWorkday:(NSDate*)date forWorkdays:(NSArray*)theseWorkdays {
+//
+//	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//	NSDateComponents *comps = [gregorian components:(NSCalendarUnitWeekday) fromDate:date];
+//	NSInteger dayofweek = [comps weekday];
+//
+//
+//
+//	NSString *thisWorkdayTemp;
+//
+//	if ([[theseWorkdays objectAtIndex:dayofweek - 1] isEqualToString:@"YES"]) {
+//		thisWorkdayTemp = @"YES";
+//	} else {
+//		thisWorkdayTemp = @"NO";
+//	}
+//
+//	NSString *isWorkdayTemp = [[NSString alloc] initWithString:thisWorkdayTemp];
+//
+//	return isWorkdayTemp;
+//
+//}
 
 //+(NSString*)isManualWorkday:(NSDate*)date forManualWorkdays:(NSArray*)theseWorkdays {
 //	

@@ -57,14 +57,14 @@
 
 - (NSString*)currentMonthName;
 
--(NSInteger)getdaysinmonth:(NSInteger)month year:(NSInteger)year;
+//-(NSInteger)getdaysinmonth:(NSInteger)month year:(NSInteger)year;
 
 
--(NSDate *)getdatefromcomps:(NSInteger)month day:(NSInteger)day year:(NSInteger)year;
+//-(NSDate *)getdatefromcomps:(NSInteger)month day:(NSInteger)day year:(NSInteger)year;
 -(void)gotoRetirementDay;
 - (void)gotoToday;
 
--(void)getDayColorsFor:(NSDate*)date;
+//-(void)getDayColorsFor:(NSDate*)date;
 
 //- (void)updateSelection:(id)sender;
 //- (void)updateSelectionDoubleTap:(id)sender;

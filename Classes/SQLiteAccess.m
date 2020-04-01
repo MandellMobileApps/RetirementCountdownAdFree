@@ -43,46 +43,32 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
 
 + (NSNumber *)executeSQL:(NSString *)sql withCallback:(void *)callbackFunction context:(id)contextObject
 {
-    int numberOfRetries = 0;
-    int maxNumberOfRetries = 5;
+    NSInteger numberOfRetries = 0;
+    NSInteger maxNumberOfRetries = 5;
     BOOL retry = NO;
     NSString *path = [self dataFilePathofDocuments:@"Retirement.sqlite"];
+    //DLog(@"path %@",path);
 
     do {
         
-        
-        retry   = NO;
+        retry   = YES;
         sqlite3 *db = NULL;
         int rc = SQLITE_OK;
         NSInteger lastRowId = 0;
         
         rc = sqlite3_open([path UTF8String], &db);
         
-        if (SQLITE_BUSY == rc)
+        if (SQLITE_OK != rc)
         {
-            retry = YES;
             usleep(20);
             if (numberOfRetries > maxNumberOfRetries)
             {
-                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"SQL %@\n", sql]];
-                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"Database busy %i: %s\n",numberOfRetries, sqlite3_errmsg(db)]];
                 sqlite3_close(db);
-                numberOfRetries++;
                 return nil;
             }
-        }
-        else if (SQLITE_OK != rc)
-        {
-            retry = YES;
-            usleep(20);
-            if (numberOfRetries > maxNumberOfRetries) {
-                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"SQL %@\n", sql]];
-                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"Database error %i: %s\n",numberOfRetries, sqlite3_errmsg(db)]];
-                sqlite3_close(db);
-                numberOfRetries++;
-                return nil;
-            }
-
+             [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"SQL %@\n", sql]];
+             [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"Database open error %li: %s\n",numberOfRetries, sqlite3_errmsg(db)]];
+            numberOfRetries++;
         }
         else
         {
@@ -91,15 +77,14 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
               rc = sqlite3_exec(db, [sql UTF8String], callbackFunction, (__bridge void*)contextObject, &zErrMsg);
             if (SQLITE_OK != rc)
             {
-                retry = YES;
                 usleep(20);
                 if (numberOfRetries > maxNumberOfRetries) {
-                    [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"SQL %@\n", sql]];
-                    [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"Can't run query %i: %s\n",numberOfRetries, sqlite3_errmsg(db)]];
                     sqlite3_close(db);
-                    numberOfRetries++;
                     return nil;
                 }
+                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"SQL %@\n", sql]];
+                [SQLiteAccess addToTextLog:[NSString stringWithFormat:@"Can't run query %li: %s\n",numberOfRetries, sqlite3_errmsg(db)]];
+                numberOfRetries++;
 
             }
             else
@@ -117,6 +102,50 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
     }
     while (retry);
     return nil;
+}
+
+//    ALTER TABLE table_name
+//    ADD new_column_name column_definition;
+
+//    SELECT *
+//    FROM INFORMATION_SCHEMA.COLUMNS
+//    --WHERE TABLE_NAME = N'YourTableName'
+
++(void)addColumn:(NSString*)columnName ofType:(NSInteger)type toTable:(NSString*)tableName
+{
+
+    //    //  alter table myTable
+    //    //add column newColumn INTEGER default 0;
+//    NSArray* dbs = [SQLiteAccess selectManyValuesWithSQL:@"SELECT name FROM sqlite_master WHERE type = \"table\""];
+
+    NSArray* columns = [SQLiteAccess selectManyRowsWithSQL:[NSString stringWithFormat:@"PRAGMA table_info(%@);",tableName]];
+    BOOL columnDoesNoteExist = YES;
+    
+    for (NSDictionary* column in columns)
+    {
+        NSString* thisColumnName = [column objectForKey:@"name"];
+        if ([thisColumnName isEqualToString:columnName])
+        {
+            columnDoesNoteExist = NO;
+        }
+    }
+    if (columnDoesNoteExist)
+    {
+        NSString* thisType;
+        if (type == ColumnTypeInteger)
+        {
+            thisType = @"INTEGER";
+            
+        }
+        else if (type == ColumnTypeText)
+        {
+            thisType = @"TEXT";
+            
+        }
+        NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@ ADD COLUMN %@ %@",tableName,columnName,thisType];
+        [SQLiteAccess updateWithSQL:sql];
+    }
+ 
 }
 
 
@@ -230,6 +259,7 @@ static int multipleRowCallback(void *queryValuesVP, int columnCount, char **valu
 +(void)addToTextLog:(NSString*)message
 {
 
+    DLog(@"Added to TextLog %@",message);
     NSString* dateString = [GlobalMethods debugFormattedTime];
 
     NSString* log = [NSString stringWithFormat:@"%@\n%@\n\n",dateString,message];
