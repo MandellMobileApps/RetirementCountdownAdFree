@@ -18,7 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     self.okToSend = NO;
     self.removeView = NO;
     self.submitButton.enabled = YES;
@@ -81,10 +80,7 @@
     explain.text = @"After you tap Submit,\nSend the email shown.";
     [explain setFrame:CGRectMake(20, 360, self.view.bounds.size.width-40, 75)];
     [self.view addSubview:explain];
-    
-        [self addDeviceInfo];
-  
-    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -121,6 +117,8 @@
     
 }
 
+
+
 -(void)submitEmail
 {
     
@@ -145,85 +143,86 @@
 
 -(void) sendEmailWithDebug {
 
-          MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
-          mailcontroller.mailComposeDelegate = self;
+      MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
+      mailcontroller.mailComposeDelegate = self;
           
-          TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
-          [myTimeRemaining updateTimeRemaining];
+       TimeRemaining *myTimeRemaining = [[TimeRemaining alloc] init];
+       [myTimeRemaining updateTimeRemaining];
+       [self addDeviceInfo];
 
-    NSString *subject;
-    if (self.textView.text.length > 50)
-    {
-           subject =[self.textView.text substringToIndex:50];
-    }
-    else
-    {
-           subject =self.textView.text;
-    }
+        NSString *subject;
+        if (self.textView.text.length > 50)
+        {
+               subject =[self.textView.text substringToIndex:50];
+        }
+        else
+        {
+               subject =self.textView.text;
+        }
 
-          NSString *body = [NSString stringWithFormat:@"%@\n\n",self.textView.text];
+      NSString *body = [NSString stringWithFormat:@"%@\n\n",self.textView.text];
 
-          [mailcontroller setSubject:subject];
-          [mailcontroller setMessageBody:body isHTML:NO];
-          
-          NSArray *recipient = [NSArray arrayWithObject:@"support@mandellmobileapps.zohodesk.com"];
-          [mailcontroller setToRecipients:recipient];
-          
-          NSMutableArray* paths = [NSMutableArray array];
- 
-          NSString* path = [GlobalMethods dataFilePathofDocuments:@"Retirement.sqlite"];
+      [mailcontroller setSubject:subject];
+      [mailcontroller setMessageBody:body isHTML:NO];
+      
+      NSArray *recipient = [NSArray arrayWithObject:@"support@mandellmobileapps.zohodesk.com"];
+      [mailcontroller setToRecipients:recipient];
+      
+      NSMutableArray* paths = [NSMutableArray array];
 
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            if ([fileManager fileExistsAtPath:path])
-            {
-              [paths addObject:path];
-            }
+      NSString* path = [GlobalMethods dataFilePathofDocuments:@"Retirement.sqlite"];
 
-            NSString* path2 = [GlobalMethods dataFilePathofDocuments:@"TextLog.txt"];
-            if ([fileManager fileExistsAtPath:path2])
-            {
-                [paths addObject:path2];
-            }
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:path])
+        {
+          [paths addObject:path];
+        }
+
+        NSString* path2 = [GlobalMethods dataFilePathofDocuments:@"TextLog.txt"];
+        if ([fileManager fileExistsAtPath:path2])
+        {
+            [paths addObject:path2];
+        }
 
 
-          NSString* zipFilename = @"DebugLog.zip";
-          NSString* zipPath = [GlobalMethods dataFilePathofDocuments:zipFilename];;
-       
+      NSString* zipFilename = @"DebugLog.zip";
+      NSString* zipPath = [GlobalMethods dataFilePathofDocuments:zipFilename];;
+   
 
-          BOOL success =  [SSZipArchive createZipFileAtPath:zipPath withFilesAtPaths:paths withPassword:nil];
-              if (success) {
-                  [mailcontroller addAttachmentData:[NSData dataWithContentsOfFile:zipPath] mimeType:@"application/zip" fileName:zipFilename];
-              } else {
-                  [self.appDelegate addToDebugLog:@"Zip File did not save"  ofType:DebugLogTypeError];
-              }
-
-          NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
-          NSData *imageinpng = [[NSData alloc] initWithContentsOfFile:pathName];
-          if (imageinpng) {
-              [mailcontroller addAttachmentData:imageinpng mimeType:@"image/png" fileName:@"Retirement Countdown"];
+      BOOL success =  [SSZipArchive createZipFileAtPath:zipPath withFilesAtPaths:paths withPassword:nil];
+          if (success) {
+              [mailcontroller addAttachmentData:[NSData dataWithContentsOfFile:zipPath] mimeType:@"application/zip" fileName:zipFilename];
+          } else {
+              [self.appDelegate addToDebugLog:@"Zip File did not save"  ofType:DebugLogTypeError];
           }
 
-          NSString *pathName2 = [GlobalMethods dataFilePathofDocuments:@"SettingsScreenCapture"];
-          NSData *imageinpng2 = [[NSData alloc] initWithContentsOfFile:pathName2];
-          if (imageinpng2) {
-              [mailcontroller addAttachmentData:imageinpng2 mimeType:@"image/png" fileName:@"SettingsScreenCapture"];
-          }
-          
-          NSString *pathName3 = [GlobalMethods dataFilePathofDocuments:@"WorkdaysScreenCapture"];
-          NSData *imageinpng3 = [[NSData alloc] initWithContentsOfFile:pathName3];
-          if (imageinpng3) {
-              [mailcontroller addAttachmentData:imageinpng3 mimeType:@"image/png" fileName:@"WorkdaysScreenCapture"];
-          }
-          
-          NSString *pathName4 = [GlobalMethods dataFilePathofDocuments:@"WorkhoursScreenCapture"];
-          NSData *imageinpng4 = [[NSData alloc] initWithContentsOfFile:pathName4];
-          if (imageinpng4) {
-              [mailcontroller addAttachmentData:imageinpng4 mimeType:@"image/png" fileName:@"WorkhoursScreenCapture"];
-          }
+      NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
+      NSData *imageinpng = [[NSData alloc] initWithContentsOfFile:pathName];
+      if (imageinpng) {
+          [mailcontroller addAttachmentData:imageinpng mimeType:@"image/png" fileName:@"Retirement Countdown"];
+      }
 
-          [self presentViewController:mailcontroller animated:YES completion:nil];
-          self.removeView = YES;
-          
+      NSString *pathName2 = [GlobalMethods dataFilePathofDocuments:@"SettingsScreenCapture"];
+      NSData *imageinpng2 = [[NSData alloc] initWithContentsOfFile:pathName2];
+      if (imageinpng2) {
+          [mailcontroller addAttachmentData:imageinpng2 mimeType:@"image/png" fileName:@"SettingsScreenCapture"];
+      }
+      
+      NSString *pathName3 = [GlobalMethods dataFilePathofDocuments:@"WorkdaysScreenCapture"];
+      NSData *imageinpng3 = [[NSData alloc] initWithContentsOfFile:pathName3];
+      if (imageinpng3) {
+          [mailcontroller addAttachmentData:imageinpng3 mimeType:@"image/png" fileName:@"WorkdaysScreenCapture"];
+      }
+      
+      NSString *pathName4 = [GlobalMethods dataFilePathofDocuments:@"WorkhoursScreenCapture"];
+      NSData *imageinpng4 = [[NSData alloc] initWithContentsOfFile:pathName4];
+      if (imageinpng4) {
+          [mailcontroller addAttachmentData:imageinpng4 mimeType:@"image/png" fileName:@"WorkhoursScreenCapture"];
+      }
+
+      [self presentViewController:mailcontroller animated:YES completion:nil];
+      self.removeView = YES;
+      
 
 }
 
@@ -239,11 +238,12 @@
             case MFMailComposeResultSaved:
                 self.submitButton.enabled = YES;
                 break;
-            case MFMailComposeResultSent:
+            case MFMailComposeResultSent:{
                 self.removeView = YES;
                 self.textView.text = @"";
                 [self performSelector:@selector(removeViewAfterEmail) withObject:nil afterDelay:1.0];
-                break;
+                [self messageSent];
+                break;}
             case MFMailComposeResultFailed:
                 self.submitButton.enabled = YES;
                 break;
@@ -259,12 +259,7 @@
         self.submitButton.enabled = YES;
         
     }
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self messageSent];
-//        [self.appDelagate deleteDebugLog];
-     }
-     
-     ];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)removeViewAfterEmail
@@ -292,13 +287,13 @@
     [alertView show];
     
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-{
-    if (alertView.tag ==1)
-    {
-        [self removeViewAfterEmail];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+//{
+//    if (alertView.tag ==1)
+//    {
+//       // [self removeViewAfterEmail];
+//    }
+//}
 
 
 

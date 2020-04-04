@@ -18,8 +18,9 @@
 #import "HelpViewController.h"
 #import "BaseViewController.h"
 #import "StatutoryDaysOffViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface RCSettingsViewController : BaseViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface RCSettingsViewController : BaseViewController <MFMailComposeViewControllerDelegate,UITableViewDelegate, UITableViewDataSource> {
 
 }
 

@@ -53,15 +53,15 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showUpgradeNoticeThisTime"];
     }
 
-    [SKStoreReviewController requestReview];
+ //   [SKStoreReviewController requestReview];
 
 }
 
-- (void)DisplayReviewController {
-    if (@available(iOS 10.3, *)) {
-        [SKStoreReviewController requestReview];
-    }
-}
+//- (void)DisplayReviewController {
+//    if (@available(iOS 10.3, *)) {
+//        [SKStoreReviewController requestReview];
+//    }
+//}
 
 
 
@@ -119,7 +119,6 @@
 }
 
 -(void) viewWillDisappear:(BOOL)animated {
-
     [self.navbarView removeFromSuperview];
     [super viewWillDisappear:animated];
 
@@ -212,14 +211,14 @@
     // repeatCount 0 for infinity loop
     [self.refreshView rotate360WithDuration:0.5 repeatCount:1];
 
-    [self.appDelegate addToDebugLog:@"forceUpdate" ofType:DebugLogTypeOther];
+    [self.appDelegate addToDebugLog:@"Time - forceUpdate" ofType:DebugLogTypeOther];
     [self refreshRootViewController];
 
 }
 
 -(void)refreshRootViewController
 {
-    [self.appDelegate addToDebugLog:@"refreshRootViewController" ofType:DebugLogTypeNav];
+    [self.appDelegate addToDebugLog:@"Time - refreshRootViewController" ofType:DebugLogTypeNav];
     //[self showBusyView:YES];
     
     if (self.appDelegate.needsUpgradeConverstion ==1)
@@ -295,17 +294,35 @@
 #pragma mark -
 #pragma mark Email Methods
 
--(void)sendEmail {
 
+
+-(void)sendEmail {
+   if ([MFMailComposeViewController canSendMail])
+   {
 		MFMailComposeViewController *mailcontroller = [[MFMailComposeViewController alloc] init];
-		mailcontroller.mailComposeDelegate = self;
-		[mailcontroller addAttachmentData:[self capturescreen] mimeType:@"image/png" fileName:@"Retirement Countdown"];
-        [self presentViewController:mailcontroller animated:YES completion:nil];
-        [self.appDelegate addToDebugLog:@"Nav - sendEmail" ofType:DebugLogTypeNav];
+
+
+                mailcontroller.mailComposeDelegate = self;
+                [mailcontroller setSubject:@"... but who's counting??"];
+        		[mailcontroller addAttachmentData:[self capturescreen] mimeType:@"image/png" fileName:@"Retirement Countdown"];
+       
+
+       [self presentViewController:mailcontroller animated:YES completion:^{
+
+            }];
+
+
+            [self.appDelegate addToDebugLog:@"Nav - sendEmail" ofType:DebugLogTypeNav];
+    }
+    else
+    {
+
+         [self.appDelegate addToDebugLog:@"Nav - can't sendEmail" ofType:DebugLogTypeNav];
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
-	
+
 	switch (result)
 	{
 		case MFMailComposeResultCancelled:
@@ -699,7 +716,7 @@
 		pictureStatus = @"Display Calendar";
 	}
     
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"What do you want to do?" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"What do you want to do?" message:@"" preferredStyle:UIAlertControllerStyleAlert];
 
     UIAlertAction *button1 = [UIAlertAction actionWithTitle:@"Go To Today"
                                                      style:UIAlertActionStyleDefault
@@ -718,13 +735,15 @@
                                                        [self flipView];
                                                    }];
     
-    UIAlertAction *button4 = [UIAlertAction actionWithTitle:@"Send Email"
+    UIAlertAction *button4 = [UIAlertAction actionWithTitle:@"Email a Friend"
                                                      style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction *action){
-                                                       [self sendEmail];
-                                                   }];
+        [self sendEmail];
+        //[self performSelector:@selector(sendEmail) withObject:nil afterDelay:0.5];
+                                                   
+    }];
     UIAlertAction *button5 = [UIAlertAction actionWithTitle:@"Cancel"
-                                                     style:UIAlertActionStyleDefault
+                                                     style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction *action){
                                                        //add code to make something happen once tapped
                                                 [self.appDelegate addToDebugLog:@"Nav - cancel GoToView" ofType:DebugLogTypeNav];
@@ -749,7 +768,7 @@
 
 }
 
-
+//
 //- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 //
 //	if (actionSheet.tag == 1) {
@@ -769,17 +788,17 @@
 ////		}
 ////	}
 //}
-
-//- (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
-//	if (actionSheet.tag == 2) {
-//		UIImageView *settingsButton  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SettingsButton.png"]];
-//		settingsButton.frame = CGRectMake(20, 50, 49, 34);
-//		[actionSheet addSubview:settingsButton];
 //
-//	}
-	
-//}
-
+////- (void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+////	if (actionSheet.tag == 2) {
+////		UIImageView *settingsButton  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SettingsButton.png"]];
+////		settingsButton.frame = CGRectMake(20, 50, 49, 34);
+////		[actionSheet addSubview:settingsButton];
+////
+////	}
+//
+////}
+//
 
 -(void)displayUpgradeNotice
 {

@@ -13,6 +13,7 @@
 #import "ShiftWorkViewController.h"
 #import "PurchaseViewController.h"
 #import "WebViewController.h"
+#import "EmailViewController.h"
 
 
 @implementation RCSettingsViewController
@@ -34,12 +35,8 @@
 			
 					
 }
--(void)popThisViewController
-{
-   // [self.navigationController popViewControllerAnimated:YES];
-    
-    
-}
+
+
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,6 +49,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self capturescreen];
+     [super viewWillDisappear:animated];
 }
 -(NSData*)capturescreen {
     UIGraphicsBeginImageContext(self.view.bounds.size);
@@ -64,15 +62,6 @@
     NSData *returnData = [[NSData alloc] initWithData:imageinpng];
     return returnData;
 }
-
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
 
 
 
@@ -233,23 +222,29 @@
     
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
+            [self.appDelegate addToDebugLog:@"Nav - AboutViewController" ofType:DebugLogTypeNav];
 			AboutViewController *aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
 			aboutViewController.title = @"Welcome";
 			[[self navigationController] pushViewController:aboutViewController animated:YES];
 
 		} else if (indexPath.row == 1) {
+            [self.appDelegate addToDebugLog:@"Nav - WebViewController" ofType:DebugLogTypeNav];
+
 			WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
 			webViewController.title = @"FAQs";
             webViewController.urlString = @"https://mandellmobileapps.com/faqs";
 			[[self navigationController] pushViewController:webViewController animated:YES];
-
+            
         } else if (indexPath.row == 2) {
+            [self.appDelegate addToDebugLog:@"Nav - HelpViewController" ofType:DebugLogTypeNav];
+
                 HelpViewController *helpViewController = [[HelpViewController alloc] initWithNibName:@"HelpViewController" bundle:nil];
                 helpViewController.title = @"Contact Me";
                 [[self navigationController] pushViewController:helpViewController animated:YES];
 
                 
 		} else if (indexPath.row == 3) {
+            [self.appDelegate addToDebugLog:@"Nav - iTunesLink" ofType:DebugLogTypeNav];
 
             NSString *iTunesLink = @"https://itunes.apple.com/us/app/retirement-countdown-ad-free/id424032584?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
@@ -261,39 +256,55 @@
 
 
 		if(indexPath.row==0) {
+            [self.appDelegate addToDebugLog:@"Nav - RetirementDate" ofType:DebugLogTypeNav];
+
 			RetirementDateViewController *retirementdateViewController = [[RetirementDateViewController alloc] initWithNibName:@"RetirementDate" bundle:nil];
 //			retirementdateViewController.retirementDate = self.retirementDate;
 			[[self navigationController] pushViewController:retirementdateViewController animated:YES];
             
 		}else if(indexPath.row==1) {
+            [self.appDelegate addToDebugLog:@"Nav - WorkdaysViewController" ofType:DebugLogTypeNav];
+
             WorkdaysViewController *workdaysViewController = [[WorkdaysViewController alloc] initWithNibName:@"Workdays" bundle:nil];
             workdaysViewController.title = @"Work Days";
             [[self navigationController] pushViewController:workdaysViewController animated:YES];
             
 		}else if(indexPath.row==2) {
+            [self.appDelegate addToDebugLog:@"Nav - WorkhoursViewController" ofType:DebugLogTypeNav];
+
 			WorkhoursViewController *workhoursViewController = [[WorkhoursViewController alloc] initWithNibName:@"Workhours" bundle:nil];
 			workhoursViewController.title = @"Work Hours";
 			[[self navigationController] pushViewController:workhoursViewController animated:YES];
 
         }else if(indexPath.row==3) {
+            [self.appDelegate addToDebugLog:@"Nav - HolidaysViewController" ofType:DebugLogTypeNav];
+
 			HolidaysViewController *holidaysViewController = [[HolidaysViewController alloc] initWithNibName:@"Holidays" bundle:nil];
 			holidaysViewController.title = @"Select Holiday";
 			[[self navigationController] pushViewController:holidaysViewController animated:YES];
             
 		}else if(indexPath.row==4) {
+            [self.appDelegate addToDebugLog:@"Nav - StatutoryDaysOffViewController" ofType:DebugLogTypeNav];
+
 			StatutoryDaysOffViewController *statutoryDaysOffViewController = [[StatutoryDaysOffViewController alloc] initWithNibName:@"StatutoryDaysOffViewController" bundle:nil];
 			statutoryDaysOffViewController.title = @"Annual Vacation Days";
 			[[self navigationController] pushViewController:statutoryDaysOffViewController animated:YES];
         }else if(indexPath.row==5) {
+            [self.appDelegate addToDebugLog:@"Nav - DisplayOptionsViewController" ofType:DebugLogTypeNav];
+
                 DisplayOptionsViewController *displayoptionsViewController = [[DisplayOptionsViewController alloc] initWithNibName:@"DisplayOptions" bundle:nil];
                 displayoptionsViewController.title = @"Badge Options";
                 [[self navigationController] pushViewController:displayoptionsViewController animated:YES];
 		}else if(indexPath.row==6) {
+            [self.appDelegate addToDebugLog:@"Nav - ImagePickerViewController" ofType:DebugLogTypeNav];
+
 			ImagePickerViewController *imagePickerViewController = [[ImagePickerViewController alloc] initWithNibName:@"ImagePickerViewController" bundle:nil];
 			imagePickerViewController.title = @"Select Picture";
 			[[self navigationController] pushViewController:imagePickerViewController animated:YES];
             
 		}else if(indexPath.row==7) {
+            [self.appDelegate addToDebugLog:@"Nav - DaysViewController" ofType:DebugLogTypeNav];
+
 			DaysViewController *daysViewController = [[DaysViewController alloc] initWithNibName:@"DaysViewController" bundle:nil];
 			daysViewController.title = @"Select Colors";
 			[[self navigationController] pushViewController:daysViewController animated:YES];

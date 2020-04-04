@@ -127,7 +127,7 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"%@ Memory Warning",NSStringFromClass([self class])]  ofType:DebugLogTypeOther];
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 

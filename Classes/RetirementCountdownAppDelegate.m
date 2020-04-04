@@ -168,7 +168,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     //NSLog(@"Memory Low");
-    [self addToDebugLog:@"Memory Warning"  ofType:DebugLogTypeLaunch];
+    [self addToDebugLog:@"Application Memory Warning"  ofType:DebugLogTypeLaunch];
 }
 
 
@@ -717,8 +717,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 -(void)scheduleBackgroundTask {
 
     BGAppRefreshTaskRequest *request = [[BGAppRefreshTaskRequest alloc] initWithIdentifier:TaskID];
-    request.earliestBeginDate =  [GlobalMethods tonightMidnight];
-    [self addToDebugLog:[NSString stringWithFormat:@"scheduleBackgroundTask earliestBeginDate %@",request.earliestBeginDate] ofType:DebugLogTypeBackground];
+    [self addToDebugLog:[NSString stringWithFormat:@"scheduleBackgroundTask"] ofType:DebugLogTypeBackground];
     NSError *error = NULL;
      BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
     if (!success) {
@@ -747,14 +746,14 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
 
 -(void)updateIconBadge {
 
-    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadge %li",self.badgeDaysOff] ofType:DebugLogTypeTime];
+    [self addToDebugLog:[NSString stringWithFormat:@"Time - updateIconBadge %li",self.badgeDaysOff] ofType:DebugLogTypeTime];
     [UIApplication sharedApplication].applicationIconBadgeNumber = self.badgeDaysOff;
 
 }
 
 -(BOOL)updateIconBadgeInBackground {
     // get data from SQL before doing Time Remaining
-    [self addToDebugLog:[NSString stringWithFormat:@"updateIconBadgeInBackground %li",self.badgeDaysOff]ofType:DebugLogTypeBackground];
+    [self addToDebugLog:[NSString stringWithFormat:@"Time - updateIconBadgeInBackground %li",self.badgeDaysOff]ofType:DebugLogTypeBackground];
     
     [self scheduleBackgroundTask];
     

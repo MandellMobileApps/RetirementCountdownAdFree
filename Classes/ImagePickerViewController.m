@@ -50,6 +50,7 @@
     [self.appDelegate updateSettingsInteger:0 forProperty:@"customPicture"];
     [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];
 	self.appDelegate.pictureChanged = YES;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -73,7 +74,7 @@
     [self.appDelegate updateSettingsInteger:1 forProperty:@"customPicture"];
     [self.appDelegate updateSettingsString:@"Picture" forProperty:@"currentDisplay"];
     self.appDelegate.pictureChanged = YES;
-    
+    [self.navigationController popViewControllerAnimated:YES];
 
 	
 }
@@ -89,12 +90,7 @@
 
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-//	currentImageView.image = nil;
-	// Release any cached data, images, etc that aren't in use.
 
-}
 
 
 

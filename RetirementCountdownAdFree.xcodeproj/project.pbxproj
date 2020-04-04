@@ -24,6 +24,8 @@
 		36E183841C7239AD009F4018 /* checkbox-empty.V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 36E183821C7239AC009F4018 /* checkbox-empty.V2.png */; };
 		5104B7C723F30C6000104B43 /* Retirement.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 5104B7C623F30C6000104B43 /* Retirement.sqlite */; };
 		5104B7C923F3138000104B43 /* libobjc.A.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5104B7C823F3138000104B43 /* libobjc.A.tbd */; };
+		51194ADC2437F62000957AE2 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51194ADA2437F62000957AE2 /* EmailViewController.m */; };
+		51194ADD2437F62000957AE2 /* EmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51194ADB2437F62000957AE2 /* EmailViewController.xib */; };
 		512DD9CF2435147B00FCFE01 /* UIImageView+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 512DD9CD2435147A00FCFE01 /* UIImageView+Rotate.m */; };
 		512DD9D12435168500FCFE01 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 512DD9D02435168500FCFE01 /* refresh.png */; };
 		5139BE2F23ECDDFB00CE625B /* SQLiteAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 5139BE2E23ECDDFB00CE625B /* SQLiteAccess.m */; };
@@ -199,6 +201,9 @@
 		36E183821C7239AC009F4018 /* checkbox-empty.V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-empty.V2.png"; sourceTree = "<group>"; };
 		5104B7C623F30C6000104B43 /* Retirement.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Retirement.sqlite; sourceTree = "<group>"; };
 		5104B7C823F3138000104B43 /* libobjc.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libobjc.A.tbd; path = usr/lib/libobjc.A.tbd; sourceTree = SDKROOT; };
+		51194AD92437F62000957AE2 /* EmailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
+		51194ADA2437F62000957AE2 /* EmailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
+		51194ADB2437F62000957AE2 /* EmailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmailViewController.xib; sourceTree = "<group>"; };
 		512DD9CD2435147A00FCFE01 /* UIImageView+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Rotate.m"; sourceTree = "<group>"; };
 		512DD9CE2435147A00FCFE01 /* UIImageView+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Rotate.h"; sourceTree = "<group>"; };
 		512DD9D02435168500FCFE01 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
@@ -764,6 +769,9 @@
 				FC4812C512678BEC007E0824 /* SelectHolidayDateViewController.m */,
 				FC4812C612678BEC007E0824 /* HelpViewController.h */,
 				FC4812C712678BEC007E0824 /* HelpViewController.m */,
+				51194AD92437F62000957AE2 /* EmailViewController.h */,
+				51194ADA2437F62000957AE2 /* EmailViewController.m */,
+				51194ADB2437F62000957AE2 /* EmailViewController.xib */,
 				FC481C81126D2DCD007E0824 /* WebViewController.h */,
 				FC481C82126D2DCD007E0824 /* WebViewController.m */,
 				FC481C83126D2DCD007E0824 /* WebViewController.xib */,
@@ -928,6 +936,7 @@
 				FC9CB62116BC1FB300349396 /* Default@2x.png in Resources */,
 				FC9CB62216BC1FBF00349396 /* Default.png in Resources */,
 				FC9CB62416BC208D00349396 /* beach57.png in Resources */,
+				51194ADD2437F62000957AE2 /* EmailViewController.xib in Resources */,
 				FC9CB62616BC209800349396 /* beach114.png in Resources */,
 				FC9CB63516BC536100349396 /* Default-568h@2x.png in Resources */,
 				FC1CA70317D79049006CBBE4 /* FeaturesViewController.xib in Resources */,
@@ -955,6 +964,7 @@
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				366881BE19C21BA500A27456 /* ShiftWorkDetailViewController.m in Sources */,
 				FC48122012678B3D007E0824 /* BaseViewController.m in Sources */,
+				51194ADC2437F62000957AE2 /* EmailViewController.m in Sources */,
 				FC4812DB12678BEC007E0824 /* WorkdaysViewController.m in Sources */,
 				FC4812DC12678BEC007E0824 /* HolidaysViewController.m in Sources */,
 				514FBADB23D2265600940DAA /* mz_crypt.c in Sources */,
@@ -1021,7 +1031,7 @@
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4VYP77BTU8;
 				ENABLE_BITCODE = NO;
@@ -1041,7 +1051,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.4;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
@@ -1067,7 +1077,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Mandell (4VYP77BTU8)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4VYP77BTU8;
 				ENABLE_BITCODE = NO;
@@ -1084,7 +1094,7 @@
 				INFOPLIST_FILE = "RetirementCountdownAdFree-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.4;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandellmobileapps.RetirementCountdownAdFree;
 				PRODUCT_NAME = RetirementCountdown;
@@ -1233,7 +1243,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Mandell (4VYP77BTU8)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4VYP77BTU8;
 				ENABLE_BITCODE = NO;
@@ -1250,7 +1260,7 @@
 				INFOPLIST_FILE = "RetirementCountdownAdFree-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 3.3;
+				MARKETING_VERSION = 3.4;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandellmobileapps.RetirementCountdownAdFree;
