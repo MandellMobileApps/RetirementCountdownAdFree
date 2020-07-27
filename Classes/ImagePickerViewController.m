@@ -29,6 +29,14 @@
      UIImage* tempImage =[UIImage imageWithContentsOfFile:[GlobalMethods dataFilePathofDocuments:fullImageName]];
     
     self.currentImageView.image = tempImage;
+    
+    [self.customBtn setBackgroundColor:self.backgroundColor];
+    [self.defaultBtn setBackgroundColor:self.backgroundColor];
+    [self.customBtn setTitleColor:self.textColor forState:UIControlStateHighlighted];
+    [self.customBtn setTitleColor:self.textColor forState:UIControlStateNormal];
+    [self.defaultBtn setTitleColor:self.textColor forState:UIControlStateHighlighted];
+    [self.defaultBtn setTitleColor:self.textColor forState:UIControlStateNormal];
+
    
 
 }

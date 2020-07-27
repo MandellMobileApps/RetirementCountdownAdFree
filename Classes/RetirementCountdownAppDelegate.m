@@ -393,57 +393,7 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
     
 }
 
--(void)insertIntoTable:(NSString*)table forDictionary:(NSDictionary*)dictionary
-{
-   
-    NSString* dtSql = [NSString stringWithFormat:@"PRAGMA table_info('%@')",table];
-    NSArray* dataTypes = [SQLiteAccess selectManyRowsWithSQL:dtSql];
 
-    NSMutableArray* dataTypesArray = [NSMutableArray array];
-
-    NSArray* allKeys = [dictionary allKeys];
-    NSArray* allValues = [dictionary allValues];
-    
-    NSMutableString* sql = [NSMutableString string];
-    
-    [sql appendFormat:@"INSERT INTO %@ (",table];
-    NSInteger i = 0;
-     for (NSString* key in allKeys)
-     {
-         for (NSDictionary* item in dataTypes)
-         {
-             if ([[item objectForKey:@"name"] isEqualToString:key])
-             {
-                 [dataTypesArray addObject:[item objectForKey:@"type"]];
-             }
-         }
-         [sql appendFormat:@"%@,",key];
-
-         i++;
-     }
-     sql = [NSMutableString stringWithString:[sql substringToIndex:sql.length - 1]];
-    [sql appendFormat:@") VALUES ("];
-     NSInteger v = 0;
-     for (NSString* value in allValues)
-     {
-         NSString* dataType = [dataTypesArray objectAtIndex:v];
-         if ([dataType containsString:@"text"])
-         {
-             [sql appendFormat:@"\"%@\",",value];
-         }
-         else
-         {
-             [sql appendFormat:@"%@,",value];
-         }
-         v++;
-     }
-     sql = [NSMutableString stringWithString:[sql substringToIndex:sql.length - 1]];
-     [sql appendString:@")"];
-    
-     [SQLiteAccess insertWithSQL:sql];
-
-    
-}
 
 -(void)updateTable:(NSString*)table forDictionary:(NSDictionary*)dictionary
 {
@@ -476,6 +426,8 @@ static NSString* TaskID = @"com.mandellmobileapps.refreshBadgeIcon";
     NSString* sql = [NSString stringWithFormat:@"SELECT * FROM Settings WHERE id = 1"];
     NSDictionary* new = [SQLiteAccess selectOneRowWithSQL:sql];
     self.settingsNew = [SettingsNew settingsFromDictionary:new];
+    self.settingsNew.textColorIndex = 282;
+    self.settingsNew.backgroundColorIndex = 493;
 
 }
 -(void)updateDaysInDayTable

@@ -285,6 +285,7 @@
 	NSString *pathName = [GlobalMethods dataFilePathofDocuments:@"lastScreenCapture"];
 	[imageinpng writeToFile:pathName atomically:YES];
 	NSData *returnData = [[NSData alloc] initWithData:imageinpng];
+    [self.appDelegate addToDebugLog:[NSString stringWithFormat:@"captured screen; Retire;  %li / %li / %li   workdays %li",self.appDelegate.settingsNew.retirementMonth,self.appDelegate.settingsNew.retirementDay,self.appDelegate.settingsNew.retirementYear,self.appDelegate.totalWorkdays] ofType:DebugLogTypeOther];
    
     
     

@@ -15,4 +15,5 @@
 @property (nonatomic,retain) RetirementCountdownAppDelegate *appDelegate;
 @property (nonatomic,retain) UIColor *backgroundColor;
 @property (nonatomic,retain) UIColor *textColor;
+@property (nonatomic) BOOL capture;
 @end

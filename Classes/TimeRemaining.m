@@ -196,14 +196,17 @@
 //  Debug Log **********************************************************
 
 
+
     NSInteger secondsLeftTemp = self.appDelegate.secondsLeftToday % 60;
-    NSInteger minutesleftTemp = secondsLeftTemp / 60;
+    NSInteger minutesleftTemp = self.appDelegate.secondsLeftToday / 60;
     NSInteger hoursleftTemp = minutesleftTemp / 60;
     minutesleftTemp = minutesleftTemp % 60;
 
+    
     NSArray* logArray = [NSArray arrayWithObjects:
              [NSString stringWithFormat:@"Time - Today;  %li / %li / %li",todayMonth,todayDay,todayYear],
              [NSString stringWithFormat:@"Time - Retire;  %li / %li / %li",retireMonth,retireDay,retireYear],
+             [NSString stringWithFormat:@"Time - totalAnnualDaysOff %li",totalAnnualDaysOff],
              [NSString stringWithFormat:@"Time - Working days %li",totalWorkdays],
              [NSString stringWithFormat:@"Time - workingToday %@ hrs %li, mins %li, secs %li",workingToday?@"Yes":@"No",hoursleftTemp,minutesleftTemp,secondsLeftTemp],
              [NSString stringWithFormat:@"Time - Calendar years %li, months %li, days %li", self.appDelegate.calendarYearsLeft,self.appDelegate.calendarMonthsLeft,self.appDelegate.calendarDaysLeft],

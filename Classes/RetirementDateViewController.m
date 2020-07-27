@@ -106,7 +106,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath { 
-
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.backgroundColor =[UIColor whiteColor];
+    cell.detailTextLabel.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 }
 
 - (void)slideDownDidStop

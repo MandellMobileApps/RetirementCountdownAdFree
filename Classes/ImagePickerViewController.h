@@ -18,6 +18,8 @@
 @property (nonatomic, retain) UIImagePickerController *picker;
 @property (nonatomic, retain) IBOutlet UIImageView *currentImageView;
 @property (nonatomic, retain) UIImage *selectedImage;
+@property (nonatomic, retain) IBOutlet UIButton *customBtn;
+@property (nonatomic, retain) IBOutlet UIButton *defaultBtn;
 
 -(IBAction)customButton:(id)sender;
 -(IBAction)defaultButton:(id)sender;
